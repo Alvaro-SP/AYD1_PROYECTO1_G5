@@ -9,7 +9,8 @@ def login(conn, request):
         print('login: '+str(rol))+" -- "+str(username)+" -- "+str(password)
         with conn.cursor() as cursor:
             if rol==0:
-                return jsonify({'res':True,'type':0})
+                if "admin@gmail.com"==username and "admin"==password:
+                    return jsonify({'res':True,'type':0})
             elif rol == 1:
                 sql = "SELECT * FROM user WHERE username=%s AND password=%s"
                 cursor.execute(sql, (username, password))
@@ -26,7 +27,8 @@ def login(conn, request):
                             "active": user[3],
                             "city": user[4],
                             "depto": user[5],
-                            "phone": user[6]
+                            "phone": user[6],
+                            "type": 1
                         }
                     })
             elif rol == 2:
@@ -50,7 +52,8 @@ def login(conn, request):
                             "own_transport": user[8],
                             "cv": user[9],
                             "approved": user[10],
-                            "password": user[11]
+                            "password": user[11],
+                            "type": 2
                         }
                     })
             elif rol == 3:
@@ -72,16 +75,17 @@ def login(conn, request):
                             "zone": user[6],
                             "municipio": user[7],
                             "approved": user[8],
-                            "password": user[9]
+                            "password": user[9],
+                            "type": 3
                         }
                     })
             cursor.close()
             conn.close()
-            return jsonify({'res': False})
+            return jsonify({'res': False, 'type': 1})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
         if conn:
             conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'type': 0})

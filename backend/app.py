@@ -4,6 +4,8 @@ from flask import  make_response
 from flask.globals import request
 from flask_cors import CORS
 from src.Login import login
+from src.Registro import registro
+
 import datetime
 
 #* Flask config
@@ -33,6 +35,12 @@ def ver_catalogo():
     response = login(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-
+#*  ********************** REGISTRO ************************
+@app.route('/register', methods=['POST'])
+def ver_catalogo():
+    global conn
+    response = registro(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 if __name__ == '__main__':
     app.run(threaded=True,debug=True)
