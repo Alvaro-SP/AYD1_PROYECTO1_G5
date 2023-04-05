@@ -1,8 +1,10 @@
+import { Start } from "./components/Start"
 
 function App() {
 
   return (
     <>
+    <Start />
     </>
   )
 }
