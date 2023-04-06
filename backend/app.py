@@ -18,9 +18,9 @@ app.config['TESTING'] = True
 #! ------------------- CONNECT WITH DATABASE:-------------------
 conn  = mysql.connector.connect(
     user='root',
-    password='rootroot',
-    host='proyecto.cxrmksgpe29a.us-east-2.rds.amazonaws.com',
-    database='arqui2',
+    password='alvaro',
+    host='34.28.45.29',
+    database='dbayd',
     port='3306'
 )
 #* Crea el cursor para ejecutar las consultas
