@@ -27,7 +27,7 @@ export function Login() {
                       <div className="col s6 offset-s4">
                         <a
                           href="#!"
-                          className="waves-effect waves-red btn-large red darken-3"
+                          className="waves-effect waves-light btn-large red darken-3"
                         >
                           <i className="material-icons left">login</i>
                           Login

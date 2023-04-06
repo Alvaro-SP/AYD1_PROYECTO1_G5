@@ -13,8 +13,6 @@ export function Start() {
     });
   });
 
-  // ? AGREGAR IMAGEN DE FONDO PARA CADA SLIDER
-  // ? PREGUNTAR POR DISEÑO
   // ? AGREGAR LOGICA Y HOOKS
 
   return (
@@ -59,25 +57,25 @@ export function Start() {
         </div>
       </nav>
 
-      <div id="login" className="col s12 contenedor">
+      <div id="login" className="col s12 contenedor contenedor-1" style={{height: "85.2vh"}}>
         <br />
         <br />
         <Login />
       </div>
 
-      <div id="regNeg" className="col s12 contenedor">
+      <div id="regNeg" className="col s12 contenedor contenedor-2">
         <br />
         <br />
         <RegistrarEmpresa />
       </div>
 
-      <div id="regUsr" className="col s12 contenedor">
+      <div id="regUsr" className="col s12 contenedor contenedor-3">
         <br />
         <br />
         <RegistrarUsuario />
       </div>
 
-      <div id="regDel" className="col s12 contenedor">
+      <div id="regDel" className="col s12 contenedor contenedor-4">
         <br />
         <br />
         <RegistrarRepartidor />

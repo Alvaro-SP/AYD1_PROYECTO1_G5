@@ -7,3 +7,57 @@
   max-height: 100%;
   overflow: auto;
 }
+
+.contenedor-1 {
+  background: url("https://eldiariony.com/wp-content/uploads/sites/2/2022/03/pizza-shutterstock_1120192331.jpg?quality=75&strip=all&w=1200")
+    no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.contenedor-2 {
+  background: url("https://image.ondacero.es/clipping/cmsimages01/2023/03/09/D856F2D6-6E84-4FB9-879E-E758ABA340FF/abuso-comida-rapida-causa-higado-danos-similares-alcohol-segun-estudio_98.jpg?crop=5616,3160,x0,y296&width=1900&height=1069&optimize=high&format=webply")
+    no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.contenedor-3 {
+  background: url("https://assets.unileversolutions.com/recipes-v2/165292.jpg")
+    no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.contenedor-4 {
+  background: url("https://i.blogs.es/948245/mousse_yogur/1366_2000.jpg")
+    no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.card-panel {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 15px;
+}
+
+::-webkit-scrollbar-button:increment,
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bcb9b9;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 15px;
+}

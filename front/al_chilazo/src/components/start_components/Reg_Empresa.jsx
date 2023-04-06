@@ -86,7 +86,7 @@ export function RegistrarEmpresa() {
                       <div className="col s8 offset-s3">
                         <a
                           href="#!"
-                          className="waves-effect waves-red btn-large orange darken-3"
+                          className="waves-effect waves-light btn-large orange darken-3"
                         >
                           <i className="material-icons left">send_time_extension</i>
                           Enviar Solicitud

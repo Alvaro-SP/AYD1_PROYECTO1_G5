@@ -1,0 +1,28 @@
+* {
+  font-family: "Varela Round", sans-serif;
+}
+
+.sidenav {
+  width: 150px !important;
+  padding-top: 40px;
+  border: hidden !important;
+}
+
+.center-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.material-icons {
+  font-size: 2.5rem;
+  padding-left: 10px;
+}
+
+.badge {
+  margin: 0 !important;
+}
+
+li > a {
+  padding: 0 !important;
+}

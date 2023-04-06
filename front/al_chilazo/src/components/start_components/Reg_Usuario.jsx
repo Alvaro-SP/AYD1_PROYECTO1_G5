@@ -6,7 +6,7 @@ export function RegistrarUsuario() {
           <div className="col s8 offset-s2">
             <div className="card-panel hoverable">
               <div className="card-content">
-                <h3 className="pink-text text-darken-2 center-align">
+                <h3 className="green-text text-darken-2 center-align">
                   Registrarse
                 </h3>
                 <div className="row">
@@ -47,7 +47,7 @@ export function RegistrarUsuario() {
                       <div className="col s8 offset-s3">
                         <a
                           href="#!"
-                          className="waves-effect waves-red btn-large pink darken-2"
+                          className="waves-effect waves-light btn-large green darken-2"
                         >
                           <i className="material-icons left">how_to_reg</i>
                           Registrar Usuario

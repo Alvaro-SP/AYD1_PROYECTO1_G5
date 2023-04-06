@@ -13,7 +13,9 @@ export function RegistrarRepartidor() {
           <div className="col s8 offset-s2">
             <div className="card-panel hoverable">
               <div className="card-content">
-                <h3 className="indigo-text text-darken-3 center-align">Registrarse</h3>
+                <h3 className="indigo-text text-darken-3 center-align">
+                  Registrarse
+                </h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
                     <div className="row">
@@ -45,7 +47,7 @@ export function RegistrarRepartidor() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="input-field col s12">
+                      <div className="input-field col s11 offset-s1">
                         <select>
                           <option defaultValue={""}>Choose your option</option>
                           <option value="1">Option 1</option>
@@ -56,7 +58,7 @@ export function RegistrarRepartidor() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="input-field col s12">
+                      <div className="input-field col s11 offset-s1">
                         <select>
                           <option defaultValue={""}>Choose your option</option>
                           <option value="1">Option 1</option>
@@ -77,7 +79,7 @@ export function RegistrarRepartidor() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="input-field col s12">
+                      <div className="input-field col s11 offset-s1">
                         <select>
                           <option defaultValue={""}>Choose your option</option>
                           <option value="1">Option 1</option>
@@ -87,6 +89,7 @@ export function RegistrarRepartidor() {
                         <label>Tipo Licencia</label>
                       </div>
                     </div>
+                    <br />
                     <div className="row">
                       <div className="file-field input-field">
                         <div className="btn indigo darken-3">
@@ -98,11 +101,13 @@ export function RegistrarRepartidor() {
                         </div>
                       </div>
                     </div>
+                    <br />
+                    <br />
                     <div className="row">
                       <div className="col s9 offset-s3">
                         <a
                           href="#!"
-                          className="waves-effect waves-red btn-large indigo darken-3"
+                          className="waves-effect waves-light btn-large indigo darken-3"
                         >
                           <i className="material-icons left">local_shipping</i>
                           Registrar Solicitud
