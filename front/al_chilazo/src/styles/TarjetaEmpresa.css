@@ -1,0 +1,67 @@
+.thorizontal{
+  display: flex;
+  flex-wrap: wrap;
+  border: 2px solid rgb(136, 136, 136);
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  margin: 0.3em;
+  width: 60em;
+}
+
+.card-image{
+  width: 8em;
+
+}
+
+.card-image img{
+  width: 8em;
+  height: 8em ;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+  border-radius: 10px;
+  margin: 0.1em;
+}
+
+.card-image:hover img {
+  transform: scale(0.9);
+  /*brightness: 0.5;*/
+  
+}
+
+
+.card-stacked{
+  padding-left: 2em;
+  line-height: 0.2;
+  
+}
+
+.titulo{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1162px) {
+  .thorizontal{
+    width: 40em;
+  }
+}
+  
+@media screen and (max-width: 800px) {
+  .thorizontal{
+    width: 30em;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .thorizontal{
+    width: 20em;
+    height: 20em;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .thorizontal{
+    width: 10em;
+    height: 20em;
+  }
+}
