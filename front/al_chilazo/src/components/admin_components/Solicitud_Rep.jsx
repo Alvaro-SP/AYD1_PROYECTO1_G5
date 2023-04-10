@@ -11,7 +11,7 @@ export function SolicitudRepartidor() {
   }, []);
 
   return (
-    <>
+    <div className="fondoDiv">
       <section>
         <div className="container">
           <div className="row">
@@ -29,11 +29,11 @@ export function SolicitudRepartidor() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">work_outline</i>
                       Nombre 1
                     </div>
                     <div className="col s2 center-content">
-                      <span class="new badge green darken-3">4</span>
+                      <span className="new badge green darken-3">4</span>
                     </div>
                   </div>
                   <div className="collapsible-body">
@@ -49,11 +49,11 @@ export function SolicitudRepartidor() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">work_outline</i>
                       Nombre 2
                     </div>
                     <div className="col s2 center-content">
-                      <span class="new badge orange darken-3">4</span>
+                      <span className="new badge orange darken-3">4</span>
                     </div>
                   </div>
                   <div className="collapsible-body">
@@ -69,11 +69,11 @@ export function SolicitudRepartidor() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">work_outline</i>
                       Nombre 3
                     </div>
                     <div className="col s2 center-content">
-                      <span class="new badge red darken-2">4</span>
+                      <span className="new badge red darken-2">4</span>
                     </div>
                   </div>
                   <div className="collapsible-body">
@@ -89,11 +89,11 @@ export function SolicitudRepartidor() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">work_outline</i>
                       Nombre 4
                     </div>
                     <div className="col s2 center-content">
-                      <span class="new badge red darken-3">4</span>
+                      <span className="new badge red darken-3">4</span>
                     </div>
                   </div>
                   <div className="collapsible-body">
@@ -112,7 +112,7 @@ export function SolicitudRepartidor() {
         </div>
       </section>
       <br />
-      <div className="divider" id="xtra"></div>
+      <div className="divider ldivider"></div>
       <br />
       <section>
         <div className="container">
@@ -129,7 +129,7 @@ export function SolicitudRepartidor() {
               <ul className="collapsible expandable">
                 <li>
                   <div className="collapsible-header">
-                  <i className="material-icons">whatshot</i>
+                    <i className="material-icons">work</i>
                     Nombre 1
                   </div>
                   <div className="collapsible-body">
@@ -144,7 +144,7 @@ export function SolicitudRepartidor() {
                 </li>
                 <li>
                   <div className="collapsible-header">
-                  <i className="material-icons">whatshot</i>
+                    <i className="material-icons">work</i>
                     Nombre 2
                   </div>
                   <div className="collapsible-body">
@@ -159,7 +159,7 @@ export function SolicitudRepartidor() {
                 </li>
                 <li>
                   <div className="collapsible-header">
-                  <i className="material-icons">whatshot</i>
+                    <i className="material-icons">work</i>
                     Nombre 3
                   </div>
                   <div className="collapsible-body">
@@ -174,7 +174,7 @@ export function SolicitudRepartidor() {
                 </li>
                 <li>
                   <div className="collapsible-header">
-                  <i className="material-icons">whatshot</i>
+                    <i className="material-icons">work</i>
                     Nombre 4
                   </div>
                   <div className="collapsible-body">
@@ -195,6 +195,6 @@ export function SolicitudRepartidor() {
       <br />
       <br />
       <br />
-    </>
+    </div>
   );
 }

@@ -29,7 +29,7 @@ export function SolicitudEmpresa() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">storefront</i>
                       Negocio 1
                     </div>
                     <div className="col s2 center-content">
@@ -49,7 +49,7 @@ export function SolicitudEmpresa() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">storefront</i>
                       Negocio 2
                     </div>
                     <div className="col s2 center-content">
@@ -69,7 +69,7 @@ export function SolicitudEmpresa() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">storefront</i>
                       Negocio 3
                     </div>
                     <div className="col s2 center-content">
@@ -89,7 +89,7 @@ export function SolicitudEmpresa() {
                 <li>
                   <div className="collapsible-header">
                     <div className="col s10 valign-wrapper">
-                      <i className="material-icons">whatshot</i>
+                      <i className="material-icons">storefront</i>
                       Negocio 4
                     </div>
                     <div className="col s2 center-content">
@@ -112,7 +112,7 @@ export function SolicitudEmpresa() {
         </div>
       </section>
       <br />
-      <div className="divider" id="xtra2"></div>
+      <div className="divider ldivider"></div>
       <br />
       <section>
         <div className="container">
@@ -129,7 +129,7 @@ export function SolicitudEmpresa() {
               <ul className="collapsible expandable">
                 <li>
                   <div className="collapsible-header">
-                    <i className="material-icons">whatshot</i>
+                    <i className="material-icons">restaurant_menu</i>
                     Negocio 1
                   </div>
                   <div className="collapsible-body">
@@ -144,7 +144,7 @@ export function SolicitudEmpresa() {
                 </li>
                 <li>
                   <div className="collapsible-header">
-                    <i className="material-icons">whatshot</i>
+                    <i className="material-icons">restaurant_menu</i>
                     Negocio 2
                   </div>
                   <div className="collapsible-body">
@@ -159,7 +159,7 @@ export function SolicitudEmpresa() {
                 </li>
                 <li>
                   <div className="collapsible-header">
-                    <i className="material-icons">whatshot</i>
+                    <i className="material-icons">restaurant_menu</i>
                     Negocio 3
                   </div>
                   <div className="collapsible-body">
@@ -174,7 +174,7 @@ export function SolicitudEmpresa() {
                 </li>
                 <li>
                   <div className="collapsible-header">
-                    <i className="material-icons">whatshot</i>
+                    <i className="material-icons">restaurant_menu</i>
                     Negocio 4
                   </div>
                   <div className="collapsible-body">
