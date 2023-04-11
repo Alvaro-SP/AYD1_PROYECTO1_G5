@@ -1,4 +1,5 @@
 from flask import jsonify
+# ! RETORNA TODOS LOS PRODUCTOS DADO ID DE UNA EMPRESA=================
 def productsEmpresa(conn, request):
     data = request.get_json()
     idEmpresa = data['id']
@@ -13,7 +14,11 @@ def productsEmpresa(conn, request):
             result = cursor.fetchall()
             templist = []
             for fila in result:
-                atributos = {'id': fila[0], 'name': fila[1], 'price' : fila[2],'imagen' : fila[4]}
+                atributos = {'id': fila[0],
+                            'name': fila[1],
+                            'price' : fila[2],
+                            'imagen' : fila[4],
+                            'category' : fila[5]}
                 templist.append(atributos)
             cursor.close()
             conn.close()

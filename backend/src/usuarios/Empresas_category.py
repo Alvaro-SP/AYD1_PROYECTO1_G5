@@ -1,4 +1,5 @@
 from flask import jsonify
+# ! RETORNA TODAS LAS EMPRESAS DADA UNA CATEGORIA=================
 def empresaCategoria(conn, request):
     # ! -------------- taking the data ----------------
     data = request.get_json()

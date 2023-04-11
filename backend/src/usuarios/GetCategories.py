@@ -1,4 +1,5 @@
 from flask import jsonify
+# ! RETORNA LAS CATEGORIAS DE LAS EMPRESAS=================
 def getCategories(conn):
     try:
         with conn.cursor() as cursor:
