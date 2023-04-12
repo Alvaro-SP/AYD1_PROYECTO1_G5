@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Login } from "./start_components/Login";
-import { RegistrarEmpresa } from "./start_components/Reg_Empresa";
-import { RegistrarUsuario } from "./start_components/Reg_Usuario";
-import { RegistrarRepartidor } from "./start_components/Reg_Repartidor";
+import { Login } from "./Login";
+import { RegistrarEmpresa } from "./Reg_Empresa";
+import { RegistrarUsuario } from "./Reg_Usuario";
+import { RegistrarRepartidor } from "./Reg_Repartidor";
 import "../styles/Start.css";
 
 export function Start() {
