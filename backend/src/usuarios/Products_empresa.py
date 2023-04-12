@@ -7,7 +7,7 @@ def productsEmpresa(conn, request):
         with conn.cursor() as cursor:
             sql = '''
             SELECT products.* FROM products
-            INNER JOIN empresa on product.empresa_id = empresa.id
+            INNER JOIN empresa on product.id = empresa.id
             WHERE empresa.id = %s;
             '''
             cursor.execute(sql,(idEmpresa))

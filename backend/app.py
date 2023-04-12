@@ -8,6 +8,11 @@ from src.Registro import registro
 from src.usuarios.GetCategories import getCategories
 from src.usuarios.Empresas_category import empresaCategoria
 from src.usuarios.Products_empresa import productsEmpresa
+from src.repartidores.CambioZona import cambiozona
+from src.repartidores.ComisionesGeneradas import comisionesgeneradas
+from src.repartidores.HistorialPedidosComp import historialpedidos
+from src.repartidores.PerfilRepartidor import perfilrepartidor
+from src.repartidores.SolicitudEntrega import historialpedidos,selectpedido,entregarpedido
 import datetime
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                             unset_jwt_cookies, jwt_required, JWTManager
@@ -41,6 +46,7 @@ def loginzzzz():
     response = login(conn, request, jwt)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
 @app.route("/logout", methods=["POST"])
 def logout():
     response = jsonify({"res": "logout successful"})
@@ -54,6 +60,8 @@ def registerzzz():
     response = registro(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+
 
 #*  ************************  USUARIOS ************************
 @app.route('/getcategories', methods=['GET'])
@@ -79,7 +87,58 @@ def empresacategorias():
     response = productsEmpresa(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+
+
 #*  ***********************  REPARTIDORES *********************
+@app.route('/change-zone', methods=['POST'])
+@jwt_required()
+def czone():
+    global conn
+    response = cambiozona(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+@app.route('/comisiones-repartidor', methods=['POST'])
+@jwt_required()
+def comisionreparti():
+    global conn
+    response = comisionesgeneradas(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/historialpedidos-repartidor', methods=['POST'])
+@jwt_required()
+def historialpedrep():
+    global conn
+    response = historialpedidos(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/perfil-repartidor', methods=['POST'])
+@jwt_required()
+def perfilrepart():
+    global conn
+    response = perfilrepartidor(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/selectpedido-repartidor', methods=['POST'])
+@jwt_required()
+def selpedido():
+    global conn
+    response = selectpedido(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/entregarpedido-repartidor', methods=['POST'])
+@jwt_required()
+def entregarpedrep():
+    global conn
+    response = entregarpedido(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 #*  ************************  EMPRESAS   **********************
 
