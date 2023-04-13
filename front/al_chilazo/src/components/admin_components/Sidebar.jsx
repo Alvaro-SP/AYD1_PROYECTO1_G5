@@ -152,7 +152,7 @@ export function SidebarAdmin() {
               </Link>
             </li>
             <br />
-            <li>
+            {/* <li>
               <Link
                 to="/admin/Reportes"
                 className={"center-content tooltipped " + colores[5]}
@@ -165,7 +165,7 @@ export function SidebarAdmin() {
                 </i>
                 <span className={"new badge teal " + prueba}>2</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
           <Routes>
             <Route
