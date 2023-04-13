@@ -3,7 +3,7 @@ import { Login } from "./Login";
 import { RegistrarEmpresa } from "./Reg_Empresa";
 import { RegistrarUsuario } from "./Reg_Usuario";
 import { RegistrarRepartidor } from "./Reg_Repartidor";
-import "../styles/Start.css";
+import "../../styles/Start.css"
 
 export function Start() {
   useEffect(() => {
@@ -12,8 +12,6 @@ export function Start() {
       duration: 100,
     });
   });
-
-  // ? AGREGAR LOGICA Y HOOKS
 
   return (
     <>

@@ -60,7 +60,7 @@ export function SolicitudRepartidor() {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="input field col s6">
+                          <div className="input-field col s6">
                             <i className="material-icons prefix">markunread</i>
                             <input
                               type="email"
@@ -100,7 +100,7 @@ export function SolicitudRepartidor() {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="input-field col s6">
+                          <div className="input-field col s4 offset-s2">
                             <p>
                               <label>
                                 <input type="checkbox" />
@@ -110,14 +110,35 @@ export function SolicitudRepartidor() {
                           </div>
                           <div className="input-field col s6">
                             <i className="material-icons prefix">badge</i>
-                            <input type="text" id="licensiaSol" className="validate" />
+                            <input
+                              type="text"
+                              id="licensiaSol"
+                              className="validate"
+                            />
                             <label htmlFor="licenciaSol">Tipo Licensia</label>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="file-field input-field col s12">
-                            <div className="btn indigo-darken-3 white-text">
-                              
+                          <div className="col s4 offset-s4">
+                            <div className="btn indigo darken-3 white-text">
+                              <i className="material-icons left">plagiarism</i>
+                              VER CURRICULUM
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col s4 offset-s2">
+                            <div className="btn green darken-3 white-text">
+                              <i className="material-icons left">verified</i>
+                              ACEPTAR SOLICITUD
+                            </div>
+                          </div>
+                          <div className="col s4">
+                            <div className="btn red darken-3 white-text">
+                              <i className="material-icons left">
+                                highlight_off
+                              </i>
+                              RECHAZAR SOLICITUD
                             </div>
                           </div>
                         </div>
@@ -125,72 +146,11 @@ export function SolicitudRepartidor() {
                     </div>
                   </div>
                 </li>
-                <li>
-                  <div className="collapsible-header">
-                    <div className="col s10 valign-wrapper">
-                      <i className="material-icons">work_outline</i>
-                      Nombre 2
-                    </div>
-                    <div className="col s2 center-content">
-                      <span className="new badge orange darken-3">4</span>
-                    </div>
-                  </div>
-                  <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div className="collapsible-header">
-                    <div className="col s10 valign-wrapper">
-                      <i className="material-icons">work_outline</i>
-                      Nombre 3
-                    </div>
-                    <div className="col s2 center-content">
-                      <span className="new badge red darken-2">4</span>
-                    </div>
-                  </div>
-                  <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div className="collapsible-header">
-                    <div className="col s10 valign-wrapper">
-                      <i className="material-icons">work_outline</i>
-                      Nombre 4
-                    </div>
-                    <div className="col s2 center-content">
-                      <span className="new badge red darken-3">4</span>
-                    </div>
-                  </div>
-                  <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
-                  </div>
-                </li>
               </ul>
             </div>
           </div>
         </div>
       </section>
-      <br />
       <div className="divider ldivider"></div>
       <br />
       <section>
@@ -212,58 +172,97 @@ export function SolicitudRepartidor() {
                     Nombre 1
                   </div>
                   <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div className="collapsible-header">
-                    <i className="material-icons">work</i>
-                    Nombre 2
-                  </div>
-                  <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div className="collapsible-header">
-                    <i className="material-icons">work</i>
-                    Nombre 3
-                  </div>
-                  <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div className="collapsible-header">
-                    <i className="material-icons">work</i>
-                    Nombre 4
-                  </div>
-                  <div className="collapsible-body">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Vitae, provident voluptates magnam tempora itaque
-                      asperiores. Animi enim quam et reprehenderit aperiam ipsam
-                      eos, voluptatibus, architecto alias iste delectus quos
-                      dolores!
-                    </span>
+                    <div className="row">
+                      <form className="col s12">
+                        <div className="row">
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">person</i>
+                            <input
+                              type="text"
+                              id="nombreSol"
+                              className="validate"
+                            />
+                            <label htmlFor="nombreSol">Nombre</label>
+                          </div>
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">person</i>
+                            <input
+                              type="text"
+                              id="apellidoSol"
+                              className="validate"
+                            />
+                            <label htmlFor="apellidoSol">Apellido</label>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">markunread</i>
+                            <input
+                              type="email"
+                              id="emailSol"
+                              className="validate"
+                            />
+                            <label htmlFor="emailSol">Correo</label>
+                          </div>
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">smartphone</i>
+                            <input
+                              type="tel"
+                              id="telefonoSol"
+                              className="validate"
+                            />
+                            <label htmlFor="telefonoSol">No. Celular</label>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">map</i>
+                            <input
+                              type="text"
+                              id="depaSol"
+                              className="validate"
+                            />
+                            <label htmlFor="depaSol">Departamento</label>
+                          </div>
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">place</i>
+                            <input
+                              type="text"
+                              id="munSol"
+                              className="validate"
+                            />
+                            <label htmlFor="munSol">Municipio</label>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="input-field col s4 offset-s2">
+                            <p>
+                              <label>
+                                <input type="checkbox" />
+                                <span>Posee Licencia</span>
+                              </label>
+                            </p>
+                          </div>
+                          <div className="input-field col s6">
+                            <i className="material-icons prefix">badge</i>
+                            <input
+                              type="text"
+                              id="licensiaSol"
+                              className="validate"
+                            />
+                            <label htmlFor="licenciaSol">Tipo Licensia</label>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col s4 offset-s4">
+                            <div className="btn indigo darken-3 white-text">
+                              <i className="material-icons left">plagiarism</i>
+                              VER CURRICULUM
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </li>
               </ul>
