@@ -13,6 +13,8 @@ from src.repartidores.ComisionesGeneradas import comisionesgeneradas
 from src.repartidores.HistorialPedidosComp import historialpedidos
 from src.repartidores.PerfilRepartidor import perfilrepartidor
 from src.repartidores.SolicitudEntrega import historialpedidos,selectpedido,entregarpedido
+from src.empresas.CategoriasProductoEmpresa import getcategoriaproducto,addcategoriaproducto,updatecategoriaproducto,deletecategoriaproducto
+from src.empresas.ProductosEmpresa import addproduct,updateproduct,deleteproduct
 import datetime
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                             unset_jwt_cookies, jwt_required, JWTManager
@@ -140,8 +142,56 @@ def entregarpedrep():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-#*  ************************  EMPRESAS   **********************
 
+
+#*  ************************  EMPRESAS   **********************
+@app.route('/categoriasproducto-empresa', methods=['POST'])
+@jwt_required()
+def catprodempresa():
+    global conn
+    response = getcategoriaproducto(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/updatecategoriaproducto', methods=['POST'])
+@jwt_required()
+def updacateprodempre():
+    global conn
+    response = updatecategoriaproducto(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/deletecategoriaproducto', methods=['POST'])
+@jwt_required()
+def delcatprodempres():
+    global conn
+    response = deletecategoriaproducto(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/addproduct', methods=['POST'])
+@jwt_required()
+def addproductempresa():
+    global conn
+    response = addproduct(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/updateproduct', methods=['POST'])
+@jwt_required()
+def updateproductempresa():
+    global conn
+    response = updateproduct(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/deleteproduct', methods=['POST'])
+@jwt_required()
+def deleteproductemrpess():
+    global conn
+    response = deleteproduct(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 #*  *********************** ADMINISTRADOR *********************
 
 if __name__ == '__main__':
