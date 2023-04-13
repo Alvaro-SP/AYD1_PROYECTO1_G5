@@ -1,12 +1,15 @@
 from flask import jsonify
-def login(conn, request):
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                            unset_jwt_cookies, jwt_required, JWTManager
+
+def login(conn, request, jwt):
     # ! -------------- taking the data ----------------
     data = request.get_json()
     rol = data['rol'] # admin=0, user=1, repartidor=2, empresa=3
     username=(data['username']).lower()
     password=(data['password']).lower()
     try:
-        print('login: '+str(rol))+" -- "+str(username)+" -- "+str(password)
+        print('login: ',str(rol)," -- ",str(username)," -- ",str(password))
         with conn.cursor() as cursor:
             if rol==0:
                 if "admin@gmail.com"==username and "admin"==password:
@@ -15,11 +18,14 @@ def login(conn, request):
                 sql = "SELECT * FROM user WHERE username=%s AND password=%s"
                 cursor.execute(sql, (username, password))
                 user = cursor.fetchone()
+                cursor.fetchall()
                 # Verificar si el usuario existe
                 if user:
+                    access_token = create_access_token(identity=username)
                     # Retornar usuario
                     return jsonify({
                         "res": True,
+                        "access_token":access_token,
                         "user": {
                             "id": user[0],
                             "username": user[1],
@@ -35,11 +41,14 @@ def login(conn, request):
                 sql = "SELECT * FROM repartidor WHERE mail=%s AND password=%s"
                 cursor.execute(sql, (username, password))
                 user = cursor.fetchone()
+                cursor.fetchall()
                 # Verificar si el usuario existe
                 if user:
+                    access_token = create_access_token(identity=username)
                     # Retornar usuario
                     return jsonify({
                         "res": True,
+                        "access_token":access_token,
                         "user": {
                             "id": user[0],
                             "name": user[1],
@@ -60,11 +69,14 @@ def login(conn, request):
                 sql = "SELECT * FROM empresa WHERE mail=%s AND password=%s"
                 cursor.execute(sql, (username, password))
                 user = cursor.fetchone()
+                cursor.fetchall()
                 # Verificar si el usuario existe
                 if user:
+                    access_token = create_access_token(identity=username)
                     # Retornar usuario
                     return jsonify({
                         "res": True,
+                        "access_token":access_token,
                         "user": {
                             "id": user[0],
                             "name": user[1],

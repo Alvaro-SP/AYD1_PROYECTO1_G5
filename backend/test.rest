@@ -1,0 +1,22 @@
+# ! SIGN IN  (FUNKO)
+POST http://localhost:5000/login HTTP/1.1
+content-type: application/json
+
+{
+    "rol":1,
+    "username":"Alvaro",
+    "password":"12345678"
+}
+###
+# ! SIGN UP  (FUNKO)
+POST http://localhost:5000/register HTTP/1.1
+content-type: application/json
+
+{
+    "rol":2,
+    "username":"Alvaro",
+    "password":"12345678",
+    "city":"Guatemala",
+    "depto":"Guatemala",
+    "phone":"57707472"
+}
