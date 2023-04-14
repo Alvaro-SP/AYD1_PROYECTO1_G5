@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
 
-export function Login() {
+export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
+  //? AGREGAR VALIDACION DE CORREO CON EXPRESION REGULAR
+  //? CAMBIAR LOS ID, HACERLOS UNICOS
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [rol, setRol] = useState("");
@@ -49,17 +51,33 @@ export function Login() {
 
       console.log(data);
       const result = (await axios.post(url + "login", data)).data;
+      console.log(result)
 
       if (result.res) {
-        // TODO: ENVIAR LOS RESULTADOS PERTINENTES A SU COMPONENTE DESTINO
-        
+        sessionStorage.setItem("auth", result.access_token);
+        localStorage.setItem("rol", rol)
+
+        if(rol === "0"){
+          startFlag(false)
+          adFlag(true)
+        } else if(rol === "1") {
+          startFlag(false)
+          userFlag(true)
+        } else if(rol === "2") {
+          startFlag(false)
+          repFlag(true)
+        } else if(rol === "3") {
+          startFlag(false)
+          empFlag(true)
+        }
+
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
         });
       } else {
         M.toast({
-          html: result.res,
+          html: result.message,
           classes: "white-text rounded red darken-4",
         });
       }
@@ -113,8 +131,9 @@ export function Login() {
                           onChange={(e) => setRol(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Choose your option
+                            Seleccione El Rol
                           </option>
+                          <option value="0">Administrador</option>
                           <option value="1">Usuario</option>
                           <option value="2">Repartidor</option>
                           <option value="3">Empresa</option>

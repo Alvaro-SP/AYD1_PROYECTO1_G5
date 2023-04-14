@@ -18,8 +18,16 @@ export function SolicitudRepartidor() {
   }, []);
 
   const getData = async () => {
+
+    // ! CONFIGURAR HEADERS 
+    const config = {
+      headers: {
+        Authorization: sessionStorage.getItem("auth")
+      }
+    }
+
     try {
-      const result = (await axios.get(url + "solicitudesRep")).data;
+      const result = (await axios.get(url + "solicitudesRep", config)).data;
       console.log(result);
 
       if (result.res) {

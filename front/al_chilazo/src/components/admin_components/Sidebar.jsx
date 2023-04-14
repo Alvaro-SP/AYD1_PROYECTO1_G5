@@ -34,7 +34,7 @@ export function SidebarAdmin() {
       inDuration: 200,
       outDuration: 200,
     });
-  });
+  }, []);
 
   setTimeout(() => {
     setPrueba("");

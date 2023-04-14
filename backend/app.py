@@ -59,6 +59,7 @@ def logout():
 @app.route('/register', methods=['POST'])
 def registerzzz():
     global conn
+    print("asdlfjoasidjfoiasjdfoijasiodfj")
     response = registro(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

@@ -6,11 +6,13 @@ export function RegistrarRepartidor() {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [correo, setCorreo] = useState("");
+  const [password, setPassword] = useState("")
   const [celular, setCelular] = useState("");
   const [departamento, setDepartamento] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [licencia, setLicencia] = useState(false);
-  const [tipoLicencia, setTipoLicencia] = useState("");
+  const [tipoLicencia, setTipoLicencia] = useState("0");
+  const [ownCar, setownCar] = useState(false)
   const [curriculum, setCurriculum] = useState(undefined);
 
   //? ESCONDER EL SELECT DE LICENCIA
@@ -59,6 +61,14 @@ export function RegistrarRepartidor() {
       return;
     }
 
+    if (password === "") {
+      M.toast({
+        html: "Password Invalido",
+        classes: "white-text rounded orange darken-4"
+      })
+      return;
+    }
+
     if (celular === "") {
       M.toast({
         html: "Numero De Celular Invalido",
@@ -98,21 +108,22 @@ export function RegistrarRepartidor() {
     }
 
     const data = {
-      rol: "repartidor",
-      nombre: nombre,
-      apellido: apellido,
-      correo: correo,
-      celular: celular,
-      departamento: departamento,
-      municipio: municipio,
-      licencia: licencia,
-      tipoLicencia: tipoLicencia,
-      curriculum: curriculum,
+      rol: "2",
+      name: nombre,
+      lastname: apellido,
+      mail: correo,
+      password: password,
+      phone: celular,
+      depto: departamento,
+      city: municipio,
+      license: tipoLicencia,
+      own_transport: ownCar.toString(),
+      cv: curriculum,
     };
 
     try {
       console.log(data);
-      const result = (await axios.post(url + "register")).data;
+      const result = (await axios.post(url + "register", data)).data;
       console.log(result);
 
       if (result.res) {
@@ -184,6 +195,18 @@ export function RegistrarRepartidor() {
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
+                        <i className="material-icons prefix">password</i>
+                        <input
+                          id="password"
+                          type="password"
+                          className="validate"
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <label htmlFor="password">Password</label>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="input-field col s12">
                         <i className="material-icons prefix">smartphone</i>
                         <input
                           id="telefono"
@@ -201,7 +224,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setDepartamento(e.target.value)}
                         >
-                          <option defaultValue={""} disabled selected>
+                          <option defaultValue={""} disabled>
                             Seleccione Su Departamento
                           </option>
                           <option value="1">Option 1</option>
@@ -218,7 +241,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setMunicipio(e.target.value)}
                         >
-                          <option defaultValue={""} disabled selected>
+                          <option defaultValue={""} disabled>
                             Seleccione El Municipio
                           </option>
                           <option value="1">Option 1</option>
@@ -226,6 +249,16 @@ export function RegistrarRepartidor() {
                           <option value="3">Option 3</option>
                         </select>
                         <label>Municipio</label>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col s4 offset-s4">
+                      <p>
+                        <label>
+                          <input type="checkbox" onChange={() => setownCar(!ownCar)}/>
+                          <span>AUTO PROPIO</span>
+                        </label>
+                      </p>
                       </div>
                     </div>
                     <div className="row">
@@ -248,14 +281,14 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setTipoLicencia(e.target.value)}
                         >
-                          <option defaultValue={""} disabled selected>
+                          <option defaultValue={""} disabled>
                             Seleccione Un Tipo De Licencia
                           </option>
-                          <option value="A">TIPO A</option>
-                          <option value="B">TIPO B</option>
-                          <option value="C">TIPO C</option>
-                          <option value="M">TIPO M</option>
-                          <option value="E">TIPO E</option>
+                          <option value="1">TIPO A</option>
+                          <option value="2">TIPO B</option>
+                          <option value="3">TIPO C</option>
+                          <option value="4">TIPO M</option>
+                          <option value="5">TIPO E</option>
                         </select>
                         <label>Tipo Licencia</label>
                       </div>

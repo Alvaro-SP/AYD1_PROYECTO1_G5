@@ -3,30 +3,25 @@ import jwt
 def registro(conn, request):
     # ! -------------- taking the data ----------------
     data = request.get_json()
-    rol = data['rol'] # user=1, repartidor=2, empresa=3
-    
+    rol = int(data['rol']) # user=1, repartidor=2, empresa=3
     try:
         with conn.cursor() as cursor:
             if rol == 1: #todo user
-                username=(data['username']).lower()
-                print(username)
+                name=(data['name']).lower()
                 password=(data['password']).lower()
-                print(password)
-                city=(data['city']).lower()
-                depto=(data['depto']).lower()
-                phone=(data['phone']).lower()
+                correo=(data['correo']).lower()
                 # Check if the user already exists
-                sql = "SELECT * FROM user WHERE username = %s"
-                cursor.execute(sql, (username,))
+                sql = "SELECT * FROM user WHERE mail = %s"
+                cursor.execute(sql, (correo,))
                 existing_user = cursor.fetchall()
                 if existing_user:
-                    print("User with username {} already exists".format(username))
-                    return jsonify({'res': False, 'type': 1})
-                sql = "INSERT INTO user (username, password, active, city, depto, phone) VALUES (%s, %s, %s, %s, %s, %s)"
-                cursor.execute(sql, (username, password, "1", city, depto, phone))
+                    print("User with username {} already exists".format(mail))
+                    return jsonify({'res': False, 'message': 'El usuario ya existe'})
+                sql = "INSERT INTO user (name, password, mail) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (name, password, correo))
                 conn.commit()
-                print('registro: ',str(rol),' -- ',str(username),' -- ',str(password))
-                return jsonify({'res': True, 'type': 1})
+                print('registro: ',str(rol),' -- ',str(name),' -- ',str(password))
+                return jsonify({'res': True, 'type': 1, 'message': 'El usuario se ha registrado exitosamente'})
             elif rol == 2: #todo repartidor
                 name=(data['name']).lower()
                 lastname=(data['lastname']).lower()
@@ -43,13 +38,13 @@ def registro(conn, request):
                 cursor.execute(sql, (mail,))
                 existing_user = cursor.fetchall()
                 if existing_user:
-                    print("Delivery with mail {} already exists".format(username))
-                    return jsonify({'res': False, 'type': 2})
+                    print("Delivery with mail {} already exists".format(mail))
+                    return jsonify({'res': False, 'type': 2,'message': 'El repartidor ya existe'})
                 sql = "INSERT INTO user (name, lastname, mail, phone, depto, city, license, own_transport, cv, approved, password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                 cursor.execute(sql, (name, lastname, mail, phone, depto, city, license, own_transport, cv, "0", password))
                 conn.commit()
                 print('registro: ',str(rol)," -- ",str(mail)," -- ",str(password))
-                return jsonify({'res': True, 'type': 2})
+                return jsonify({'res': True, 'message': 'El repartidor se ha registrado exitosamente'})
             elif rol == 3: #todo empresa
                 name=(data['username']).lower()
                 description=(data['description']).lower()
@@ -64,20 +59,20 @@ def registro(conn, request):
                 cursor.execute(sql, (mail,))
                 existing_user = cursor.fetchall()
                 if existing_user:
-                    print("Empresa with mail {} already exists".format(username))
-                    return jsonify({'res': False, 'type':3})
+                    print("Empresa with mail {} already exists".format(mail))
+                    return jsonify({'res': False, 'type':3, 'message': 'La empresa ya existe'})
                 sql = "INSERT INTO user (name, description, category, mail, depto, zone, municipio, approved, password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
                 cursor.execute(sql, (name, description, category, mail, depto, zone, municipio, "0", password))
                 conn.commit()
                 print('registro: ',str(rol)," -- ",str(mail)," -- ",str(password))
-                return jsonify({'res': True, 'type': 3})
+                return jsonify({'res': True, 'type': 3, 'message': 'La empresa se ha registrado exitosamente'})
             cursor.close()
-            conn.close()
-            return jsonify({'res': False})
+            # conn.close()
+            return jsonify({'res': False, 'message': 'Error en el registro revisar si los datos estan correctos'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print("error:", ex)
         if conn:
             conn.close()
-        return jsonify({'res': False, 'type': 0})
+        return jsonify({'res': False, 'type': 0, 'message': str(ex)})
