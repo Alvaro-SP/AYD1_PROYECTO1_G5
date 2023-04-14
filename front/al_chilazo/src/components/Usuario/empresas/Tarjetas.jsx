@@ -1,4 +1,4 @@
-import '../styles/Tarjetas.css'
+import '../../../styles/Tarjetas.css'
 //creacion de tarjetas para mostrar los productos por categoria
 function Tarjetas(props) {
     const { categoria } = props;

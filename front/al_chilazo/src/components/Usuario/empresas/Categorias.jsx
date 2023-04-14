@@ -1,5 +1,5 @@
 import Tarjetas from "./Tarjetas";
-import '../styles/Categorias.css'
+import '../../../styles/Categorias.css'
 import { useState, useEffect } from "react";
 
 function Categorias() {

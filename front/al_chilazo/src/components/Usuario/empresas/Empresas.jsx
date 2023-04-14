@@ -1,22 +1,15 @@
 import TarjetasEmpresa from "./TarjetaEmpresa";
 import { useState } from "react";
-import '../styles/Empresas.css'
-function Empresas(){
+import '../../../styles/Empresas.css'
+function Empresas(props) {
+    const { functionapp } = props;
     const [busqueda, setBusqueda] = useState("");
+
+
+
     const empresas = [
         {
             id: 1,
-            name: "Al macarone",
-            description: "Comida Italiana",
-            categoria: "Comida Italiana",
-            email: "empresa1@gmail.com",
-            depto: "Guatemala", 
-            zona: "10",
-            municipio: "Guatemala",
-            imagen: "https://centranorte.com.gt/wp-content/uploads/2015/04/23.jpg",
-        },
-        {
-            id: 2,
             name: "McDonalds",
             description: "Comida Rapida y Hamburguesas",
             categoria: "Comida Rapida",
@@ -25,6 +18,17 @@ function Empresas(){
             zona: "10",
             municipio: "Guatemala",
             imagen: "https://brandemia.org/contenido/subidas/2022/10/marca-mcdonalds-logo.png",
+        },
+        {
+            id: 2,
+            name: "Al macarone",
+            description: "Comida Italiana",
+            categoria: "Comida Italiana",
+            email: "empresa1@gmail.com",
+            depto: "Guatemala",
+            zona: "10",
+            municipio: "Guatemala",
+            imagen: "https://centranorte.com.gt/wp-content/uploads/2015/04/23.jpg",
         },
         {
             id: 3,
@@ -48,6 +52,11 @@ function Empresas(){
         }
     };
 
+    function handleClickId(id) {
+        console.log("empresa id desde componente empresa: "+id);
+        functionapp(id);
+    }
+
     return (
         <div className="contenedor-general-empresas">
             <div className="container-input">
@@ -59,13 +68,14 @@ function Empresas(){
                 </div>
             </div>
             <row>
-            <div className="contenedor-empresas">
-                <div className="tarjetas-empresa">
-                    {filtrarEmpresas().map((empresa) => (
-                        <TarjetasEmpresa empresa={empresa} />
-                    ))}
+                <div className="contenedor-empresas">
+                    <div className="tarjetas-empresa">
+                        {filtrarEmpresas().map((empresa) => (
+                            console.log(empresa),
+                            <TarjetasEmpresa empresa={empresa} metodo={handleClickId} />
+                        ))}
+                    </div>
                 </div>
-            </div>
             </row>
         </div>
     );
