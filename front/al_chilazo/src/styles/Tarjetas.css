@@ -1,0 +1,31 @@
+
+
+.card{
+    width: 16em;
+    height: 14em;
+}
+
+.card-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image img {
+  display: flex;
+  width: 8em;
+  height: 15em;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-image:hover img {
+  transform: scale(1.1);
+}
+
+.card-image .card-title {
+  position: absolute;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  text-align: center;
+}
