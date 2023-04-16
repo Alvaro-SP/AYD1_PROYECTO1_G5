@@ -15,6 +15,7 @@ from src.repartidores.PerfilRepartidor import perfilrepartidor
 from src.repartidores.SolicitudEntrega import historialpedidos,selectpedido,entregarpedido
 from src.empresas.CategoriasProductoEmpresa import getcategoriaproducto,addcategoriaproducto,updatecategoriaproducto,deletecategoriaproducto
 from src.empresas.ProductosEmpresa import addproduct,updateproduct,deleteproduct
+from src.empresas.PedidosUsuarios import pedidosdeusersempresa
 import datetime
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                             unset_jwt_cookies, jwt_required, JWTManager
@@ -153,6 +154,14 @@ def catprodempresa():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/addcategoriaproducto', methods=['POST'])
+@jwt_required()
+def addcategoriaproductoempresa():
+    global conn
+    response = addcategoriaproducto(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 @app.route('/updatecategoriaproducto', methods=['POST'])
 @jwt_required()
 def updacateprodempre():
@@ -190,6 +199,14 @@ def updateproductempresa():
 def deleteproductemrpess():
     global conn
     response = deleteproduct(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/pedidos-de-user-empresa', methods=['POST'])
+@jwt_required()
+def pedidosdeusersempresasendpoin():
+    global conn
+    response = pedidosdeusersempresa(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 #*  *********************** ADMINISTRADOR *********************
