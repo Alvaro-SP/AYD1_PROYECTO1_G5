@@ -8,6 +8,7 @@ from src.Registro import registro
 from src.usuarios.GetCategories import getCategories
 from src.usuarios.Empresas_category import empresaCategoria
 from src.usuarios.Products_empresa import productsEmpresa
+from src.usuarios.GetCart import get_cart
 from src.repartidores.CambioZona import cambiozona
 from src.repartidores.ComisionesGeneradas import comisionesgeneradas
 from src.repartidores.HistorialPedidosComp import historialpedidos
@@ -91,7 +92,15 @@ def empresacategorias():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-
+#? SHOPPING CART ==============================================
+@app.route('/get-cart', methods=['POST'])
+@jwt_required()
+def get_cart():
+    global conn
+    res_prev = get_cart(conn, request)
+    res = jsonify(res_prev)
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 #*  ***********************  REPARTIDORES *********************
 @app.route('/change-zone', methods=['POST'])
