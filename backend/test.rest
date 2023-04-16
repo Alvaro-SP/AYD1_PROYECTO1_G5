@@ -37,3 +37,12 @@ Content-Type: application/json
     "id_usr": 1,
     "id_product":1
 }
+###
+#* DELETE FROM CART
+POST http://localhost:5000/delete-from-cart HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_usr": 1,
+    "id_product":1
+}
