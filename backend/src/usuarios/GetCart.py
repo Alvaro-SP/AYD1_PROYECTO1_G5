@@ -28,12 +28,9 @@ def get_cart(conn, req):
         INSERT INTO pedido (
             user_id,
             state
-        ) VALUES (
-            %s,
-            3
-        )
+        ) VALUES (%s, %s)
         '''
-        vals = (id_usr,)
+        vals = (id_usr, 3)
         cur.execute(sql, vals)
         conn.commit()
 
