@@ -25,8 +25,8 @@ def addproduct(conn, request):
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
-        if conn:
-            conn.close()
+        # if conn:
+        #     conn.close()
         return jsonify({'res': False})
 # ! ACTUALIZA UN PRODUCTO DE UNA EMPRESA=================
 def updateproduct(conn, request):
@@ -59,8 +59,8 @@ def updateproduct(conn, request):
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
-        if conn:
-            conn.close()
+        # if conn:
+        #     conn.close()
         return jsonify({'res': False})
 
 # ! ELIMINA UN PRODUCTO DE UNA EMPRESA=================
@@ -78,6 +78,6 @@ def deleteproduct(conn, request):
     except Exception as ex:
         # Siempre cerrar la conexión a la base de datos
         print(ex)
-        if conn:
-            conn.close()
+        # if conn:
+        #     conn.close()
         return jsonify({'res': False})

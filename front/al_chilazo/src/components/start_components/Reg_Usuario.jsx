@@ -4,24 +4,13 @@ import axios from "axios";
 
 export function RegistrarUsuario() {
   const [nombre, setNombre] = useState("");
-  const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [correo, setCorreo] = useState("");
 
   const register = async () => {
-    //! HACER PETICION Y PONER ONCHANGE
     if (nombre === "") {
       M.toast({
         html: "Nombre Invalido",
-        classes: "white-text rounded orange darken-4",
-      });
-
-      return;
-    }
-
-    if (usuario === "") {
-      M.toast({
-        html: "Usuario Invalido",
         classes: "white-text rounded orange darken-4",
       });
 
@@ -45,9 +34,8 @@ export function RegistrarUsuario() {
     }
 
     const data = {
-      rol: "usuario",
-      nombre: nombre,
-      usuario: usuario,
+      rol: "1",
+      name: nombre,
       password: password,
       correo: correo,
     };
@@ -102,18 +90,6 @@ export function RegistrarUsuario() {
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
-                        <i className="material-icons prefix">account_circle</i>
-                        <input
-                          id="user"
-                          type="text"
-                          className="validate"
-                          onChange={(e) => setUsuario(e.target.value)}
-                        />
-                        <label htmlFor="user">Usuario</label>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="input-field col s12">
                         <i className="material-icons prefix">password</i>
                         <input
                           id="password"
@@ -141,7 +117,7 @@ export function RegistrarUsuario() {
                         <a
                           href="#!"
                           className="waves-effect waves-light btn-large green darken-2"
-                          onChange={register}
+                          onClick={register}
                         >
                           <i className="material-icons left">how_to_reg</i>
                           Registrar Usuario

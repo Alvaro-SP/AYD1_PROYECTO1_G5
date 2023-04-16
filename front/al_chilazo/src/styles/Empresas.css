@@ -1,0 +1,19 @@
+.cardhorizontal{
+    display: grid;
+    margin: 2px;
+    width: auto;
+}
+
+.contenedor-empresas{
+    display: grid;
+    margin: 2px;
+}
+
+.tarjetas-empresa{
+    display: grid;
+    columns: 1;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;   
+    width: auto; 
+}

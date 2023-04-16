@@ -46,14 +46,14 @@ def historialpedidos(conn, request):
                 # Cada uno de los pedidos entregados le dará el 5% del valor del pedido al repartidor que realizó la entrega
                 templist.append(atributos)
             cursor.close()
-            conn.close()
+            # conn.close()
             return jsonify({'res': templist, 'enproceso': flag_busy})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
-        if conn:
-            conn.close()
+        # if conn:
+        #     conn.close()
         return jsonify({'res': False})
 # ! CAMBIA EL ESTADO DE UN PEDIDO A OCUPADO (pedido en curso)=================
 def selectpedido(conn, request):

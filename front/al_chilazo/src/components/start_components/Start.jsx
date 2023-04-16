@@ -5,7 +5,7 @@ import { RegistrarUsuario } from "./Reg_Usuario";
 import { RegistrarRepartidor } from "./Reg_Repartidor";
 import "../../styles/Start.css"
 
-export function Start() {
+export function Start({adFlag, repFlag, empFlag, userFlag, startFlag}) {
   useEffect(() => {
     var elem = document.getElementById("tabs-Start");
     M.Tabs.init(elem, {
@@ -58,7 +58,7 @@ export function Start() {
       <div id="login" className="col s12 contenedor contenedor-1" style={{height: "85.2vh"}}>
         <br />
         <br />
-        <Login />
+        <Login adFlag={adFlag} empFlag={empFlag} repFlag={repFlag} userFlag={userFlag} startFlag={startFlag} />
       </div>
 
       <div id="regNeg" className="col s12 contenedor contenedor-2">
