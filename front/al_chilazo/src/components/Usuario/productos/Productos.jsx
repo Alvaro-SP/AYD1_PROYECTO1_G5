@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import "../../../styles/Productos.css";
 import M from "materialize-css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { url } from "../../../shared/url";
 
 function Empresas(props) {
   const { empresa } = props;
@@ -11,125 +13,136 @@ function Empresas(props) {
   const [categoria, setCategoria] = useState("Todas");
   const [carrito, setCarrito] = useState([]);
   const [totalPedido, setTotalPedido] = useState(0);
-
+  const [productos,setProductos] = useState([]);
+  const data = {
+    id: empresa,
+  }
+  // useEffect(() => {
+    axios.post(url + "products-empresa",data)
+    .then(res => {
+        console.log("se recibe id desde productos: ",res.data.res)
+        setProductos(res.data.res);
+    }
+    );
+  // }, []);
 
   useEffect(() => {
     M.AutoInit();
   }, []);
 
-  const productos = [
-    [
-      {
-        id: 1,
-        name: "Lasagna",
-        precio: "20.00",
-        categoria: "Comida",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-      {
-        id: 2,
-        name: "Pizza",
-        precio: "20.00",
-        categoria: "Comida",
-        imagen: "https://cdn.elperiodico.com.gt/wp-content/uploads/2020/08/30222943/330-349.jpg",
-      },
-      {
-        id: 3,
-        name: "Hamburguesa",
-        precio: "20.00",
-        categoria: "Comida",
-        imagen: "https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg",
-      },
-    ],
-    [
-      {
-        id: 1,
-        name: "Big Mac",
-        precio: "20.50",
-        categoria: "Comida",
-        imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/McD_Big_Mac.jpg/1200px-McD_Big_Mac.jpg",
-      },
-      {
-        id: 2,
-        name: "Caja Feliz",
-        precio: "20.00",
-        categoria: "Comida",
-        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6eKA0KWeHi15EBJYojErnX9KcUdYEj9y5w",
-      },
-      {
-        id: 3,
-        name: "McFlurry",
-        precio: "20.00",
-        categoria: "Helados",
-        imagen: "https://mcdonalds.com.gt/imagen/menu-products/1673328345_011_PedidosYa_400x400px_McFlurry.png",
-      },
-      {
-        id: 4,
-        name: "McNifica",
-        precio: "40.00",
-        categoria: "Comida",
-        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ-dBRfKeVOnuAfrPz8xVU0D7Tq6XXJaSmKw",
-      },
-      {
-        id: 5,
-        name: "Coca Cola",
-        precio: "20.00",
-        categoria: "Bebidas",
-        imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg/480px-15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg",
-      },
-      {
-        id: 6,
-        name: "Fanta",
-        precio: "20.00",
-        categoria: "Bebidas",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-      {
-        id: 7,
-        name: "Cafe con leche",
-        precio: "20.00",
-        categoria: "Cafes",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-      {
-        id: 8,
-        name: "Cafe solo",
-        precio: "20.00",
-        categoria: "Cafes",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-      {
-        id: 9,
-        name: "Gatorade",
-        precio: "20.00",
-        categoria: "Bebidas",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-      {
-        id: 10,
-        name: "Agua",
-        precio: "5.00",
-        categoria: "Bebidas",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-      {
-        id: 11,
-        name: "Cafe con leche",
-        precio: "20.00",
-        categoria: "Cafes",
-        imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
-      },
-
-    ],
-
-  ]
+  //const productos = [
+  //  [
+  //    {
+  //      id: 1,
+  //      name: "Lasagna",
+  //      precio: "20.00",
+  //      categoria: "Comida",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+  //    {
+  //      id: 2,
+  //      name: "Pizza",
+  //      precio: "20.00",
+  //      categoria: "Comida",
+  //      imagen: "https://cdn.elperiodico.com.gt/wp-content/uploads/2020/08/30222943/330-349.jpg",
+  //    },
+  //    {
+  //      id: 3,
+  //      name: "Hamburguesa",
+  //      precio: "20.00",
+  //      categoria: "Comida",
+  //      imagen: "https://bakeitwithlove.com/wp-content/uploads/2022/01/what-to-serve-with-burgers-sq.jpg",
+  //    },
+  //  ],
+  //  [
+  //    {
+  //      id: 1,
+  //      name: "Big Mac",
+  //      precio: "20.50",
+  //      categoria: "Comida",
+  //      imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/McD_Big_Mac.jpg/1200px-McD_Big_Mac.jpg",
+  //    },
+  //    {
+  //      id: 2,
+  //      name: "Caja Feliz",
+  //      precio: "20.00",
+  //      categoria: "Comida",
+  //      imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6eKA0KWeHi15EBJYojErnX9KcUdYEj9y5w",
+  //    },
+  //    {
+  //      id: 3,
+  //      name: "McFlurry",
+  //      precio: "20.00",
+  //      categoria: "Helados",
+  //      imagen: "https://mcdonalds.com.gt/imagen/menu-products/1673328345_011_PedidosYa_400x400px_McFlurry.png",
+  //    },
+  //    {
+  //      id: 4,
+  //      name: "McNifica",
+  //      precio: "40.00",
+  //      categoria: "Comida",
+  //      imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ-dBRfKeVOnuAfrPz8xVU0D7Tq6XXJaSmKw",
+  //    },
+  //    {
+  //      id: 5,
+  //      name: "Coca Cola",
+  //      precio: "20.00",
+  //      categoria: "Bebidas",
+  //      imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg/480px-15-09-26-RalfR-WLC-0098_-_Coca-Cola_glass_bottle_%28Germany%29.jpg",
+  //    },
+  //    {
+  //      id: 6,
+  //      name: "Fanta",
+  //      precio: "20.00",
+  //      categoria: "Bebidas",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+  //    {
+  //      id: 7,
+  //      name: "Cafe con leche",
+  //      precio: "20.00",
+  //      categoria: "Cafes",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+  //    {
+  //      id: 8,
+  //      name: "Cafe solo",
+  //      precio: "20.00",
+  //      categoria: "Cafes",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+  //    {
+  //      id: 9,
+  //      name: "Gatorade",
+  //      precio: "20.00",
+  //      categoria: "Bebidas",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+  //    {
+  //      id: 10,
+  //      name: "Agua",
+  //      precio: "5.00",
+  //      categoria: "Bebidas",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+  //    {
+  //      id: 11,
+  //      name: "Cafe con leche",
+  //      precio: "20.00",
+  //      categoria: "Cafes",
+  //      imagen: "https://www.sipandfeast.com/wp-content/uploads/2020/11/lasagna-meat-sauce-recipe-3.jpg",
+  //    },
+//
+  //  ],
+//
+  //]
   const categoriasUnicas = [...new Set(productos[empresa].map(producto => producto.categoria))];
   const filtrarProductos = () => {
     let productosFiltradosPorCategoria;
 
     if (categoria !== "Todas") {
       productosFiltradosPorCategoria = productos[empresa].filter((producto) => {
-        return producto.categoria === categoria;
+        return producto.category === categoria;
       });
     } else {
       productosFiltradosPorCategoria = productos[empresa];

@@ -21,11 +21,11 @@ function TarjetasEmpresa(props) {
         <div className="card-content">
           <p>Municipio de {empresa.municipio}</p>
         </div>
-        <div className="card-content">
+        {/*<div className="card-content">
           <p>Zona {empresa.zona}</p>
-        </div>
+  </div>*/}
         <div className="card-content">
-          <p>{empresa.email}</p>
+          <p>{empresa.mail}</p>
         </div>
       </div>
     </div>

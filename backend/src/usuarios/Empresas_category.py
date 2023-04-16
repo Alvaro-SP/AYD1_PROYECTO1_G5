@@ -1,31 +1,37 @@
 from flask import jsonify
 # ! RETORNA TODAS LAS EMPRESAS DADA UNA CATEGORIA=================
-def empresaCategoria(conn, request):
+def empresaCategoria(conn):
     # ! -------------- taking the data ----------------
-    data = request.get_json()
-    idCategory = data['id']
+    # data = request.get_json()
+    # idCategory = data['id']
     try:
         with conn.cursor() as cursor:
             sql = '''
             SELECT empresa.* FROM empresa
-            INNER JOIN category on empresa.category_id = category.id
-            WHERE category.id = %s;
+            WHERE empresa.approved = 1;
             '''
-            cursor.execute(sql,(idCategory))
+            cursor.execute(sql,)
             result = cursor.fetchall()
             templist = []
             for fila in result:
+                categoria=''
+                if fila[3]==1:
+                    categoria = 'Restaurantes y Comida Rapida'
+                elif fila[3]==2:
+                    categoria = 'Cafeterias'
+                elif fila[3]==3:
+                    categoria = 'Tiendas de Conveniencia'
+                elif fila[3]==4:
+                    categoria = 'Supermercados'
                 atributos = {
                     'id': fila[0],
                     'name': fila[1],
                     'description' : fila[2],
-                    'category' : fila[3],
+                    'category' : categoria,
                     'mail' : fila[4],
                     'depto' : fila[5],
-                    'zone' : fila[6],
-                    'municipio' : fila[7],
-                    'approved' : fila[8],
-                    'password' : fila[9]
+                    'municipio' : fila[6],
+                    'imagen':fila[9]
                     }
                 templist.append(atributos)
             cursor.close()

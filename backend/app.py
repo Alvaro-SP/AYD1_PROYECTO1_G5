@@ -75,16 +75,16 @@ def get_Categories():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/empresas-category', methods=['POST'])
-@jwt_required()
+@app.route('/empresas-category', methods=['GET'])
+# @jwt_required()
 def empresacategory():
     global conn
-    response = empresaCategoria(conn, request)
+    response = empresaCategoria(conn)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/products-empresa', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def empresacategorias():
     global conn
     response = productsEmpresa(conn, request)
