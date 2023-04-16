@@ -106,20 +106,32 @@ export function RegistrarRepartidor() {
 
       return;
     }
-
-    const data = {
-      rol: "2",
-      name: nombre,
-      lastname: apellido,
-      mail: correo,
-      password: password,
-      phone: celular,
-      depto: departamento,
-      city: municipio,
-      license: tipoLicencia,
-      own_transport: ownCar.toString(),
-      cv: curriculum,
-    };
+    // Create an object of formData
+    const data = new FormData();
+    data.append('rol', '2');
+    data.append('name', nombre);
+    data.append('lastname', apellido);
+    data.append('mail', correo);
+    data.append('password', password);
+    data.append('phone', celular);
+    data.append('depto', departamento);
+    data.append('city', municipio);
+    data.append('license', tipoLicencia);
+    data.append('own_transport', ownCar.toString());
+    data.append('cv', curriculum);
+    // const data = {
+    //   rol: "2",
+    //   name: nombre,
+    //   lastname: apellido,
+    //   mail: correo,
+    //   password: password,
+    //   phone: celular,
+    //   depto: departamento,
+    //   city: municipio,
+    //   license: tipoLicencia,
+    //   own_transport: ownCar.toString(),
+    //   cv: curriculum,
+    // };
 
     try {
       console.log(data);
@@ -144,7 +156,6 @@ export function RegistrarRepartidor() {
       });
     }
   };
-
   return (
     <>
       <div className="container">

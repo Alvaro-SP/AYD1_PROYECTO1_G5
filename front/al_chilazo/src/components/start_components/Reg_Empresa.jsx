@@ -1,4 +1,5 @@
 import axios from "axios";
+import { url } from "../../shared/url";
 import { useState } from "react";
 
 export function RegistrarEmpresa() {
@@ -95,20 +96,31 @@ export function RegistrarEmpresa() {
       return;
     }
 
-    const data = {
-      rol: "3",
-      name: nombre,
-      description: descripcion,
-      category: categoria,
-      mail: correo,
-      depto: departamento,
-      municipio: municipio,
-      password: password,
-      docAuth: docAuth,
-      docReg: docReg,
-      docRegSan: docRegSan,
-    };
-
+    // const data = {
+    //   rol: "3",
+    //   name: nombre,
+    //   description: descripcion,
+    //   category: categoria,
+    //   mail: correo,
+    //   depto: departamento,
+    //   municipio: municipio,
+    //   password: password,
+    //   docAuth: docAuth,
+    //   docReg: docReg,
+    //   docRegSan: docRegSan,
+    // };
+    const data = new FormData();
+    data.append('rol', '3');
+    data.append('name', nombre);
+    data.append('description', descripcion);
+    data.append('category', categoria);
+    data.append('mail', correo);
+    data.append('depto', departamento);
+    data.append('municipio', municipio);
+    data.append('password', password);
+    data.append('docAuth', docAuth);
+    data.append('docReg', docReg);
+    data.append('docRegSan', docRegSan);
     try {
       console.log(data);
       const result = (await axios.post(url + "register", data)).data;
@@ -171,12 +183,24 @@ export function RegistrarEmpresa() {
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">category</i>
-                        <input
+                        {/* <input
                           id="categoria"
                           type="text"
                           className="validate"
                           onChange={(e) => setCategoria(e.target.value)}
-                        />
+                        /> */}
+                        <select
+                          className="validate"
+                          onChange={(e) => setCategoria(e.target.value)}
+                        >
+                          <option defaultValue={""} disabled>
+                            seleccione la categoria de la Empresa
+                          </option>
+                          <option value="1">Restaurante y Comida Rápida</option>
+                          <option value="2">Cafetería</option>
+                          <option value="3">Tienda de conveniencia</option>
+                          <option value="4">Supermercado</option>
+                        </select>
                         <label htmlFor="categoria">Categoria</label>
                       </div>
                     </div>

@@ -16,6 +16,6 @@ def cambiozona(conn, request):
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print("error:", ex)
-        if conn:
-            conn.close()
+        # if conn:
+        #     conn.close()
         return jsonify({'res': False})
