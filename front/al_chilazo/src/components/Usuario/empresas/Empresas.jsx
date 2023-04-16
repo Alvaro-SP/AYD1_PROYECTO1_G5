@@ -1,18 +1,27 @@
 import TarjetasEmpresa from "./TarjetaEmpresa";
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import '../../../styles/Empresas.css'
+import M from "materialize-css";
 function Empresas(props) {
     const { functionapp } = props;
     const [busqueda, setBusqueda] = useState("");
+    const categorias = [
+        "Restaurantes y Comida Rápida",
+        "Cafeterías",
+        "Tiendas de Conveniencia",
+        "Supermercados",
+    ];
+    const [categoria, setCategoria] = useState("Todas");
 
-
-
+    useEffect(() => {
+        M.AutoInit();
+      }, []);
     const empresas = [
         {
             id: 1,
             name: "McDonalds",
-            description: "Comida Rapida y Hamburguesas",
-            categoria: "Comida Rapida",
+            description: "Comida Rapida",
+            categoria: "Restaurantes y Comida Rápida",
             email: "asdf@gmail.com",
             depto: "guatemala",
             zona: "10",
@@ -43,17 +52,25 @@ function Empresas(props) {
         },
     ]
     const filtrarEmpresas = () => {
+        let empresasFiltradas;
+        if (categoria !== "Todas") {
+            empresasFiltradas = empresas.filter((empresa) => {
+                return empresa.categoria === categoria;
+            });
+        } else {
+            empresasFiltradas = empresas;
+        }
         if (busqueda !== "") {
-            return empresas.filter((empresa) => {
+            return empresasFiltradas.filter((empresa) => {
                 return empresa.name.toLowerCase().includes(busqueda.toLowerCase());
             });
         } else {
-            return empresas;
+            return empresasFiltradas;
         }
     };
 
     function handleClickId(id) {
-        console.log("empresa id desde componente empresa: "+id);
+        console.log("empresa id desde componente empresa: " + id);
         functionapp(id);
     }
 
@@ -66,6 +83,13 @@ function Empresas(props) {
                         onChange={(e) => setBusqueda(e.target.value)} />
                     <label for="search">Busqueda</label>
                 </div>
+                <ul id="dropdown2" className="dropdown-content red darken-2" >
+                    <li key="Todas" onClick={() => setCategoria("Todas")}> <a class="white-text ">Todas</a></li>
+                    {categorias.map((empresa) => (
+                        <li key={empresa} onClick={() => setCategoria(empresa)}><a class="white-text ">{empresa}</a></li>
+                    ))}
+                </ul>
+                <a className="btn dropdown-trigger red darken-2"  data-target="dropdown2">{`Categoria: ${categoria}`}<i className="material-icons right">arrow_drop_down</i></a>
             </div>
             <row>
                 <div className="contenedor-empresas">
