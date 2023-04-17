@@ -96,7 +96,7 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
           <div className="col s8 offset-s2">
             <div className="card-panel hoverable">
               <div className="card-content">
-                <h3 className="red-text text-darken-2 center-align">Login</h3>
+                <h3 className="red-text text-darken-2 center-align">LOGIN</h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
                     <div className="row">
@@ -108,7 +108,7 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                           className="validate"
                           onChange={(e) => setEmail(e.target.value)}
                         />
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">EMAIL</label>
                       </div>
                     </div>
                     <div className="row">
@@ -120,7 +120,7 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                           className="validate"
                           onChange={(e) => setPass(e.target.value)}
                         />
-                        <label htmlFor="pass">Password</label>
+                        <label htmlFor="pass">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -131,14 +131,14 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                           onChange={(e) => setRol(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Seleccione El Rol
+                            SELECCIONE EL ROL
                           </option>
-                          <option value="0">Administrador</option>
-                          <option value="1">Usuario</option>
-                          <option value="2">Repartidor</option>
-                          <option value="3">Empresa</option>
+                          <option value="0">ADMINISTRADOR</option>
+                          <option value="1">USUARIO</option>
+                          <option value="2">REPARTIDOR</option>
+                          <option value="3">EMPRESA</option>
                         </select>
-                        <label>Rol</label>
+                        <label>ROL</label>
                       </div>
                     </div>
                     <div className="row">

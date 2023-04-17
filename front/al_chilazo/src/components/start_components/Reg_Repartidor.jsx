@@ -164,7 +164,7 @@ export function RegistrarRepartidor() {
             <div className="card-panel hoverable">
               <div className="card-content">
                 <h3 className="indigo-text text-darken-3 center-align">
-                  Registrarse
+                  REGISTRARSE
                 </h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
@@ -177,7 +177,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setNombre(e.target.value)}
                         />
-                        <label htmlFor="nombre">Nombre</label>
+                        <label htmlFor="nombre">NOMBRE</label>
                       </div>
                     </div>
                     <div className="row">
@@ -189,7 +189,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setApellido(e.target.value)}
                         />
-                        <label htmlFor="apellido">Apellido</label>
+                        <label htmlFor="apellido">APELLIDO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -201,7 +201,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setCorreo(e.target.value)}
                         />
-                        <label htmlFor="email">Correo</label>
+                        <label htmlFor="email">CORREO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -213,7 +213,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -225,7 +225,7 @@ export function RegistrarRepartidor() {
                           className="validate"
                           onChange={(e) => setCelular(e.target.value)}
                         />
-                        <label htmlFor="telefono">No. Celular</label>
+                        <label htmlFor="telefono">NO. DE CELULAR</label>
                       </div>
                     </div>
                     <div className="row">
@@ -236,13 +236,13 @@ export function RegistrarRepartidor() {
                           onChange={(e) => setDepartamento(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Seleccione Su Departamento
+                            SELECCIONES SU DEPARTAMENTO
                           </option>
                           <option value="1">Option 1</option>
                           <option value="2">Option 2</option>
                           <option value="3">Option 3</option>
                         </select>
-                        <label>Departamento</label>
+                        <label>DEPARTAMENTO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -253,13 +253,13 @@ export function RegistrarRepartidor() {
                           onChange={(e) => setMunicipio(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Seleccione El Municipio
+                            SELECCIONE EL MUNICIPIO
                           </option>
                           <option value="1">Option 1</option>
                           <option value="2">Option 2</option>
                           <option value="3">Option 3</option>
                         </select>
-                        <label>Municipio</label>
+                        <label>MUNICIPIO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -267,20 +267,20 @@ export function RegistrarRepartidor() {
                       <p>
                         <label>
                           <input type="checkbox" onChange={() => setownCar(!ownCar)}/>
-                          <span>AUTO PROPIO</span>
+                          <span className="black-text">AUTO PROPIO</span>
                         </label>
                       </p>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="input-field col s4 offset-s4">
+                      <div className="input-field col s5  offset-s4">
                         <p>
                           <label>
                             <input
                               type="checkbox"
                               onChange={() => setLicencia(!licencia)}
                             />
-                            <span>Posee Licencia</span>
+                            <span className="black-text">POSEE LICENCIA</span>
                           </label>
                         </p>
                       </div>
@@ -293,7 +293,7 @@ export function RegistrarRepartidor() {
                           onChange={(e) => setTipoLicencia(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Seleccione Un Tipo De Licencia
+                            SELECCIONE EL TIPO DE LICENCIA
                           </option>
                           <option value="1">TIPO A</option>
                           <option value="2">TIPO B</option>
@@ -301,7 +301,7 @@ export function RegistrarRepartidor() {
                           <option value="4">TIPO M</option>
                           <option value="5">TIPO E</option>
                         </select>
-                        <label>Tipo Licencia</label>
+                        <label>TIPO LICENCIA</label>
                       </div>
                     </div>
                     <br />
@@ -329,7 +329,7 @@ export function RegistrarRepartidor() {
                           onClick={sendRequest}
                         >
                           <i className="material-icons left">local_shipping</i>
-                          Registrar Solicitud
+                          REGISTRAR SOLICITUD
                         </a>
                       </div>
                     </div>

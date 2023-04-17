@@ -126,10 +126,10 @@ export function RemoverUsuario() {
             className="modal-close waves-effect waves-green btn-flat"
             onClick={eliminarUsuario}
           >
-            Agree
+            ACEPTAR
           </a>
           <a href="#!" className="modal-close waves-effect waves-red btn-flat">
-            Dismiss
+            CANCELAR
           </a>
         </div>
       </div>

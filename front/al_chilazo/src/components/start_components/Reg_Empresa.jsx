@@ -153,7 +153,7 @@ export function RegistrarEmpresa() {
             <div className="card-panel hoverable">
               <div className="card-content">
                 <h3 className="orange-text text-darken-3 center-align">
-                  Registrarse
+                  REGISTRARSE
                 </h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
@@ -166,7 +166,7 @@ export function RegistrarEmpresa() {
                           className="validate"
                           onChange={(e) => setNombre(e.target.value)}
                         />
-                        <label htmlFor="nombre">Nombre Empresa</label>
+                        <label htmlFor="nombre">NOMBRE DE LA EMPRESA</label>
                       </div>
                     </div>
                     <div className="row">
@@ -177,7 +177,7 @@ export function RegistrarEmpresa() {
                           className="materialize-textarea"
                           onChange={(e) => setDescripcion(e.target.value)}
                         ></textarea>
-                        <label htmlFor="descripcion">Descripcion</label>
+                        <label htmlFor="descripcion">DESCRIPCION</label>
                       </div>
                     </div>
                     <div className="row">
@@ -194,14 +194,14 @@ export function RegistrarEmpresa() {
                           onChange={(e) => setCategoria(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            seleccione la categoria de la Empresa
+                            SELECCIONE LA CATEGORIA DE LA EMPRESA
                           </option>
                           <option value="1">Restaurante y Comida Rápida</option>
                           <option value="2">Cafetería</option>
                           <option value="3">Tienda de conveniencia</option>
                           <option value="4">Supermercado</option>
                         </select>
-                        <label htmlFor="categoria">Categoria</label>
+                        <label htmlFor="categoria">CATEGORIA</label>
                       </div>
                     </div>
                     <div className="row">
@@ -213,7 +213,7 @@ export function RegistrarEmpresa() {
                           className="validate"
                           onChange={(e) => setCorreo(e.target.value)}
                         />
-                        <label htmlFor="email">Correo</label>
+                        <label htmlFor="email">CORREO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -225,7 +225,7 @@ export function RegistrarEmpresa() {
                           className="validate"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -236,13 +236,13 @@ export function RegistrarEmpresa() {
                           onChange={(e) => setDepartamento(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Seleccione Su Departamento
+                            SELECCIONE SU DEPARTAMENTO
                           </option>
                           <option value="1">Option 1</option>
                           <option value="2">Option 2</option>
                           <option value="3">Option 3</option>
                         </select>
-                        <label>Departamento</label>
+                        <label>DEPARTAMENTO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -253,18 +253,18 @@ export function RegistrarEmpresa() {
                           onChange={(e) => setMunicipio(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            Seleccione El Municipio
+                            SELECCIONE SU MUNICIPIO
                           </option>
                           <option value="1">Option 1</option>
                           <option value="2">Option 2</option>
                           <option value="3">Option 3</option>
                         </select>
-                        <label>Municipio</label>
+                        <label>MUNICIPIO</label>
                       </div>
                     </div>
                     <div className="row">
                       <h4 className="orange-text text-darken-3 center-align">
-                        Documentos
+                        DOCUMENTOS
                       </h4>
                     </div>
                     <div className="row">
@@ -319,7 +319,7 @@ export function RegistrarEmpresa() {
                           <i className="material-icons left">
                             send_time_extension
                           </i>
-                          Enviar Solicitud
+                          ENVIAR SOLICITUD
                         </a>
                       </div>
                     </div>
