@@ -8,6 +8,9 @@ from src.Registro import registro
 from src.usuarios.GetCategories import getCategories
 from src.usuarios.Empresas_category import empresaCategoria
 from src.usuarios.Products_empresa import productsEmpresa
+from src.usuarios.GetCart import get_cart
+from src.usuarios.AddToCart import add_to_cart
+from src.usuarios.DeleteFromCart import delete_from_cart
 from src.repartidores.CambioZona import cambiozona
 from src.repartidores.ComisionesGeneradas import comisionesgeneradas
 from src.repartidores.HistorialPedidosComp import historialpedidos
@@ -68,7 +71,7 @@ def registerzzz():
 
 #*  ************************  USUARIOS ************************
 @app.route('/getcategories', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_Categories():
     global conn
     response = getCategories(conn)
@@ -91,7 +94,33 @@ def empresacategorias():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+#? SHOPPING CART ==============================================
+@app.route('/get-cart', methods=['POST'])
+# @jwt_required()
+def obtener_carrito():
+    global conn
+    res_prev = get_cart(conn, request)
+    res = jsonify(res_prev)
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
+@app.route('/add-to-cart', methods=['POST'])
+# @jwt_required()
+def agregar_al_carrito():
+    global conn
+    res_prev = add_to_cart(conn, request)
+    res = jsonify(res_prev)
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
+
+@app.route('/delete-from-cart', methods=['POST'])
+# @jwt_required()
+def eliminar_del_carrito():
+    global conn
+    res_prev = delete_from_cart(conn, request)
+    res = jsonify(res_prev)
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 #*  ***********************  REPARTIDORES *********************
 @app.route('/change-zone', methods=['POST'])

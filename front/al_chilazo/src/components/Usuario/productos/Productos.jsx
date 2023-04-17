@@ -17,6 +17,9 @@ function Productos(props) {
   const data = {
     id: empresa,
   }
+  const user = {
+    id_usr: 1
+  }
   useEffect(() => {
     const fetchDta = async () => {
       const response = await axios.post(url + "products-empresa",data);
@@ -25,11 +28,19 @@ function Productos(props) {
     };
 
     fetchDta();
+    const getCarrito = async() => {
+      const response = await axios.post(url + "get-cart",user) 
+      console.log("se recibe carritop: ",response.data.cart  )
+      setCarrito(response.data.cart);
+    }
+    getCarrito();
   }, []);
 
   useEffect(() => {
     M.AutoInit();
   }, []);
+
+  
 
 
   const categoriasUnicas = [...new Set(productos.map(producto => producto.categoria))];
@@ -91,6 +102,7 @@ function Productos(props) {
     productoExistente.cantidad++;
     setCarrito(nuevoCarrito);
     setTotalPedido(totalPedido + parseFloat(producto.precio));
+    //getCarrito();
   };
 
   const restarCantidad = (producto) => {
@@ -160,7 +172,7 @@ function Productos(props) {
               </div>
               <div className="botones">
                   <button className="boton-sumar" onClick={() => sumarCantidad(producto)}>+</button>
-                  <span className="cantidad">{producto.cantidad}</span>
+                  <span className="cantidad">{producto.cant}</span>
                   <button className="boton-restar" onClick={() => restarCantidad(producto)}>-</button>
                   <button className="boton-eliminar" onClick={() => eliminarDelCarrito(producto)}>Eliminar</button>
               </div>
