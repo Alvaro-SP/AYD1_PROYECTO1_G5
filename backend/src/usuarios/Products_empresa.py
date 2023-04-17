@@ -21,12 +21,12 @@ def productsEmpresa(conn, request):
                             'category' : fila[5]}
                 templist.append(atributos)
             cursor.close()
-            conn.close()
+            # conn.close()
             return jsonify({'res': templist})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
-        if conn:
-            conn.close()
+        # if conn:
+        #     conn.close()
         return jsonify({'res': False})

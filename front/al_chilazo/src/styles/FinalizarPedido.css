@@ -1,0 +1,158 @@
+.productos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1rem;
+  margin: 3rem auto;
+}
+
+.producto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.producto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.producto img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.nombre {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+.precio {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.botones {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.boton-sumar,
+.boton-restar,
+.boton-eliminar {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.boton-sumar {
+  background-color: #dd2511;
+}
+
+.boton-restar {
+  background-color: #878585;
+}
+
+.boton-eliminar {
+  background-color: #777;
+}
+
+.boton-sumar:hover {
+  background-color: #b90707;
+}
+
+.boton-restar:hover {
+  background-color: #555;
+}
+
+.boton-eliminar:hover {
+  background-color: #555;
+}
+
+.cantidad {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.total-pedido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+
+.titulos {
+  font-size: 2.5rem;
+  font-weight: 200;
+  margin-bottom: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  background-image: linear-gradient(45deg, #d01313, #e77315);
+  padding: 1px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  
+  /* animación de entrada */
+  animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  
+  /* animación de salida */
+  .titulos.hidden {
+  animation: fadeOut 0.5s ease-in-out forwards;
+  }
+  
+  /* animación para cuando el cursor pasa por encima */
+  .titulos:hover {
+  transform: scale(1.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+  }
+  
+  /* la definición de la animación de entrada */
+  @keyframes fadeIn {
+  0% {
+  opacity: 0;
+  transform: translateY(-50px);
+  }
+  100% {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  }
+  
+  /* la definición de la animación de salida */
+  @keyframes fadeOut {
+  0% {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  100% {
+  opacity: 0;
+  transform: translateY(-50px);
+  }
+  }

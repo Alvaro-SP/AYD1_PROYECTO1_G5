@@ -5,17 +5,17 @@ from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
 def login(conn, request, jwt):
     # ! -------------- taking the data ----------------
     data = request.get_json()
-    rol = data['rol'] # admin=0, user=1, repartidor=2, empresa=3
-    username=(data['username']).lower()
-    password=(data['password']).lower()
+    rol = int(data['rol']) # admin=0, user=1, repartidor=2, empresa=3
+    username=(data['email']).lower()
+    password=(data['pass']).lower()
     try:
         print('login: ',str(rol)," -- ",str(username)," -- ",str(password))
         with conn.cursor() as cursor:
             if rol==0:
                 if "admin@gmail.com"==username and "admin"==password:
-                    return jsonify({'res':True,'type':0})
+                    return jsonify({'res':True,'message': 'Bienvenido senor Admin, quisiera desafiarlo.'})
             elif rol == 1:
-                sql = "SELECT * FROM user WHERE username=%s AND password=%s"
+                sql = "SELECT * FROM user WHERE mail=%s AND password=%s"
                 cursor.execute(sql, (username, password))
                 user = cursor.fetchone()
                 cursor.fetchall()
@@ -28,14 +28,11 @@ def login(conn, request, jwt):
                         "access_token":access_token,
                         "user": {
                             "id": user[0],
-                            "username": user[1],
+                            "name": user[1],
                             "password": user[2],
-                            "active": user[3],
-                            "city": user[4],
-                            "depto": user[5],
-                            "phone": user[6],
-                            "type": 1
-                        }
+                            "mail": user[3]
+                        },
+                        "message": "Hola usuario usted se ha logueado exitosamente"
                     })
             elif rol == 2:
                 sql = "SELECT * FROM repartidor WHERE mail=%s AND password=%s"
@@ -63,7 +60,8 @@ def login(conn, request, jwt):
                             "approved": user[10],
                             "password": user[11],
                             "type": 2
-                        }
+                        },
+                        "message": "Que tal joven repartidor se ha logueado exitosamente"
                     })
             elif rol == 3:
                 sql = "SELECT * FROM empresa WHERE mail=%s AND password=%s"
@@ -89,15 +87,16 @@ def login(conn, request, jwt):
                             "approved": user[8],
                             "password": user[9],
                             "type": 3
-                        }
+                        },
+                        "message": "Que hay de nuevo Empresa, se ha logueado exitosamente"
                     })
             cursor.close()
-            conn.close()
-            return jsonify({'res': False, 'type': 1})
+            # conn.close()
+            return jsonify({'res': False, 'message': 'Usuario o contraseña incorrectos, revise bien'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
-        if conn:
-            conn.close()
-        return jsonify({'res': False, 'type': 0})
+        # if conn:
+        #     conn.close()
+        return jsonify({'res': False, 'type': 0, 'message': str(ex)})
