@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import M from "materialize-css";
-import IngresarDireccion from "./IngresarDireccion";
 import "../../../styles/FinalizarPedido.css";
 
 function FinalizarPedido(props) {
