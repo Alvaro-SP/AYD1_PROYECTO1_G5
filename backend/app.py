@@ -16,7 +16,7 @@ from src.repartidores.ComisionesGeneradas import comisionesgeneradas
 from src.repartidores.HistorialPedidosComp import historialpedidos
 from src.repartidores.PerfilRepartidor import perfilrepartidor
 from src.repartidores.SolicitudEntrega import historialpedidos,selectpedido,entregarpedido
-from src.empresas.CategoriasProductoEmpresa import getcategoriaproducto,addcategoriaproducto,updatecategoriaproducto,deletecategoriaproducto
+from src.empresas.CategoriasProductoEmpresa import getcategoriaproducto,addcategoriaproducto
 from src.empresas.ProductosEmpresa import addproduct,updateproduct,deleteproduct
 from src.empresas.PedidosUsuarios import pedidosdeusersempresa
 import datetime
@@ -71,7 +71,7 @@ def registerzzz():
 
 #*  ************************  USUARIOS ************************
 @app.route('/getcategories', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_Categories():
     global conn
     response = getCategories(conn)
@@ -79,7 +79,7 @@ def get_Categories():
     return response
 
 @app.route('/empresas-category', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def empresacategory():
     global conn
     response = empresaCategoria(conn, request)
@@ -87,7 +87,7 @@ def empresacategory():
     return response
 
 @app.route('/products-empresa', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def empresacategorias():
     global conn
     response = productsEmpresa(conn, request)
@@ -176,7 +176,7 @@ def entregarpedrep():
 
 #*  ************************  EMPRESAS   **********************
 @app.route('/categoriasproducto-empresa', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def catprodempresa():
     global conn
     response = getcategoriaproducto(conn, request)
@@ -184,31 +184,31 @@ def catprodempresa():
     return response
 
 @app.route('/addcategoriaproducto', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def addcategoriaproductoempresa():
     global conn
     response = addcategoriaproducto(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/updatecategoriaproducto', methods=['POST'])
-@jwt_required()
-def updacateprodempre():
-    global conn
-    response = updatecategoriaproducto(conn, request)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+# @app.route('/updatecategoriaproducto', methods=['POST'])
+# @jwt_required()
+# def updacateprodempre():
+#     global conn
+#     response = updatecategoriaproducto(conn, request)
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     return response
 
-@app.route('/deletecategoriaproducto', methods=['POST'])
-@jwt_required()
-def delcatprodempres():
-    global conn
-    response = deletecategoriaproducto(conn, request)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+# @app.route('/deletecategoriaproducto', methods=['POST'])
+# @jwt_required()
+# def delcatprodempres():
+#     global conn
+#     response = deletecategoriaproducto(conn, request)
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     return response
 
 @app.route('/addproduct', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def addproductempresa():
     global conn
     response = addproduct(conn, request)
@@ -216,7 +216,7 @@ def addproductempresa():
     return response
 
 @app.route('/updateproduct', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def updateproductempresa():
     global conn
     response = updateproduct(conn, request)
@@ -224,7 +224,7 @@ def updateproductempresa():
     return response
 
 @app.route('/deleteproduct', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def deleteproductemrpess():
     global conn
     response = deleteproduct(conn, request)
@@ -232,7 +232,7 @@ def deleteproductemrpess():
     return response
 
 @app.route('/pedidos-de-user-empresa', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def pedidosdeusersempresasendpoin():
     global conn
     response = pedidosdeusersempresa(conn, request)

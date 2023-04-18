@@ -1,20 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { url } from "../../shared/url";
+import axios from "axios";
 export default function Categoria() {
     const [listado, setListado] = useState([]);
     const [nombre, setNombre] = useState('');
 
     useEffect(() => {
+        getData();
         M.AutoInit();
     }, []);
 
     const getData = async () => {
+        var data ={
+            id: 1 /*Se debe cambiar por el de sesion empresa */
+        }
         try {
-            const result = (await axios.post(url + "categoriasproducto-empresa")).data;
+            const result = (await axios.post(url + "categoriasproducto-empresa",data)).data;
             console.log(result);
 
             if (result.res) {
-                setListado(result.listado);
+                setListado(result.res);
+
+            } else {
+                M.toast({
+                    html: result.message,
+                    classes: "white-text rounded red darken-4",
+                });
+            }
+        } catch (error) {
+            M.toast({
+                html: error.message,
+                classes: "white-text rounded red darken-4",
+            });
+        }
+    };
+
+    const agregar = async () => {
+        const data = {
+            id: 1,
+            name: nombre
+        };
+        console.log(data);
+
+        try {
+            const result = (await axios.post(url + "addcategoriaproducto", data)).data;
+            console.log(result);
+
+            if (result.res) {
+                getData();
 
                 M.toast({
                     html: result.message,
@@ -32,38 +65,6 @@ export default function Categoria() {
                 classes: "white-text rounded red darken-4",
             });
         }
-    };
-
-    const agregar = async () => {
-        const data = {
-            name: nombre
-        };
-        console.log(data);
-
-        /*try {
-            const result = (await axios.post(url + "addcategoriaproducto", data)).data;
-            console.log(result);
-
-            if (result.res) {
-                let aux = listaUsers.filter((user) => user.nombre !== userModal);
-                setListadoUsers(aux);
-
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }*/
     };
     return (<>
         <div className="container">
@@ -88,7 +89,7 @@ export default function Categoria() {
                             return (
                                 <tr key={cate.id}>
                                     <td>{cate.id}</td>
-                                    <td>{cate.nombre}</td>
+                                    <td>{cate.name}</td>
                                 </tr>
                             )
                         })}
@@ -114,7 +115,7 @@ export default function Categoria() {
                     </div>
                 </div>
                 <div className="modal-footer">
-                    <a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a>
+                    <a href="#!" className="modal-close waves-effect waves-green btn-flat">Aceptar</a>
                 </div>
             </div>
         </div>
