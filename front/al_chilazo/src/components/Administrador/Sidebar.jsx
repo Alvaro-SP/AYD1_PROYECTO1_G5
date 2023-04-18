@@ -7,7 +7,7 @@ import { RemoverRepartidor } from "./Remover_Repartidor";
 import { RemoverNegocio } from "./Remover_Negocio";
 import "../../styles/sidebar_admin.css";
 
-export function SidebarAdmin() {
+export function SidebarAdmin({ logout }) {
   const [prueba, setPrueba] = useState("hide");
   const [valPrev, setValPrev] = useState(-1);
   const [colorText, setColorText] = useState([
@@ -67,7 +67,7 @@ export function SidebarAdmin() {
             <li className="center-content">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/9561/9561845.png"
-                alt="bandera"
+                alt="logo"
                 className="circular responsive-img tooltipped"
                 data-position="right"
                 data-tooltip="Al Chilazo"
@@ -166,6 +166,19 @@ export function SidebarAdmin() {
                 <span className={"new badge teal " + prueba}>2</span>
               </Link>
             </li> */}
+            <li>
+              <Link
+                to="/"
+                className="center-content tooltipped"
+                data-position="right"
+                data-tooltip="Cerrar Sesion"
+                onClick={logout}
+              >
+                <i className="material-icons iconSize">
+                  logout
+                </i>
+              </Link>
+            </li>
           </ul>
           <Routes>
             <Route
@@ -182,6 +195,7 @@ export function SidebarAdmin() {
               element={<RemoverRepartidor />}
             />
             <Route path="/admin/RemoverNegocio" element={<RemoverNegocio />} />
+            <Route path="/" />
           </Routes>
         </Router>
       </aside>

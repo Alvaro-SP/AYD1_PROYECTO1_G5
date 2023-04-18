@@ -1,6 +1,7 @@
 import axios from "axios";
 import { url } from "../../shared/url";
-import { useState } from "react";
+import { departamentos, municipios } from "../../shared/ubicacion";
+import { useEffect, useState } from "react";
 
 export function RegistrarEmpresa() {
   const [nombre, setNombre] = useState("");
@@ -13,8 +14,30 @@ export function RegistrarEmpresa() {
   const [docReg, setReg] = useState(undefined);
   const [docRegSan, setRegSan] = useState(undefined);
   const [password, setPassword] = useState("");
+  const [depState, setDepState] = useState(departamentos);
+  const [munState, setMunState] = useState([]);
+
+  useEffect(() => {
+    var elems = document.getElementById("selDepEmp");
+    M.FormSelect.init(elems, {});
+  }, []);
+
+  useEffect(() => {
+    getMunAux();
+  }, [dept]);
+
+  useEffect(() => {
+    var elem = document.getElementById("selMunEmp");
+    M.FormSelect.init(elem, {});
+  }, [munState]);
+
+  const getMunAux = async () => {
+    const result = await municipios[dept];
+    console.log(result);
+    setMunState(result);
+  };
+
   const sendRequest = async () => {
-    // ! CONSTRUIR OBJETO DE DATA Y VALIDAR CAMPOS
     if (nombre === "") {
       M.toast({
         html: "Nombre Invalido",
@@ -96,31 +119,19 @@ export function RegistrarEmpresa() {
       return;
     }
 
-    // const data = {
-    //   rol: "3",
-    //   name: nombre,
-    //   description: descripcion,
-    //   category: categoria,
-    //   mail: correo,
-    //   depto: departamento,
-    //   municipio: municipio,
-    //   password: password,
-    //   docAuth: docAuth,
-    //   docReg: docReg,
-    //   docRegSan: docRegSan,
-    // };
     const data = new FormData();
-    data.append('rol', '3');
-    data.append('name', nombre);
-    data.append('description', descripcion);
-    data.append('category', categoria);
-    data.append('mail', correo);
-    data.append('depto', departamento);
-    data.append('municipio', municipio);
-    data.append('password', password);
-    data.append('docAuth', docAuth);
-    data.append('docReg', docReg);
-    data.append('docRegSan', docRegSan);
+    data.append("rol", "3");
+    data.append("name", nombre);
+    data.append("description", descripcion);
+    data.append("category", categoria);
+    data.append("mail", correo);
+    data.append("depto", departamento);
+    data.append("municipio", municipio);
+    data.append("password", password);
+    data.append("docAuth", docAuth);
+    data.append("docReg", docReg);
+    data.append("docRegSan", docRegSan);
+
     try {
       console.log(data);
       const result = (await axios.post(url + "register", data)).data;
@@ -153,7 +164,7 @@ export function RegistrarEmpresa() {
             <div className="card-panel hoverable">
               <div className="card-content">
                 <h3 className="orange-text text-darken-3 center-align">
-                  Registrarse
+                  REGISTRARSE
                 </h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
@@ -166,7 +177,7 @@ export function RegistrarEmpresa() {
                           className="validate"
                           onChange={(e) => setNombre(e.target.value)}
                         />
-                        <label htmlFor="nombre">Nombre Empresa</label>
+                        <label htmlFor="nombre">NOMBRE DE LA EMPRESA</label>
                       </div>
                     </div>
                     <div className="row">
@@ -177,7 +188,7 @@ export function RegistrarEmpresa() {
                           className="materialize-textarea"
                           onChange={(e) => setDescripcion(e.target.value)}
                         ></textarea>
-                        <label htmlFor="descripcion">Descripcion</label>
+                        <label htmlFor="descripcion">DESCRIPCION</label>
                       </div>
                     </div>
                     <div className="row">
@@ -194,14 +205,14 @@ export function RegistrarEmpresa() {
                           onChange={(e) => setCategoria(e.target.value)}
                         >
                           <option defaultValue={""} disabled>
-                            seleccione la categoria de la Empresa
+                            SELECCIONE LA CATEGORIA DE LA EMPRESA
                           </option>
                           <option value="1">Restaurante y Comida Rápida</option>
                           <option value="2">Cafetería</option>
                           <option value="3">Tienda de conveniencia</option>
                           <option value="4">Supermercado</option>
                         </select>
-                        <label htmlFor="categoria">Categoria</label>
+                        <label htmlFor="categoria">CATEGORIA</label>
                       </div>
                     </div>
                     <div className="row">
@@ -213,7 +224,7 @@ export function RegistrarEmpresa() {
                           className="validate"
                           onChange={(e) => setCorreo(e.target.value)}
                         />
-                        <label htmlFor="email">Correo</label>
+                        <label htmlFor="email">CORREO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -225,7 +236,7 @@ export function RegistrarEmpresa() {
                           className="validate"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -233,16 +244,22 @@ export function RegistrarEmpresa() {
                         <i className="material-icons prefix">home_work</i>
                         <select
                           className="validate"
+                          id="selDepEmp"
                           onChange={(e) => setDepartamento(e.target.value)}
+                          defaultValue={""}
                         >
-                          <option defaultValue={""} disabled>
-                            Seleccione Su Departamento
+                          <option value={""} disabled>
+                            SELECCIONE SU DEPARTAMENTO
                           </option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
+                          {depState.map((dep, index) => {
+                            return (
+                              <option value={dep} key={index}>
+                                {dep}
+                              </option>
+                            );
+                          })}
                         </select>
-                        <label>Departamento</label>
+                        <label>DEPARTAMENTO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -250,21 +267,27 @@ export function RegistrarEmpresa() {
                         <i className="material-icons prefix">add_home_work</i>
                         <select
                           className="validate"
+                          id="selMunEmp"
                           onChange={(e) => setMunicipio(e.target.value)}
+                          defaultChecked={""}
                         >
-                          <option defaultValue={""} disabled>
-                            Seleccione El Municipio
+                          <option value={""} disabled>
+                            SELECCIONE SU MUNICIPIO
                           </option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
+                          {munState.map((muni, index) => {
+                            return (
+                              <option value={muni} key={index}>
+                                {muni}
+                              </option>
+                            );
+                          })}
                         </select>
-                        <label>Municipio</label>
+                        <label>MUNICIPIO</label>
                       </div>
                     </div>
                     <div className="row">
                       <h4 className="orange-text text-darken-3 center-align">
-                        Documentos
+                        DOCUMENTOS
                       </h4>
                     </div>
                     <div className="row">
@@ -319,7 +342,7 @@ export function RegistrarEmpresa() {
                           <i className="material-icons left">
                             send_time_extension
                           </i>
-                          Enviar Solicitud
+                          ENVIAR SOLICITUD
                         </a>
                       </div>
                     </div>
