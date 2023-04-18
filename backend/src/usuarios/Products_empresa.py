@@ -2,23 +2,28 @@ from flask import jsonify
 # ! RETORNA TODOS LOS PRODUCTOS DADO ID DE UNA EMPRESA=================
 def productsEmpresa(conn, request):
     data = request.get_json()
-    idEmpresa = data['id']
+    idEmpresa = str(data['id'])
+    print(idEmpresa)
     try:
         with conn.cursor() as cursor:
             sql = '''
             SELECT products.* FROM products
-            INNER JOIN empresa on product.id = empresa.id
+            INNER JOIN empresa on products.empresa_id = empresa.id
             WHERE empresa.id = %s;
             '''
-            cursor.execute(sql,(idEmpresa))
+            cursor.execute(sql,(idEmpresa,))
             result = cursor.fetchall()
+            print(result)
             templist = []
             for fila in result:
                 atributos = {'id': fila[0],
                             'name': fila[1],
-                            'price' : fila[2],
+                            'precio' : fila[2],
                             'imagen' : fila[4],
-                            'category' : fila[5]}
+                            'categoria' : fila[5],
+                            'categoryProduct_id' : fila[6],
+                            'disponibilidad' : fila[7],
+                            'description' : fila[8]}
                 templist.append(atributos)
             cursor.close()
             # conn.close()

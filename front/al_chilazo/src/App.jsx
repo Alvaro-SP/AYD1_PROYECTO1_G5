@@ -37,7 +37,8 @@ function App() {
       <>
         <SidebarAdmin logout={logout} />
       </>
-    );
+    )
+    
   }
 
   if (flagRepartidor) {
