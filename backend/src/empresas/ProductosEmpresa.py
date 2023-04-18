@@ -86,4 +86,4 @@ def deleteproduct(conn, request):
         print(ex)
         # if conn:
         #     conn.close()
-        return jsonify({'res': False, 'message': str(ex)})
+        return jsonify({'res': False, 'message': str(ex)}) 
