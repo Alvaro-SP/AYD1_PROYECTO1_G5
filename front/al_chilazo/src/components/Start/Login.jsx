@@ -84,7 +84,7 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
     } catch (error) {
       M.toast({
         html: error.message,
-        classes: "white-text rounded red darken-4 flow-text",
+        classes: "white-text rounded red darken-4",
       });
     }
   };
@@ -129,8 +129,9 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                         <select
                           className="validate"
                           onChange={(e) => setRol(e.target.value)}
+                          defaultValue={""}
                         >
-                          <option defaultValue={""} disabled>
+                          <option value={""} disabled>
                             SELECCIONE EL ROL
                           </option>
                           <option value="0">ADMINISTRADOR</option>

@@ -5,3 +5,20 @@
 section {
   padding-left: 150px !important;
 }
+
+.iconSize {
+  font-size: 2.5rem !important;
+}
+
+.borderRating {
+  border: solid 3px;
+  border-radius: 20px;
+  border-color: #c39413;
+}
+
+.borderComision {
+  border: solid 3px;
+  border-radius: 20px;
+  border-color: rgb(31, 94, 62);
+}
+

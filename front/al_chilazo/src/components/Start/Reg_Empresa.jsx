@@ -1,6 +1,7 @@
 import axios from "axios";
 import { url } from "../../shared/url";
-import { useState } from "react";
+import { departamentos, municipios } from "../../shared/ubicacion";
+import { useEffect, useState } from "react";
 
 export function RegistrarEmpresa() {
   const [nombre, setNombre] = useState("");
@@ -13,8 +14,30 @@ export function RegistrarEmpresa() {
   const [docReg, setReg] = useState(undefined);
   const [docRegSan, setRegSan] = useState(undefined);
   const [password, setPassword] = useState("");
+  const [depState, setDepState] = useState(departamentos);
+  const [munState, setMunState] = useState([]);
+
+  useEffect(() => {
+    var elems = document.getElementById("selDepEmp");
+    M.FormSelect.init(elems, {});
+  }, []);
+
+  useEffect(() => {
+    getMunAux();
+  }, [dept]);
+
+  useEffect(() => {
+    var elem = document.getElementById("selMunEmp");
+    M.FormSelect.init(elem, {});
+  }, [munState]);
+
+  const getMunAux = async () => {
+    const result = await municipios[dept];
+    console.log(result);
+    setMunState(result);
+  };
+
   const sendRequest = async () => {
-    // ! CONSTRUIR OBJETO DE DATA Y VALIDAR CAMPOS
     if (nombre === "") {
       M.toast({
         html: "Nombre Invalido",
@@ -96,31 +119,19 @@ export function RegistrarEmpresa() {
       return;
     }
 
-    // const data = {
-    //   rol: "3",
-    //   name: nombre,
-    //   description: descripcion,
-    //   category: categoria,
-    //   mail: correo,
-    //   depto: departamento,
-    //   municipio: municipio,
-    //   password: password,
-    //   docAuth: docAuth,
-    //   docReg: docReg,
-    //   docRegSan: docRegSan,
-    // };
     const data = new FormData();
-    data.append('rol', '3');
-    data.append('name', nombre);
-    data.append('description', descripcion);
-    data.append('category', categoria);
-    data.append('mail', correo);
-    data.append('depto', departamento);
-    data.append('municipio', municipio);
-    data.append('password', password);
-    data.append('docAuth', docAuth);
-    data.append('docReg', docReg);
-    data.append('docRegSan', docRegSan);
+    data.append("rol", "3");
+    data.append("name", nombre);
+    data.append("description", descripcion);
+    data.append("category", categoria);
+    data.append("mail", correo);
+    data.append("depto", departamento);
+    data.append("municipio", municipio);
+    data.append("password", password);
+    data.append("docAuth", docAuth);
+    data.append("docReg", docReg);
+    data.append("docRegSan", docRegSan);
+
     try {
       console.log(data);
       const result = (await axios.post(url + "register", data)).data;
@@ -233,14 +244,20 @@ export function RegistrarEmpresa() {
                         <i className="material-icons prefix">home_work</i>
                         <select
                           className="validate"
+                          id="selDepEmp"
                           onChange={(e) => setDepartamento(e.target.value)}
+                          defaultValue={""}
                         >
-                          <option defaultValue={""} disabled>
+                          <option value={""} disabled>
                             SELECCIONE SU DEPARTAMENTO
                           </option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
+                          {depState.map((dep, index) => {
+                            return (
+                              <option value={dep} key={index}>
+                                {dep}
+                              </option>
+                            );
+                          })}
                         </select>
                         <label>DEPARTAMENTO</label>
                       </div>
@@ -250,14 +267,20 @@ export function RegistrarEmpresa() {
                         <i className="material-icons prefix">add_home_work</i>
                         <select
                           className="validate"
+                          id="selMunEmp"
                           onChange={(e) => setMunicipio(e.target.value)}
+                          defaultChecked={""}
                         >
-                          <option defaultValue={""} disabled>
+                          <option value={""} disabled>
                             SELECCIONE SU MUNICIPIO
                           </option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
+                          {munState.map((muni, index) => {
+                            return (
+                              <option value={muni} key={index}>
+                                {muni}
+                              </option>
+                            );
+                          })}
                         </select>
                         <label>MUNICIPIO</label>
                       </div>

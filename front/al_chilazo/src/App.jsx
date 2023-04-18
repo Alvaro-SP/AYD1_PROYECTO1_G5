@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Start } from "./components/start_components/Start";
-import { SidebarAdmin } from "./components/admin_components/Sidebar";
+import { Start } from "./components/Start/Start";
+import { SidebarAdmin } from "./components/Administrador/Sidebar";
 import { SidebarRepartidor } from "./components/Repartidor/Sidebar";
 
 function App() {
