@@ -13,36 +13,65 @@ def pedidosdeusersempresa(conn, request):
     try:
         with conn.cursor() as cursor:
             sql = '''
-            SELECT pedido.*, products.*
+            SELECT pedido.*, products.*,
+            (
+                SELECT user.name FROM user 
+                WHERE user.id = pedido.user_id
+            ) AS name_user,
+            (
+                SELECT user.mail FROM user 
+                WHERE user.id = pedido.user_id
+            ) AS mail_user
             FROM pedido
             INNER JOIN detail_pedido ON pedido.id = detail_pedido.pedido_id
             INNER JOIN products ON detail_pedido.products_id = products.id
-            WHERE pedido.idEmpresa = %s;
+            WHERE pedido.idEmpresa = %s ;
             ''' #* toma pedidos en espera y que sean de la empresa
             cursor.execute(sql, (idEmpresa,))
             result = cursor.fetchall()
-            templist = []
+            # Crear un diccionario para almacenar los detalles de los pedidos y los productos
+            pedidos = {}
+
             for fila in result:
-                atributos = {
-                    'id': fila[0],
-                    'state': fila[1],
-                    'date' : fila[2],
-                    'total_price' : fila[3],
-                    'address' : fila[6],
-                    'payment_method': fila[7],
-                    'rate': fila[8]}
-                # Cada uno de los pedidos entregados le dará el 5% del valor del pedido al repartidor que realizó la entrega
-                templist.append(atributos)
+                pedido_id = fila[0]
+                if pedido_id not in pedidos:
+                    pedidos[pedido_id] = {
+                        'id': fila[0],
+                        'state': fila[1],
+                        'date' : fila[2],
+                        'total_price' : fila[3],
+                        'address' : fila[6],
+                        'payment_method': fila[7],
+                        'rate': fila[8],
+                        'name_user': fila[19],
+                        'mail_user': fila[20],
+                        'products': []
+                    }
+                pedidos[pedido_id]['products'].append({
+                    'id': fila[10],
+                    'name': fila[11],
+                    'price': fila[12],
+                    'empresa_id': fila[13],
+                    'imagen': fila[14],
+                    'category': fila[15],
+                    'categoryProduct_id': fila[16],
+                    'disponibilidad': fila[17],
+                    'description': fila[18]
+                })
+            # Convertir el diccionario de pedidos en una lista de objetos JSON
+            resultado_json = []
+            for pedido in pedidos.values():
+                resultado_json.append({"pedido": pedido})
             cursor.close()
             # conn.close()
-            return jsonify({'res': templist})
+            return jsonify({'res': resultado_json, 'message':'Pedidos'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
         # if conn:
         #     conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'message':str(ex)})
 
 # ! CONFIRMA EL PEDIDO PARA SU PREPARACION=================
 def confirmarpedido(conn, request):
