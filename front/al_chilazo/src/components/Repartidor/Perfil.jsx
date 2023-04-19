@@ -9,8 +9,26 @@ export function PerfilRepartidor() {
   const [municipio, setMunicipio] = useState("");
   const [depState, setDepState] = useState(departamentos);
   const [munState, setMunState] = useState([]);
-
+  const [name, setName]=useState("");
+  const [lastname, setLast]=useState("");
+  const [mail, setMail]=useState("");
+  const [phone, setPhone]=useState("");
+  const [depto, setDepto]=useState("");
+  const [city, setCity]=useState("");
+  const [license, setLicense]=useState("");
+  const [own_transport, setOwn_transport]=useState("");
+  const [ratingValue, setRatingValue] = useState(0.0)
+  const [fillStars, setStarFill] = useState([
+    "star_border",
+    "star_border",
+    "star_border",
+    "star_border",
+    "star_border"
+  ])
+  
   useEffect(() => {
+    getPerfil()
+
     var elems = document.getElementById("selDep");
     M.FormSelect.init(elems, {});
 
@@ -20,7 +38,86 @@ export function PerfilRepartidor() {
       outDuration: 250,
       opacity: 0.8,
     });
+    
   }, []);
+
+  const getPerfil = async () => {
+    const data = {
+      id: 1 // ID REPARTIDOR
+    }
+
+    try {
+      const result = (await axios.post(url + "perfil-repartidor", data)).data
+      console.log(result.res) //como siempre el rico con 2 compus
+
+      if (result.res) { //de que me sirve tener 2 si una no funciona bien xddd
+        setName(result.res.name)
+        setLast(result.res.lastname)
+        setMail(result.res.mail)
+        setPhone(result.res.phone)
+        setDepto(result.res.depto)
+        setCity(result.res.city)
+        
+
+        if(result.res.license === 0) {
+          setLicense("NO TIENE LICENCIA")
+        } else if(result.res.license === 1) {
+          setLicense("LICENCIA TIPO A")
+        } else if(result.res.license === 2) {
+          setLicense("LICENCIA TIPO B")
+        } else if(result.res.license === 3) {
+          setLicense("LICENSIA TIPO C")
+        } else if(result.res.license === 4) {
+          setLicense("LICENCIA TIPO M")
+        } else if(result.res.license === 5) {
+          setLicense("LICENCIA TIPO E")
+        }
+
+        if(result.res.own_transport === "0") {
+          setOwn_transport("NO TIENE TRANSPORTE PROPIO")
+        } else if(result.res.own_transport === "1") {
+          setOwn_transport("SI TIENE TRANSPORTE PROPIO")
+        }
+
+        // ? PENDIENTE RECIBIR RATING
+        /* 
+          setRatingValue(result.res.rating)
+          if(result.res.rating) {
+          let valueStars = parseInt(result.res.rating) / 1
+          let newStarsValues = []
+
+          for(let i = 0; i < valueStars; i++) {
+            newStarsValues.push("star")
+          }
+
+          if(result.res.rating % 1 !== 0) {
+            newStarsValues.push("star_half")
+          }
+
+          for(let i = valueStars; i < 5; i++) {
+            newStarsValues.push("star_border")
+          }
+
+          setStarFill(newStarsValues)
+        } */
+
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4"
+        })
+      } else {
+          M.toast({
+              html: result.message,
+              classes: "white-text rounded red darken-4",
+          });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4"
+      })
+    }
+  }
 
   useEffect(() => {
     getMunAux();
@@ -61,12 +158,13 @@ export function PerfilRepartidor() {
       }
 
       const data = {
+        id: 1,
         depto: dept,
-        municipio: municipio,
+        city: municipio,
       };
 
       console.log(data);
-      const result = (await axios.post(url + "change-zone", data)).data;
+      const result = (await axios.post(url + "soli-change-zone", data)).data;
       console.log(result);
 
       if (result.res) {
@@ -105,35 +203,19 @@ export function PerfilRepartidor() {
           <br />
           <div className="row center-content borderRating">
             <div className="col s4 center-align yellow-text text-darken-3">
-              <i className="material-icons iconSize">star</i>
-              <i className="material-icons iconSize">star</i>
-              <i className="material-icons iconSize">star_half</i>
-              <i className="material-icons iconSize">star_border</i>
-              <i className="material-icons iconSize">star_border</i>
+              <i className="material-icons iconSize">{fillStars[0]}</i>
+              <i className="material-icons iconSize">{fillStars[1]}</i>
+              <i className="material-icons iconSize">{fillStars[2]}</i>
+              <i className="material-icons iconSize">{fillStars[3]}</i>
+              <i className="material-icons iconSize">{fillStars[4]}</i>
             </div>
             <div className="col s1 center-content">
               <i className="material-icons medium yellow-text text-darken-3">trending_up</i>
             </div>
             <div className="col s5 center-align">
-              <h4>Rating:&nbsp;9.5/10</h4>
+              <h4>Rating:&nbsp;{ratingValue}/5</h4>
             </div>
-          </div>
-          <br />
-          <div className="row center-content borderComision">
-            <div className="col s1 center-content">
-              <i className="material-icons medium green-text text-darken-3">
-                paid
-              </i>
-            </div>
-            <div className="col s10 center-align">
-              <h4>Comisiones Generadas:&nbsp;Q{"1937.00"}</h4>
-            </div>
-            <div className="col s1 center-content">
-              <i className="material-icons medium green-text text-darken-3">
-                paid
-              </i>
-            </div>
-          </div>
+          </div> 
           <br />
           <div className="row">
             <form className="col s12">
@@ -143,10 +225,11 @@ export function PerfilRepartidor() {
                   <input
                     type="text"
                     id="nombrePerfilRep"
-                    className="validate active"
-                    /* value={} */
+                    disabled={true}
+                    className="validate active black-text"
+                    value={name}
                   />
-                  <label htmlFor="nombrePerfilRep">NOMBRE</label>
+                  <label htmlFor="nombrePerfilRep" className="active">NOMBRE</label>
                 </div>
               </div>
               <div className="row">
@@ -155,10 +238,11 @@ export function PerfilRepartidor() {
                   <input
                     type="text"
                     id="apellidoPerfilRep"
-                    className="validate active"
-                    /* value={solicitud.apellido} */
+                    disabled={true}
+                    className="validate black-text"
+                    value={lastname}
                   />
-                  <label htmlFor="apellidoPerfilRep">APELLIDO</label>
+                  <label className="active" htmlFor="apellidoPerfilRep">APELLIDO</label>
                 </div>
               </div>
               <div className="row">
@@ -167,10 +251,11 @@ export function PerfilRepartidor() {
                   <input
                     type="email"
                     id="emailPerfilRep"
-                    className="validate active"
-                    /* value={solicitud.correo} */
+                    disabled={true}
+                    className="validate black-text"
+                    value={mail}
                   />
-                  <label htmlFor="emailPerfilRep">CORREO</label>
+                  <label className="active"  htmlFor="emailPerfilRep">CORREO</label>
                 </div>
               </div>
               <div className="row">
@@ -179,10 +264,11 @@ export function PerfilRepartidor() {
                   <input
                     type="tel"
                     id="telefonoPerfilRep"
-                    className="validate active"
-                    /* value={solicitud.telefono} */
+                    disabled={true}
+                    className="validate black-text"
+                    value={phone}
                   />
-                  <label htmlFor="telefonoPerfilRep">NO. CELULAR</label>
+                  <label className="active"  htmlFor="telefonoPerfilRep">NO. CELULAR</label>
                 </div>
               </div>
               <div className="row">
@@ -191,10 +277,11 @@ export function PerfilRepartidor() {
                   <input
                     type="text"
                     id="depPerfilRep"
-                    className="validate active"
-                    /* value={solicitud.departamento} */
+                    disabled={true}
+                    className="validate black-text"
+                    value={depto}
                   />
-                  <label htmlFor="depPerfilRep">DEPARTAMENTO</label>
+                  <label className="active"  htmlFor="depPerfilRep">DEPARTAMENTO</label>
                 </div>
               </div>
               <div className="row">
@@ -203,22 +290,11 @@ export function PerfilRepartidor() {
                   <input
                     type="text"
                     id="munPerfilRep"
-                    className="validate active"
-                    /* value={solicitud.municipio} */
+                    disabled={true}
+                    className="validate black-text"
+                    value={city}
                   />
-                  <label htmlFor="munPerfilRep">MUNICIPIO</label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s2 offset-s5">
-                  <label>
-                    <input
-                      name="perfilRep"
-                      type="radio"
-                      /* checked={solicitud.licencia} */
-                    />
-                    <span className="black-text">LICENCIA</span>
-                  </label>
+                  <label className="active"  htmlFor="munPerfilRep">MUNICIPIO</label>
                 </div>
               </div>
               <div className="row">
@@ -227,10 +303,22 @@ export function PerfilRepartidor() {
                   <input
                     type="text"
                     id="licensePerfilRep"
-                    className="validate active"
-                    /* value={solicitud.tipoLicencia} */
+                    className="validate black-text"
+                    value={license}
                   />
-                  <label htmlFor="licensePerfilRep">TIPO LICENCIA</label>
+                  <label className="active" htmlFor="licensePerfilRep">TIPO LICENCIA</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">badge</i>
+                  <input
+                    type="text"
+                    id="ownTransRep"
+                    className="validate black-text"
+                    value={own_transport}
+                  />
+                  <label className="active"  htmlFor="ownTransRep">TRANSPORTE PROPIO</label>
                 </div>
               </div>
               <div className="row">

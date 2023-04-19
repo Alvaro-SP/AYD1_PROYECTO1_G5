@@ -6,6 +6,8 @@ import { PedidosAsignados } from "./PedidosAsig";
 import "../../styles/sidebar_repartidor.css";
 
 export function SidebarRepartidor({ logout }) {
+  const [valPrev, setValPrev] = useState(-1);
+  
   const [colorText, setColorText] = useState([
     "green-text text-darken-2",
     "green-text text-darken-2",

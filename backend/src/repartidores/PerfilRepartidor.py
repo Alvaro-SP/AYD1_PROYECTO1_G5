@@ -10,9 +10,9 @@ def perfilrepartidor(conn, request):
             SELECT repartidor.* FROM repartidor
             WHERE repartidor.id = %s AND repartidor.approved = 1;
             ''' #* 1 = repartidor esta aprobado
-            cursor.execute(sql, (idRepartidor))
+            cursor.execute(sql, (idRepartidor,))
             result = cursor.fetchall()
-            templist = []
+            templist = {}
             for fila in result:
                 atributos = {
                     'id': fila[0],
@@ -26,15 +26,15 @@ def perfilrepartidor(conn, request):
                     'own_transport': fila[8],
                     'cv': fila[9],
                     "password": fila[11]}
-                templist.append(atributos)
+                templist=(atributos)
             cursor.close()
             # conn.close()
-            return jsonify({'res': templist})
+            return jsonify({'res': templist, 'message': "Datos personales de repartidor"})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
         # if conn:
         #     conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False,'message': str(ex)})
 

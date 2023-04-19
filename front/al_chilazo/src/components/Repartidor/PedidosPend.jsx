@@ -1,8 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { url } from "../../shared/url";
+import axios from "axios";
 import "../../styles/pedidos_pend.css";
 
 export function PedidosPendientes() {
+  const [listaPedidos, setListaPedidos] = useState([])
+  const [id, setID] = useState("")
+  const [date, setDate] = useState("")
+  const [total, setTotal] = useState("")
+  const [address, setAddress] = useState("")
+  const [payment, setPayment] = useState("")
+
   useEffect(() => {
+    getPedidosPendientes();
+
     var elems = document.querySelectorAll(".modal");
     M.Modal.init(elems, {
       inDuration: 250,
@@ -10,6 +21,66 @@ export function PedidosPendientes() {
       opacity: 0.8,
     });
   }, []);
+
+  const getPedidosPendientes = async () => {
+    const data = {}
+
+    try {
+      const result = (await axios.post(url + "pedidosaentregar-repartidor", data)).data
+      console.log(result.res)
+      if(result.res) {
+        setListaPedidos(result.res)
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4"
+        })
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4"
+      })
+    }
+  }
+
+  const confirmarPedido = async () => {
+    const data = {
+      idPedido: parseInt(id),
+      idRepartidor: 1
+    }
+    
+    try {
+      const result = (await axios.post(url + "selectpedido-repartidor", data)).data
+
+      if(result.res) {
+        let newListaPedidos = listaPedidos.filter(pedido => pedido.id !== id)
+        setListaPedidos(newListaPedidos)
+
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4"
+        })
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4"
+        })
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4"
+      })
+    }
+  }
+
+  const setearDatosModal = (pedido) => {
+    setID(pedido.id)
+    setDate(pedido.date)
+    setTotal(pedido.total_price)
+    setAddress(pedido.address)
+    setPayment(pedido.payment_method)
+  }
 
   return (
     <>
@@ -24,68 +95,68 @@ export function PedidosPendientes() {
             </div>
           </div>
           <div className="row">
-            <div className="col s6">
-              <div className="card horizontal deep-orange lighten-3 hoverable">
-                <div className="card-stacked">
-                  <div className="card-content">
-                    <p>
-                      Nombre: Cliente 1 <br />
-                      <br />
-                      Direccion Entrega: XXXXXXXXXXXXXX <br />
-                      <br />
-                      Pedido: XXXXXXXXXXXXXXX
-                    </p>
+            {
+              listaPedidos.map((pedido, index) => {
+                return (
+                  <div className="col s6" key={index}>
+                    <div className="card horizontal deep-orange lighten-3 hoverable">
+                      <div className="card-stacked">
+                        <div className="card-content">
+                          <p>
+                            ID Pedido: {pedido.id} <br />
+                            <br />
+                            Direccion Entrega: {pedido.address} <br />
+                            <br />
+                            Total: Q{pedido.total_price}
+                          </p>
+                        </div>
+                        <div className="card-action center-content deep-orange">
+                          <a
+                            href="#detallePedido"
+                            className="white-text modal-trigger"
+                            onClick={() => setearDatosModal(pedido)}
+                          >
+                            <i className="material-icons left">visibility</i>
+                            VER MAS
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="card-action center-content deep-orange">
-                    <a
-                      href="#detallePedido"
-                      className="white-text modal-trigger"
-                    >
-                      <i className="material-icons left">visibility</i>
-                      VER MAS
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col s6">
-              <div className="card horizontal deep-orange lighten-3 hoverable">
-                <div className="card-stacked">
-                  <div className="card-content">
-                    <p>
-                      Nombre: Cliente 1 <br />
-                      <br />
-                      Direccion Entrega: XXXXXXXXXXXXXX <br />
-                      <br />
-                      Pedido: XXXXXXXXXXXXXXX
-                    </p>
-                  </div>
-                  <div className="card-action center-content deep-orange">
-                    <a
-                      href="#detallePedido"
-                      className="black-text modal-trigger"
-                    >
-                      <i className="material-icons left">visibility</i>
-                      VER MAS
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+                )
+              })
+            }
           </div>
         </div>
       </section>
       <div className="modal" id="detallePedido">
         <div className="modal-content">
           <h4>DETALLE DEL PEDIDO</h4>
-          Detalle Del Pedido Para Ser Aceptado
+          <div className="row">
+            <div className="col s6">
+              <p>
+                ID Pedido: {id} <br />
+                <br />
+                Total: Q{total} <br />
+                <br />
+                Tipo De Pago: {payment}
+              </p>
+            </div>
+            <div className="col s6">
+              <p>
+                Direccion: {address} <br />
+                <br />
+                Fecha: {date} <br />
+              </p>
+            </div>
+          </div>
         </div>
         <div className="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+          <a href="#!" className="modal-close waves-effect waves-green btn-flat" onClick={confirmarPedido}>
             <i className="material-icons left green-text text-darken-3">done</i>
             ACEPTAR
           </a>
-          <a href="#!" class="modal-close waves-effect waves-red btn-flat">
+          <a href="#!" className="modal-close waves-effect waves-red btn-flat">
             <i className="material-icons left red-text text-darken-3">close</i>
             CERRAR
           </a>
