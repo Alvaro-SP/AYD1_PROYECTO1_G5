@@ -6,11 +6,12 @@ import { RemoverUsuario } from "./Remover_Usuario";
 import { RemoverRepartidor } from "./Remover_Repartidor";
 import { RemoverNegocio } from "./Remover_Negocio";
 import "../../styles/sidebar_admin.css";
+import { SolicitudCambiarUbicacion } from "./Solicitud_UbRep";
 
 export function SidebarAdmin({ logout }) {
-  const [prueba, setPrueba] = useState("hide");
   const [valPrev, setValPrev] = useState(-1);
   const [colorText, setColorText] = useState([
+    "indigo-text text-darken-1",
     "indigo-text text-darken-1",
     "indigo-text text-darken-1",
     "indigo-text text-darken-1",
@@ -26,6 +27,7 @@ export function SidebarAdmin({ logout }) {
     "white",
     "white",
     "white",
+    "white",
   ]);
 
   useEffect(() => {
@@ -35,10 +37,6 @@ export function SidebarAdmin({ logout }) {
       outDuration: 200,
     });
   }, []);
-
-  setTimeout(() => {
-    setPrueba("");
-  }, 5000);
 
   const changeColor = (value) => {
     var newColores = colores;
@@ -88,7 +86,6 @@ export function SidebarAdmin({ logout }) {
                 <i className={"material-icons iconSize " + colorText[0]}>
                   local_shipping
                 </i>
-                <span className={"new badge green " + prueba}>4</span>
               </Link>
             </li>
             <br />
@@ -103,7 +100,6 @@ export function SidebarAdmin({ logout }) {
                 <i className={"material-icons iconSize " + colorText[1]}>
                   location_city
                 </i>
-                <span className={"new badge red " + prueba}>5</span>
               </Link>
             </li>
             <br />
@@ -118,7 +114,6 @@ export function SidebarAdmin({ logout }) {
                 <i className={"material-icons iconSize " + colorText[2]}>
                   person_remove
                 </i>
-                <span className={"new badge blue " + prueba}>2</span>
               </Link>
             </li>
             <br />
@@ -133,7 +128,6 @@ export function SidebarAdmin({ logout }) {
                 <i className={"material-icons iconSize " + colorText[3]}>
                   do_disturb_on
                 </i>
-                <span className={"new badge purple " + prueba}>1</span>
               </Link>
             </li>
             <br />
@@ -148,19 +142,32 @@ export function SidebarAdmin({ logout }) {
                 <i className={"material-icons iconSize " + colorText[4]}>
                   backspace
                 </i>
-                <span className={"new badge blue " + prueba}>10</span>
+              </Link>
+            </li>
+            <br />
+            <li>
+              <Link
+                to="/admin/UbicacionRepartidor"
+                className={"center-content tooltipped " + colores[5]}
+                data-position="right"
+                data-tooltip="Ubicacion Repartidor"
+                onClick={() => changeColor(5)}
+              >
+                <i className={"material-icons iconSize " + colorText[5]}>
+                  pin_drop
+                </i>
               </Link>
             </li>
             <br />
             {/* <li>
               <Link
                 to="/admin/Reportes"
-                className={"center-content tooltipped " + colores[5]}
+                className={"center-content tooltipped " + colores[6]}
                 data-position="right"
                 data-tooltip="Reportes"
-                onClick={() => changeColor(5)}
+                onClick={() => changeColor(6)}
               >
-                <i className={"material-icons iconSize " + colorText[5]}>
+                <i className={"material-icons iconSize " + colorText[6]}>
                   flag
                 </i>
                 <span className={"new badge teal " + prueba}>2</span>
@@ -174,9 +181,7 @@ export function SidebarAdmin({ logout }) {
                 data-tooltip="Cerrar Sesion"
                 onClick={logout}
               >
-                <i className="material-icons iconSize">
-                  logout
-                </i>
+                <i className="material-icons iconSize">logout</i>
               </Link>
             </li>
           </ul>
@@ -195,6 +200,10 @@ export function SidebarAdmin({ logout }) {
               element={<RemoverRepartidor />}
             />
             <Route path="/admin/RemoverNegocio" element={<RemoverNegocio />} />
+            <Route
+              path="/admin/UbicacionRepartidor"
+              element={<SolicitudCambiarUbicacion />}
+            />
             <Route path="/" />
           </Routes>
         </Router>

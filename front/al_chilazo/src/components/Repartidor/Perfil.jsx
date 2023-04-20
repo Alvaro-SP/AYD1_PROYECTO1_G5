@@ -304,6 +304,7 @@ export function PerfilRepartidor() {
                     type="text"
                     id="licensePerfilRep"
                     className="validate black-text"
+                    disabled={true}
                     value={license}
                   />
                   <label className="active" htmlFor="licensePerfilRep">TIPO LICENCIA</label>
@@ -316,6 +317,7 @@ export function PerfilRepartidor() {
                     type="text"
                     id="ownTransRep"
                     className="validate black-text"
+                    disabled={true}
                     value={own_transport}
                   />
                   <label className="active"  htmlFor="ownTransRep">TRANSPORTE PROPIO</label>

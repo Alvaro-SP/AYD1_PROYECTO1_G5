@@ -5,6 +5,7 @@ import axios from "axios";
 export function RemoverRepartidor() {
   const [listadoRepartidores, setListadoRepartidores] = useState([]);
   const [repartidorModal, setRepartidor] = useState("");
+  const [idRepartidor, setRepartidorID] = useState(0)
 
   useEffect(() => {
     getData();
@@ -19,11 +20,12 @@ export function RemoverRepartidor() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "getRepartidores")).data;
+      const result = (await axios.get(url + "solicitudes-repartidor")).data;
       console.log(result);
 
       if (result.res) {
-        setListadoUsers(result.users);
+        let listaAux = result.res.filter(repartidor => repartidor.approved === 1)
+        setListadoRepartidores(listaAux);
 
         M.toast({
           html: result.message,
@@ -40,16 +42,17 @@ export function RemoverRepartidor() {
 
   const eliminarRepartidor = async () => {
     const data = {
-      repartidor: repartidorModal,
+      repartidor: idRepartidor,
+      state: 2
     };
 
     try {
-      const result = (await axios.post(url + "deleteRepartidor", data)).data;
+      const result = (await axios.post(url + "confirmar-repartidor", data)).data;
       console.log(result);
 
       if (result.res) {
         let aux = listadoRepartidores.filter(
-          (repartidor) => repartidor.nombre !== repartidorModal
+          (repartidor) => repartidor.id !== idRepartidor
         );
         setListadoRepartidores(aux);
 
@@ -92,15 +95,19 @@ export function RemoverRepartidor() {
                       <i className="material-icons circle indigo darken-2">
                         delivery_dining
                       </i>
-                      <span className="title">{repartidor.nombre}</span>
+                      <span className="title">{repartidor.name}</span>
                       <p>
-                        {repartidor.correo} <br />
-                        {repartidor.numero}
+                        {repartidor.mail} <br />
+                        {repartidor.phone}
                       </p>
                       <a
                         href="#conf-delete-rep"
                         className="secondary-content modal-trigger hicon"
-                        onClick={() => setRepartidor(repartidor.nombre)}
+                        onClick={() => {
+                            setRepartidor(repartidor.name)
+                            setRepartidorID(repartidor.id)
+                          }
+                        }
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -118,8 +125,8 @@ export function RemoverRepartidor() {
         <div className="modal-content">
           <h4>Confirmar Eliminacion</h4>
           <div className="divider"></div>
-          <p>Seguro que desea eliminar al Repartidor {repartidorModal}?</p>
-          <p>Esta opcion no se puede revertir...</p>
+          <h6>Seguro que desea eliminar al Repartidor {repartidorModal}?</h6>
+          <h6>Esta opcion no se puede revertir...</h6>
         </div>
         <div className="modal-footer">
           <a

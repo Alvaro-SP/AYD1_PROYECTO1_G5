@@ -5,7 +5,8 @@ import "../../styles/remover_usuario.css";
 
 export function RemoverUsuario() {
   const [listaUsers, setListadoUsers] = useState([]);
-  const [userModal, setUserModal] = useState([]);
+  const [userModal, setUserModal] = useState("");
+  const [userID, setUserID] = useState(0)
 
   useEffect(() => {
     getData();
@@ -20,16 +21,21 @@ export function RemoverUsuario() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "getUsers")).data;
+      const result = (await axios.get(url + "get-usuarios-admin")).data;
       console.log(result);
 
       if (result.res) {
-        setListadoUsers(result.users);
+        setListadoUsers(result.res);
 
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
         });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4"
+        })
       }
     } catch (error) {
       M.toast({
@@ -41,15 +47,15 @@ export function RemoverUsuario() {
 
   const eliminarUsuario = async () => {
     const data = {
-      user: userModal,
+      user: userID
     };
 
     try {
-      const result = (await axios.post(url + "deleteUser", data)).data;
+      const result = (await axios.post(url + "remover-usuario", data)).data;
       console.log(result);
 
       if (result.res) {
-        let aux = listaUsers.filter((user) => user.nombre !== userModal);
+        let aux = listaUsers.filter((user) => user.id !== userID);
         setListadoUsers(aux);
 
         M.toast({
@@ -91,15 +97,19 @@ export function RemoverUsuario() {
                       <i className="material-icons circle green darken-1">
                         person
                       </i>
-                      <span className="title">{user.nombre}</span>
+                      <span className="title">{user.name}</span>
                       <p>
-                        {"Usuario: " + user.usuario} <br />
-                        {"Correo: " + user.correo}
+                        {"Nombre: " + user.name} <br />
+                        {"Correo: " + user.mail}
                       </p>
                       <a
                         href="#conf-delete"
                         className="secondary-content modal-trigger hicon"
-                        onClick={() => setUserModal(user.nombre)}
+                        onClick={() => {
+                            setUserModal(user.name)
+                            setUserID(user.id)
+                          }
+                        }
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -117,8 +127,8 @@ export function RemoverUsuario() {
         <div className="modal-content">
           <h4>Confirmar Eliminacion</h4>
           <div className="divider"></div>
-          <p>Seguro que desea eliminar al usuario {userModal}?</p>
-          <p>Esta opcion no se puede revertir...</p>
+          <h6>Seguro que desea eliminar al usuario {userModal}?</h6>
+          <h6>Esta opcion no se puede revertir...</h6>
         </div>
         <div className="modal-footer">
           <a
