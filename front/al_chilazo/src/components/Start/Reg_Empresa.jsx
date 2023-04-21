@@ -24,7 +24,7 @@ export function RegistrarEmpresa() {
 
   useEffect(() => {
     getMunAux();
-  }, [dept]);
+  }, [departamento]);
 
   useEffect(() => {
     var elem = document.getElementById("selMunEmp");
@@ -32,7 +32,7 @@ export function RegistrarEmpresa() {
   }, [munState]);
 
   const getMunAux = async () => {
-    const result = await municipios[dept];
+    const result = await municipios[departamento];
     console.log(result);
     setMunState(result);
   };

@@ -147,6 +147,7 @@ export function SolicitudEmpresa() {
                                   id="nombre"
                                   type="text"
                                   className="validate black-text"
+                                  disabled={true}
                                   value={solicitud.name}
                                 />
                                 <label htmlFor="nombre" className="active">
@@ -160,6 +161,7 @@ export function SolicitudEmpresa() {
                                 <textarea
                                   id="descripcion"
                                   className="materialize-textarea"
+                                  disabled={true}
                                   value={solicitud.description}
                                 ></textarea>
                                 <label htmlFor="descripcion" className="active">Descripcion</label>
@@ -174,6 +176,7 @@ export function SolicitudEmpresa() {
                                   id="categoria"
                                   type="text"
                                   className="validate black-text"
+                                  disabled={true}
                                   value={category}
                                 />
                                 <label htmlFor="categoria" className="active">
@@ -188,6 +191,7 @@ export function SolicitudEmpresa() {
                                   id="email"
                                   type="text"
                                   className="validate black-text"
+                                  disabled={true}
                                   value={solicitud.mail}
                                 />
                                 <label htmlFor="email" className="active">

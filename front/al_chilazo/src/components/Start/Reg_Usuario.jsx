@@ -33,12 +33,11 @@ export function RegistrarUsuario() {
       });
     }
 
-    const data = {
-      rol: "1",
-      name: nombre,
-      password: password,
-      correo: correo,
-    };
+    const data = new FormData();
+    data.append('rol', "1")
+    data.append("name", nombre)
+    data.append("password", password)
+    data.append("correo", correo)
 
     try {
       console.log(data);

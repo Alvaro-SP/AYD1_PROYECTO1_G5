@@ -181,7 +181,7 @@ export function SidebarAdmin({ logout }) {
                 data-tooltip="Cerrar Sesion"
                 onClick={logout}
               >
-                <i className="material-icons iconSize">logout</i>
+                <i className="material-icons iconSize indigo-text text-darken-4">logout</i>
               </Link>
             </li>
           </ul>

@@ -38,7 +38,7 @@ export function RegistrarRepartidor() {
 
   useEffect(() => {
     getMunAux();
-  }, [dept]);
+  }, [departamento]);
 
   useEffect(() => {
     var elem = document.getElementById("selMunRep");
@@ -46,7 +46,7 @@ export function RegistrarRepartidor() {
   }, [munState]);
 
   const getMunAux = async () => {
-    const result = await municipios[dept];
+    const result = await municipios[departamento];
     console.log(result);
     setMunState(result);
   };

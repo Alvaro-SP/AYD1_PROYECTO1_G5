@@ -32,7 +32,7 @@ export function SolicitudRepartidor() {
     // ! CONFIGURAR HEADERS
     const config = {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("auth")}`,
+        'Authorization': "Bearer " + sessionStorage.getItem("auth"),
       },
     };
 
