@@ -18,7 +18,7 @@ from src.repartidores.PerfilRepartidor import perfilrepartidor
 from src.repartidores.SolicitudEntrega import historialpedidos,selectpedido,entregarpedido, pedidosporentregarepartidor
 from src.empresas.CategoriasProductoEmpresa import getcategoriaproducto,addcategoriaproducto
 from src.empresas.ProductosEmpresa import addproduct,updateproduct,deleteproduct
-from src.empresas.PedidosUsuarios import pedidosdeusersempresa
+from src.empresas.PedidosUsuarios import pedidosdeusersempresa,prepararpedido,confirmarpedido
 from src.administrador.SolicitudesRepartidores import solicitudRepartidor, cambiarEstadoRepartidor
 from src.administrador.SolicitudesEmpresa import cambiarEstadoEmpresa, solicitudEmpresa
 from src.administrador.RemoverUsuario import removerUsuario, getUsuarios
@@ -250,12 +250,28 @@ def deleteproductemrpess():
     response = deleteproduct(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-
+# PEDIDOS DE MODULO EMPRESA
 @app.route('/pedidos-de-user-empresa', methods=['POST'])
 # @jwt_required()
 def pedidosdeusersempresasendpoin():
     global conn
     response = pedidosdeusersempresa(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/preparar-pedido-empresa', methods=['POST'])
+# @jwt_required()
+def prepararpedidoasdf():
+    global conn
+    response = prepararpedido(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/confirmar-pedido-empresa', methods=['POST'])
+# @jwt_required()
+def confirmarpedidosendpoin():
+    global conn
+    response = confirmarpedido(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 #*  *********************** ADMINISTRADOR *********************
