@@ -16,9 +16,6 @@
 
 .iconSize {
   font-size: 2.5rem;
-}
-
-.badge {
   margin: 0 !important;
 }
 
@@ -27,5 +24,5 @@ li > a {
 }
 
 section {
-  overflow: auto !important;
+  overflow: auto;
 }

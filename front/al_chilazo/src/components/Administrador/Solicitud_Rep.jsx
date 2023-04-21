@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { url } from "../../shared/url";
 import axios from "axios";
 import "../../styles/solicitud_rep.css";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 export function SolicitudRepartidor() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
   const [listaRegistrados, setRegistros] = useState([]);
+  const [pdfFile, setPDFFile] = useState(null);
+  const [viewPDF, setViewPDF] = useState(false);
 
   useEffect(() => {
     getData();
@@ -15,63 +19,38 @@ export function SolicitudRepartidor() {
       inDuration: 250,
       outDuration: 250,
     });
+
+    var elems = document.querySelectorAll(".modal");
+    M.Modal.init(elems, {
+      inDuration: 250,
+      outDuration: 250,
+      opacity: 0.9,
+    });
   }, []);
 
   const getData = async () => {
-
-    // ! CONFIGURAR HEADERS 
+    // ! CONFIGURAR HEADERS
     const config = {
       headers: {
-        Authorization: sessionStorage.getItem("auth")
-      }
-    }
-
-    try {
-      const result = (await axios.get(url + "solicitudesRep", config)).data;
-      console.log(result);
-
-      if (result.res) {
-        setSolicitudes(result.solicitudes);
-        setRegistros(result.registros);
-
-        M.toast({
-          html: "La respuesta fue satisfactoria",
-          classes: "white-text rounded green darken-4",
-        });
-      } else {
-        M.toast({
-          html: result.message,
-          classes: "white-text rounded red darken-4",
-        });
-      }
-    } catch (error) {
-      M.toast({
-        html: error.message,
-        classes: "white-text rounded red darken-4",
-      });
-    }
-  };
-
-  const aceptarSolicitud = async (idSolicitud) => {
-    const data = {
-      idSolicitud: idSolicitud,
+        'Authorization': "Bearer " + sessionStorage.getItem("auth"),
+      },
     };
 
     try {
-      const result = (await axios.post(url + "addRepartidor", data)).data;
+      const result = (await axios.get(url + "solicitudes-repartidor", config))
+        .data;
       console.log(result);
 
       if (result.res) {
-        const aux = listaSolicitudes.filter(
-          (solicitud) => solicitud.id !== idSolicitud
+        let lista1 = result.res.filter(
+          (repartidor) => repartidor.approved === 0
         );
-        setSolicitudes(aux);
+        let lista2 = result.res.filter(
+          (repartidor) => repartidor.approved === 1
+        );
 
-        const aux2 = listaRegistrados;
-        aux2.push(
-          listaSolicitudes.filter((solicitud) => solicitud.id === idSolicitud)
-        );
-        setRegistros(aux2);
+        setSolicitudes(lista1);
+        setRegistros(lista2);
 
         M.toast({
           html: result.message,
@@ -91,10 +70,94 @@ export function SolicitudRepartidor() {
     }
   };
 
-  const rechazarSolicitud = (id) => {
-    const aux = listaSolicitudes.filter((solicitud) => solicitud.id !== id);
-    setSolicitudes(aux);
+  const confirmarSolicitud = async (id, state) => {
+    const data = {
+      id: id,
+      state: state,
+    };
+
+    try {
+      const result = (await axios.post(url + "confirmar-repartidor", data))
+        .data;
+      console.log(result);
+
+      if (result.res) {
+        if (state === 1) {
+          const aux = listaSolicitudes.filter(
+            (solicitud) => solicitud.id !== id
+          );
+          setSolicitudes(aux);
+
+          const aux2 = listaRegistrados;
+          aux2.push(
+            listaSolicitudes.filter((solicitud) => solicitud.id === id)
+          );
+          setRegistros(aux2);
+        } else {
+          const aux = listaSolicitudes.filter(
+            (solicitud) => solicitud.id !== id
+          );
+          setSolicitudes(aux);
+        }
+
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
+
+  const getLicencia = (license) => {
+    if (license === 0) {
+      return "NO TIENE LICENCIA";
+    } else if (license === 1) {
+      return "LICENCIA TIPO A";
+    } else if (license === 2) {
+      return "LICENCIA TIPO B";
+    } else if (license === 3) {
+      return "LICENSIA TIPO C";
+    } else if (license === 4) {
+      return "LICENCIA TIPO M";
+    } else if (license === 5) {
+      return "LICENCIA TIPO E";
+    }
+  };
+
+  const getOwnTrans = (own) => {
+    if (own === "0") {
+      return "NO TIENE TRANSPORTE PROPIO";
+    } else if (own === "1") {
+      return "SI TIENE TRANSPORTE PROPIO";
+    }
+  };
+
+  /* const fileType = ["application/pdf"];
+  const handleChange = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onload = (e) => {
+          setPDFFile(e.target.result);
+          setViewPDF(true);
+        };
+      } else {
+        setPDFFile(null);
+      }
+    }
+  }; */
 
   return (
     <div>
@@ -112,16 +175,16 @@ export function SolicitudRepartidor() {
           <div className="row">
             <div className="col s12">
               <ul className="collapsible popout">
-                {listaSolicitudes.map((solicitud) => {
+                {listaSolicitudes.map((solicitud, index) => {
+                  // ! <!-- AGREGAR MANEJO DEL ARCHIVO EN BASE 64 -->
+                  let own = getOwnTrans(solicitud.own_transport);
+                  let license = getLicencia(solicitud.license);
                   return (
-                    <li>
+                    <li key={index}>
                       <div className="collapsible-header">
-                        <div className="col s10 valign-wrapper">
+                        <div className="col s12 valign-wrapper">
                           <i className="material-icons">work_outline</i>
-                          {solicitud.nombre + " " + solicitud.apellido}
-                        </div>
-                        <div className="col s2 center-content">
-                          <span className="new badge green darken-3">4</span>
+                          {solicitud.name + " " + solicitud.lastname}
                         </div>
                       </div>
                       <div className="collapsible-body">
@@ -133,20 +196,26 @@ export function SolicitudRepartidor() {
                                 <input
                                   type="text"
                                   id="nombreSol"
-                                  className="validate active"
-                                  value={solicitud.nombre}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={solicitud.name}
                                 />
-                                <label htmlFor="nombreSol">Nombre</label>
+                                <label htmlFor="nombreSol" className="active">
+                                  Nombre
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">person</i>
                                 <input
                                   type="text"
                                   id="apellidoSol"
-                                  className="validate active"
-                                  value={solicitud.apellido}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={solicitud.lastname}
                                 />
-                                <label htmlFor="apellidoSol">Apellido</label>
+                                <label htmlFor="apellidoSol" className="active">
+                                  Apellido
+                                </label>
                               </div>
                             </div>
                             <div className="row">
@@ -157,10 +226,13 @@ export function SolicitudRepartidor() {
                                 <input
                                   type="email"
                                   id="emailSol"
-                                  className="validate active"
-                                  value={solicitud.correo}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={solicitud.mail}
                                 />
-                                <label htmlFor="emailSol">Correo</label>
+                                <label htmlFor="emailSol" className="active">
+                                  Correo
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">
@@ -169,10 +241,13 @@ export function SolicitudRepartidor() {
                                 <input
                                   type="tel"
                                   id="telefonoSol"
-                                  className="validate active"
-                                  value={solicitud.telefono}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={solicitud.phone}
                                 />
-                                <label htmlFor="telefonoSol">No. Celular</label>
+                                <label htmlFor="telefonoSol" className="active">
+                                  No. Celular
+                                </label>
                               </div>
                             </div>
                             <div className="row">
@@ -181,64 +256,79 @@ export function SolicitudRepartidor() {
                                 <input
                                   type="text"
                                   id="depaSol"
-                                  className="validate active"
-                                  value={solicitud.departamento}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={solicitud.depto}
                                 />
-                                <label htmlFor="depaSol">Departamento</label>
+                                <label htmlFor="depaSol" className="active">
+                                  Departamento
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">place</i>
                                 <input
                                   type="text"
                                   id="munSol"
-                                  className="validate active"
-                                  value={solicitud.municipio}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={solicitud.city}
                                 />
-                                <label htmlFor="munSol">Municipio</label>
+                                <label htmlFor="munSol" className="active">
+                                  Municipio
+                                </label>
                               </div>
                             </div>
                             <div className="row">
-                              <div className="input-field col s4 offset-s2">
-                                <p>
-                                  <label>
-                                    <input
-                                      name="sol1"
-                                      type="radio"
-                                      checked={solicitud.licencia}
-                                    />
-                                    <span>Licencia</span>
-                                  </label>
-                                </p>
-                              </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">badge</i>
                                 <input
                                   type="text"
                                   id="licensiaSol"
-                                  className="validate active"
-                                  value={solicitud.tipoLicencia}
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={license}
                                 />
-                                <label htmlFor="licenciaSol">
+                                <label htmlFor="licenciaSol" className="active">
                                   Tipo Licencia
+                                </label>
+                              </div>
+                              <div className="input-field col s6">
+                                <i className="material-icons prefix">
+                                  directions_car
+                                </i>
+                                <input
+                                  type="text"
+                                  id="ownTransSol"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={own}
+                                />
+                                <label htmlFor="ownTransSol" className="active">
+                                  Transporte Propio
                                 </label>
                               </div>
                             </div>
                             <div className="row">
                               <div className="col s4 offset-s4">
-                                <div className="btn indigo darken-3 white-text">
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#viewPDF"
+                                  /* // ! <!-- AL CLICKEAR SETEAR AL DOCUMENTO EN EL MODAL --> */
+                                >
                                   <i className="material-icons left">
                                     plagiarism
                                   </i>
-                                  {/* //? AGREGAR OPCION DE VER DOCUMENTO */}
                                   VER CURRICULUM
-                                </div>
+                                </a>
                               </div>
                             </div>
                             <div className="row">
                               <div className="col s4 offset-s2">
                                 <a
                                   className="btn green darken-3 white-text"
-                                  onClick={() => aceptarSolicitud(solicitud.id)}
+                                  onClick={() =>
+                                    confirmarSolicitud(solicitud.id, 1)
+                                  }
                                 >
                                   <i className="material-icons left">
                                     verified
@@ -250,7 +340,7 @@ export function SolicitudRepartidor() {
                                 <a
                                   className="btn red darken-3 white-text"
                                   onClick={() =>
-                                    rechazarSolicitud(solicitud.id)
+                                    confirmarSolicitud(solicitud.id, 2)
                                   }
                                 >
                                   <i className="material-icons left">
@@ -286,12 +376,14 @@ export function SolicitudRepartidor() {
           <div className="row">
             <div className="col s12">
               <ul className="collapsible expandable">
-                {listaRegistrados.map((registro) => {
+                {listaRegistrados.map((registro, index) => {
+                  let own = getOwnTrans(registro.own_transport);
+                  let license = getLicencia(registro.license);
                   return (
-                    <li>
+                    <li key={index}>
                       <div className="collapsible-header">
                         <i className="material-icons">work</i>
-                        {registro.nombre + " " + registro.apellido}
+                        {registro.name + " " + registro.lastname}
                       </div>
                       <div className="collapsible-body">
                         <div className="row">
@@ -301,21 +393,33 @@ export function SolicitudRepartidor() {
                                 <i className="material-icons prefix">person</i>
                                 <input
                                   type="text"
-                                  id="nombreSol"
-                                  className="validate active"
-                                  value={registro.nombre}
+                                  id="nombreSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={registro.name}
                                 />
-                                <label htmlFor="nombreSol">Nombre</label>
+                                <label
+                                  htmlFor="nombreSolReg"
+                                  className="active"
+                                >
+                                  Nombre
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">person</i>
                                 <input
                                   type="text"
-                                  id="apellidoSol"
-                                  className="validate active"
-                                  value={registro.apellido}
+                                  id="apellidoSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={registro.lastname}
                                 />
-                                <label htmlFor="apellidoSol">Apellido</label>
+                                <label
+                                  htmlFor="apellidoSolReg"
+                                  className="active"
+                                >
+                                  Apellido
+                                </label>
                               </div>
                             </div>
                             <div className="row">
@@ -325,11 +429,14 @@ export function SolicitudRepartidor() {
                                 </i>
                                 <input
                                   type="email"
-                                  id="emailSol"
-                                  className="validate active"
-                                  value={registro.correo}
+                                  id="emailSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={registro.mail}
                                 />
-                                <label htmlFor="emailSol">Correo</label>
+                                <label htmlFor="emailSolReg" className="active">
+                                  Correo
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">
@@ -337,11 +444,17 @@ export function SolicitudRepartidor() {
                                 </i>
                                 <input
                                   type="tel"
-                                  id="telefonoSol"
-                                  className="validate active"
-                                  value={registro.telefono}
+                                  id="telefonoSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={registro.phone}
                                 />
-                                <label htmlFor="telefonoSol">No. Celular</label>
+                                <label
+                                  htmlFor="telefonoSolReg"
+                                  className="active"
+                                >
+                                  No. Celular
+                                </label>
                               </div>
                             </div>
                             <div className="row">
@@ -349,57 +462,73 @@ export function SolicitudRepartidor() {
                                 <i className="material-icons prefix">map</i>
                                 <input
                                   type="text"
-                                  id="depaSol"
-                                  className="validate active"
-                                  value={registro.departamento}
+                                  id="depaSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={registro.depto}
                                 />
-                                <label htmlFor="depaSol">Departamento</label>
+                                <label htmlFor="depaSolReg" className="active">
+                                  Departamento
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">place</i>
                                 <input
                                   type="text"
-                                  id="munSol"
-                                  className="validate active"
-                                  value={registro.municipio}
+                                  id="munSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={registro.city}
                                 />
-                                <label htmlFor="munSol">Municipio</label>
+                                <label htmlFor="munSolReg" className="active">
+                                  Municipio
+                                </label>
                               </div>
                             </div>
                             <div className="row">
-                              <div className="input-field col s4 offset-s2">
-                                <p>
-                                  <label>
-                                    <input
-                                      name="reg1"
-                                      type="radio"
-                                      checked={registro.licencia}
-                                    />
-                                    <span>Licencia</span>
-                                  </label>
-                                </p>
-                              </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">badge</i>
                                 <input
                                   type="text"
-                                  id="licensiaSol"
-                                  className="validate active"
-                                  value={registro.tipoLicencia}
+                                  id="licensiaSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={license}
                                 />
-                                <label htmlFor="licenciaSol">
-                                  Tipo Licensia
+                                <label
+                                  htmlFor="licenciaSolReg"
+                                  className="active"
+                                >
+                                  Tipo Licencia
+                                </label>
+                              </div>
+                              <div className="input-field col s6">
+                                <i className="material-icons prefix">
+                                  directions_car
+                                </i>
+                                <input
+                                  type="text"
+                                  id="ownTransSolReg"
+                                  disabled={true}
+                                  className="validate black-text"
+                                  value={own}
+                                />
+                                <label
+                                  htmlFor="ownTransSolReg"
+                                  className="active"
+                                >
+                                  Transporte Propio
                                 </label>
                               </div>
                             </div>
                             <div className="row">
                               <div className="col s4 offset-s4">
-                                <div className="btn indigo darken-3 white-text">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">
                                     plagiarism
                                   </i>
                                   VER CURRICULUM
-                                </div>
+                                </a>
                               </div>
                             </div>
                           </form>
@@ -416,6 +545,13 @@ export function SolicitudRepartidor() {
       <br />
       <br />
       <br />
+      <div className="modal" id="viewPDF">
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+          {viewPDF && <Viewer fileUrl={pdfFile} />}
+
+          {!viewPDF && <>NO PDF</>}
+        </Worker>
+      </div>
     </div>
   );
 }

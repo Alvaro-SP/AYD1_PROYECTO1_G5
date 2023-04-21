@@ -10,7 +10,7 @@ def historialpedidos(conn, request):
             sql = '''
             SELECT pedido.* FROM pedido
             INNER JOIN repartidor ON pedido.id = repartidor.id
-            WHERE repartidor.id = %s AND pedido.state = 1;
+            WHERE repartidor.id = %s AND pedido.state = 2 ;
             '''#* 1 = entregado
             cursor.execute(sql, (idRepartidor))
             isbusy = cursor.fetchone()
@@ -58,23 +58,36 @@ def historialpedidos(conn, request):
 # ! CAMBIA EL ESTADO DE UN PEDIDO A OCUPADO (pedido en curso)=================
 def selectpedido(conn, request):
     data = request.get_json()
-    idPedido = data['id']
+    idPedido = data['idPedido']
+    idRepartidor = data['idRepartidor']
+    print(idPedido," ", idRepartidor)
     try:
         with conn.cursor() as cursor:
             #*  state=2  --> pedidos que estan en espera
             #*  state=1  --> ocupado, (pedido en curso)
             #*  state=0  --> entregado | CANCELADO  (esta libre el pana)
-            sql = "UPDATE pedido SET state = 1 WHERE id = %s"
-            cursor.execute(sql, (idPedido))
+            # ! validar si el repartidor tiene un pedido en curso
+            sql = '''
+            SELECT pedido.* FROM pedido
+            WHERE pedido.repartidor_id = %s AND pedido.state = 1 ;
+            '''#* 1 = entregado
+            cursor.execute(sql, (idRepartidor,))
+            isbusy = cursor.fetchone()
+            cursor.fetchall()
+            if isbusy:
+                print("Delivery is in process")
+                return jsonify({'res': False, 'message': 'Ya tienes un pedido en curso'})
+            sql = "UPDATE pedido SET state = 1, repartidor_id=%s WHERE id = %s"
+            cursor.execute(sql, (idRepartidor,idPedido))
             conn.commit()
-            return jsonify({'res': True})
+            return jsonify({'res': True, 'message': 'Pedido asignado correctamente'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print("error:", ex)
         if conn:
             conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'message': str(ex)})
 # ! CAMBIA EL ESTADO DE UN PEDIDO A ENTREGADO O CANCELADO=================
 def entregarpedido(conn, request):
     data = request.get_json()
@@ -85,13 +98,47 @@ def entregarpedido(conn, request):
             #*  state=1  --> ocupado, (pedido en curso)
             #*  state=0  --> entregado | CANCELADO  (esta libre el pana)
             sql = "UPDATE pedido SET state = 0 WHERE id = %s"
-            cursor.execute(sql, (idPedido))
+            cursor.execute(sql, (idPedido,))
             conn.commit()
-            return jsonify({'res': True})
+            return jsonify({'res': True, 'message': 'Pedido entregado correctamente'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print("error:", ex)
         if conn:
             conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'message': str(ex)})
+
+#! RETORNA TODOS LOS PEDIDOS POR ENTREGAR =================
+def pedidosporentregarepartidor(conn, request):
+    data = request.get_json()
+    # idRepartidor = data['id']
+    try:
+        with conn.cursor() as cursor:
+            sql = '''
+            SELECT pedido.* FROM pedido WHERE pedido.state = 2;
+            '''
+            cursor.execute(sql, ())
+            result = cursor.fetchall()
+            templist = []
+            for fila in result:
+                atributos = {
+                    'id': fila[0],
+                    'state': fila[1],
+                    'date' : fila[2],
+                    'total_price' : fila[3],
+                    'address' : fila[6],
+                    'payment_method': fila[7],
+                    'rate': fila[8]}
+                # Cada uno de los pedidos entregados le dará el 5% del valor del pedido al repartidor que realizó la entrega
+                templist.append(atributos)
+            cursor.close()
+            # conn.close()
+            return jsonify({'res': templist, 'message': 'pedidos por entregar'})
+
+    except Exception as ex:
+            # Siempre cerrar la conexión a la base de datos
+        print(ex)
+        # if conn:
+        #     conn.close()
+        return jsonify({'res': False, 'message': str(ex)})
