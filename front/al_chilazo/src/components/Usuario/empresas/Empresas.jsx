@@ -4,6 +4,7 @@ import { url } from "../../../shared/url";
 import "../../../styles/Empresas.css";
 import M from "materialize-css";
 import axios from "axios";
+import { departamentos } from "./departamentos";
 
 function Empresas(props) {
   const { functionapp } = props;
@@ -15,7 +16,9 @@ function Empresas(props) {
     "Supermercados",
   ];
   const [categoria, setCategoria] = useState("Todas");
+  const [departamento, setDepartamento] = useState("Guatemala");
   const [empresas, setEmpresas] = useState([]);
+
 
   useEffect(() => {
     axios.get(url + "empresas-category").then((res) => {
@@ -34,6 +37,16 @@ function Empresas(props) {
     } else {
       empresasFiltradas = empresas;
     }
+
+    if (departamento !== "Guatemala") {
+      empresasFiltradas = empresas.filter((empresa) => {
+        return empresa.depto === departamento;
+      });
+    } else {
+      empresasFiltradas = empresasFiltradas;
+    }
+
+
     if (busqueda !== "") {
       return empresasFiltradas.filter((empresa) => {
         return empresa.name.toLowerCase().includes(busqueda.toLowerCase());
@@ -75,6 +88,22 @@ function Empresas(props) {
           className="btn dropdown-trigger red darken-2"
           data-target="dropdown2"
         >{`Categoria: ${categoria}`}<i className="material-icons right">arrow_drop_down</i></a>
+      </div>
+      <div className="dropdown-departamentos">
+        <ul id="dropdown3" className="dropdown-content red darken-2">
+          <li key="Guatemala" onClick={() => setDepartamento("Guatemala")}>
+            <a className="white-text">Guatemala</a>
+          </li>
+          {departamentos.map((dpto) => (
+            <li key={dpto} onClick={() => setDepartamento(dpto)}>
+              <a className="white-text">{dpto}</a>
+            </li>
+          ))}
+        </ul>
+        <a
+          className="btn dropdown-trigger red darken-2"
+          data-target="dropdown3"
+        >{`Departamento: ${departamento}`}<i className="material-icons right">arrow_drop_down</i></a>
       </div>
       <row>
         <div className="contenedor-empresas">
