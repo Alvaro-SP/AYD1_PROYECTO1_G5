@@ -11,9 +11,11 @@ def login(conn, request, jwt):
     try:
         print('login: ',str(rol)," -- ",str(username)," -- ",str(password))
         with conn.cursor() as cursor:
-            if rol==0:
-                if "admin@gmail.com"==username and "admin"==password:
-                    return jsonify({'res':True,'message': 'Bienvenido senor Admin, quisiera desafiarlo.'})
+            if rol == 0:
+                if "admin@gmail.com" == username and "admin" == password:
+                    access_token = create_access_token(identity=username)
+                    return jsonify({'res': True, 'access_token': access_token, 'message': 'Bienvenido senor Admin, quisiera desafiarlo.'})
+
             elif rol == 1:
                 sql = "SELECT * FROM user WHERE mail=%s AND password=%s"
                 cursor.execute(sql, (username, password))

@@ -18,8 +18,8 @@ def registro(conn, request):
                 if existing_user:
                     print("User with username {} already exists".format(mail))
                     return jsonify({'res': False, 'message': 'El usuario ya existe'})
-                sql = "INSERT INTO user (name, password, mail) VALUES (%s, %s, %s)"
-                cursor.execute(sql, (name, password, correo))
+                sql = "INSERT INTO user (name, password, mail, state) VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, (name, password, correo, 1))
                 conn.commit()
                 print('registro: ',str(rol),' -- ',str(name),' -- ',str(password))
                 return jsonify({'res': True, 'type': 1, 'message': 'El usuario se ha registrado exitosamente'})
