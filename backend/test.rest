@@ -20,16 +20,6 @@ content-type: application/json
     "depto":"Guatemala",
     "phone":"57707472"
 }
-
-###
-# ! SIGN UP  (FUNKO)
-POST http://localhost:5000/products-empresa HTTP/1.1
-content-type: application/json
-
-{
-    "id": 5
-}
-
 ###
 #* GET CART
 POST http://localhost:5000/get-cart HTTP/1.1
@@ -55,4 +45,12 @@ Content-Type: application/json
 {
     "id_usr": 1,
     "id_product":1
+}
+###
+#* EMPRESA
+POST http://localhost:5000/pedidos-de-user-empresa HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 5
 }

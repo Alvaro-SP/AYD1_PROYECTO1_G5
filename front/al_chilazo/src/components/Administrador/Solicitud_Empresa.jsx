@@ -19,12 +19,15 @@ export function SolicitudEmpresa() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "solicitudesNegocios")).data;
+      const result = (await axios.get(url + "solicitudes-empresa")).data;
       console.log(result);
 
       if (result.res) {
-        setSolicitudes(result.solicitudes);
-        setRegistros(result.registros);
+        let lista1 = result.res.filter((negocio) => negocio.approved === 0);
+        let lista2 = result.res.filter((negocio) => negocio.approved === 1);
+
+        setSolicitudes(lista1);
+        setRegistros(lista2);
 
         M.toast({
           html: result.message,
@@ -44,26 +47,36 @@ export function SolicitudEmpresa() {
     }
   };
 
-  const aceptarSolicitud = async () => {
+  const confirmarSolicitud = async (id, state) => {
     const data = {
-      idSolicitud: idSolicitud,
+      id: id,
+      state: state,
     };
 
     try {
-      const result = (await axios.post(url + "addNegocio", data)).data;
+      const result = (await axios.post(url + "confirmar-empresa", data)).data;
       console.log(result);
 
       if (result.res) {
-        const aux = listaSolicitudes.filter(
-          (solicitud) => solicitud.id !== idSolicitud
-        );
-        setSolicitudes(aux);
+        if (state === 1) {
+          const aux = listaSolicitudes.filter(
+            (solicitud) => solicitud.id !== id
+          );
+          setSolicitudes(aux);
 
-        const aux2 = listaRegistrados;
-        aux2.push(
-          listaSolicitudes.filter((solicitud) => solicitud.id === idSolicitud)
-        );
-        setRegistros(aux2);
+          const aux2 = listaRegistrados;
+
+          aux2.push(
+            listaSolicitudes.filter((solicitud) => solicitud.id === id)
+          );
+
+          setRegistros(aux2);
+        } else {
+          const aux = listaSolicitudes.filter(
+            (solicitud) => solicitud.id !== id
+          );
+          setSolicitudes(aux);
+        }
 
         M.toast({
           html: result.message,
@@ -83,10 +96,18 @@ export function SolicitudEmpresa() {
     }
   };
 
-  const rechazarSolicitud = (id) => {
-    const aux = listaSolicitudes.filter((solicitud) => solicitud.id !== id);
-    setSolicitudes(aux);
-  };
+  const getCategory = (cat) => {
+    if (cat === 1) {
+      return "Restaurantes y Comida Rapida"
+    } else  if (cat === 2){
+      return "Cafeterias"
+    } else if (cat === 3) {
+      return "Tiendas de Conveniencia"
+    } else if (cat === 4) {
+      return "Supermercados"
+    }
+    
+  }
 
   return (
     <>
@@ -105,15 +126,13 @@ export function SolicitudEmpresa() {
             <div className="col s12">
               <ul className="collapsible popout">
                 {listaSolicitudes.map((solicitud) => {
+                  let category = getCategory(solicitud.category)
                   return (
                     <li>
                       <div className="collapsible-header">
-                        <div className="col s10 valign-wrapper">
+                        <div className="col s12 valign-wrapper">
                           <i className="material-icons">storefront</i>
-                          {solicitud.nombre}
-                        </div>
-                        <div className="col s2 center-content">
-                          <span class="new badge green darken-3">4</span>
+                          {solicitud.name}
                         </div>
                       </div>
                       <div className="collapsible-body">
@@ -127,10 +146,13 @@ export function SolicitudEmpresa() {
                                 <input
                                   id="nombre"
                                   type="text"
-                                  className="validate"
-                                  value={solicitud.nombre}
+                                  className="validate black-text"
+                                  disabled={true}
+                                  value={solicitud.name}
                                 />
-                                <label htmlFor="nombre">Nombre Empresa</label>
+                                <label htmlFor="nombre" className="active">
+                                  Nombre Empresa
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">
@@ -139,9 +161,10 @@ export function SolicitudEmpresa() {
                                 <textarea
                                   id="descripcion"
                                   className="materialize-textarea"
-                                  value={solicitud.descripcion}
+                                  disabled={true}
+                                  value={solicitud.description}
                                 ></textarea>
-                                <label htmlFor="descripcion">Descripcion</label>
+                                <label htmlFor="descripcion" className="active">Descripcion</label>
                               </div>
                             </div>
                             <div className="row">
@@ -152,53 +175,61 @@ export function SolicitudEmpresa() {
                                 <input
                                   id="categoria"
                                   type="text"
-                                  className="validate"
-                                  value={solicitud.categoria}
+                                  className="validate black-text"
+                                  disabled={true}
+                                  value={category}
                                 />
-                                <label htmlFor="categoria">Categoria</label>
+                                <label htmlFor="categoria" className="active">
+                                  Categoria
+                                </label>
                               </div>
-                              <div className="input field col s6">
+                              <div className="input-field col s6">
                                 <i className="material-icons prefix">
                                   alternate_email
                                 </i>
                                 <input
                                   id="email"
                                   type="text"
-                                  className="validate"
-                                  value={solicitud.correo}
+                                  className="validate black-text"
+                                  disabled={true}
+                                  value={solicitud.mail}
                                 />
-                                <label htmlFor="email">Correo</label>
+                                <label htmlFor="email" className="active">
+                                  Correo
+                                </label>
                               </div>
                             </div>
                             <div className="row">
                               <div className="col s4">
-                                <div className="btn indigo darken-3 white-text">
+                              <a className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">
                                     fingerprint
                                   </i>
-                                  AUTENTICIDAD
-                                </div>
+                                  AUTENTICIDAD LEGAL&nbsp;
+                                </a>
                               </div>
                               <div className="col s4">
-                                <div className="btn indigo darken-3 white-text">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">gavel</i>
                                   REGISTRO MERCANTIL
-                                </div>
+                                </a>
                               </div>
                               <div className="col s4">
-                                <div className="btn indigo darken-3 white-text">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">
                                     sanitizer
                                   </i>
                                   REGISTRO SANITARIO
-                                </div>
+                                </a>
                               </div>
                             </div>
                             <div className="row">
                               <div className="col s4 offset-s2">
                                 <a
                                   className="btn green darken-3 white-text"
-                                  onClick={() => aceptarSolicitud(solicitud.id)}
+                                  onClick={() => {
+                                    confirmarSolicitud(solicitud.id, 1);
+                                  }}
                                 >
                                   <i className="material-icons left">
                                     verified
@@ -210,7 +241,7 @@ export function SolicitudEmpresa() {
                                 <a
                                   className="btn red darken-3 white-text"
                                   onClick={() =>
-                                    rechazarSolicitud(solicitud.id)
+                                    confirmarSolicitud(solicitud.id, 2)
                                   }
                                 >
                                   <i className="material-icons left">
@@ -248,15 +279,13 @@ export function SolicitudEmpresa() {
             <div className="col s12">
               <ul className="collapsible expandable">
                 {listaRegistrados.map((registro) => {
+                  let category = getCategory(registro.category)
                   return (
                     <li>
                       <div className="collapsible-header">
-                        <div className="col s10 valign-wrapper">
+                        <div className="col s12 valign-wrapper">
                           <i className="material-icons">storefront</i>
-                          {registro.nombre}
-                        </div>
-                        <div className="col s2 center-content">
-                          <span class="new badge green darken-3">4</span>
+                          {registro.name}
                         </div>
                       </div>
                       <div className="collapsible-body">
@@ -270,10 +299,13 @@ export function SolicitudEmpresa() {
                                 <input
                                   id="nombre"
                                   type="text"
-                                  className="validate"
-                                  value={registro.nombre}
+                                  className="validate black-text black-text"
+                                  disabled={true}
+                                  value={registro.name}
                                 />
-                                <label htmlFor="nombre">Nombre Empresa</label>
+                                <label htmlFor="nombre" className="active">
+                                  Nombre Empresa
+                                </label>
                               </div>
                               <div className="input-field col s6">
                                 <i className="material-icons prefix">
@@ -281,10 +313,13 @@ export function SolicitudEmpresa() {
                                 </i>
                                 <textarea
                                   id="descripcion"
-                                  className="materialize-textarea"
-                                  value={registro.descripcion}
+                                  className="materialize-textarea black-text validate"
+                                  disabled={true}
+                                  value={registro.description}
                                 ></textarea>
-                                <label htmlFor="descripcion">Descripcion</label>
+                                <label htmlFor="descripcion" className="active">
+                                  Descripcion
+                                </label>
                               </div>
                             </div>
                             <div className="row">
@@ -295,47 +330,53 @@ export function SolicitudEmpresa() {
                                 <input
                                   id="categoria"
                                   type="text"
-                                  className="validate"
-                                  value={registro.categoria}
+                                  className="validate black-text"
+                                  disabled={true}
+                                  value={category}
                                 />
-                                <label htmlFor="categoria">Categoria</label>
+                                <label htmlFor="categoria" className="active">
+                                  Categoria
+                                </label>
                               </div>
-                              <div className="input field col s6">
+                              <div className="input-field col s6">
                                 <i className="material-icons prefix">
                                   alternate_email
                                 </i>
                                 <input
                                   id="email"
                                   type="text"
-                                  className="validate"
-                                  value={registro.correo}
+                                  className="validate black-text"
+                                  disabled={true}
+                                  value={registro.mail}
                                 />
-                                <label htmlFor="email">Correo</label>
+                                <label htmlFor="email" className="active">
+                                  Correo
+                                </label>
                               </div>
                             </div>
                             <div className="row">
                               <div className="col s4">
-                                <div className="btn indigo darken-3 white-text">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">
                                     fingerprint
                                   </i>
-                                  AUTENTICIDAD
-                                </div>
+                                  AUTENTICIDAD LEGAL&nbsp;
+                                </a>
                               </div>
                               <div className="col s4">
-                                <div className="btn indigo darken-3 white-text">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">gavel</i>
                                   REGISTRO MERCANTIL
-                                </div>
+                                </a>
                               </div>
-                              <div className="col s4">
-                                <div className="btn indigo darken-3 white-text">
+                              <a className="col s4">
+                                <div className="btn indigo darken-3 white-text waves-effect waves-light">
                                   <i className="material-icons left">
                                     sanitizer
                                   </i>
                                   REGISTRO SANITARIO
                                 </div>
-                              </div>
+                              </a>
                             </div>
                           </form>
                         </div>

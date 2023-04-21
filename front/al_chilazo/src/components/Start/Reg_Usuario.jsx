@@ -33,12 +33,11 @@ export function RegistrarUsuario() {
       });
     }
 
-    const data = {
-      rol: "1",
-      name: nombre,
-      password: password,
-      correo: correo,
-    };
+    const data = new FormData();
+    data.append('rol', "1")
+    data.append("name", nombre)
+    data.append("password", password)
+    data.append("correo", correo)
 
     try {
       console.log(data);
@@ -72,7 +71,7 @@ export function RegistrarUsuario() {
             <div className="card-panel hoverable">
               <div className="card-content">
                 <h3 className="green-text text-darken-2 center-align">
-                  Registrarse
+                  REGISTRARSE
                 </h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
@@ -85,7 +84,7 @@ export function RegistrarUsuario() {
                           className="validate"
                           onChange={(e) => setNombre(e.target.value)}
                         />
-                        <label htmlFor="nombre">Nombre</label>
+                        <label htmlFor="nombre">NOMBRE</label>
                       </div>
                     </div>
                     <div className="row">
@@ -97,7 +96,7 @@ export function RegistrarUsuario() {
                           className="validate"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -109,7 +108,7 @@ export function RegistrarUsuario() {
                           className="validate"
                           onChange={(e) => setCorreo(e.target.value)}
                         />
-                        <label htmlFor="correo">Correo</label>
+                        <label htmlFor="correo">CORREO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -120,7 +119,7 @@ export function RegistrarUsuario() {
                           onClick={register}
                         >
                           <i className="material-icons left">how_to_reg</i>
-                          Registrar Usuario
+                          REGISTRAR USUARIO
                         </a>
                       </div>
                     </div>

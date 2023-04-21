@@ -3,9 +3,9 @@ import { Login } from "./Login";
 import { RegistrarEmpresa } from "./Reg_Empresa";
 import { RegistrarUsuario } from "./Reg_Usuario";
 import { RegistrarRepartidor } from "./Reg_Repartidor";
-import "../../styles/Start.css"
+import "../../styles/Start.css";
 
-export function Start({adFlag, repFlag, empFlag, userFlag, startFlag}) {
+export function Start({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
   useEffect(() => {
     var elem = document.getElementById("tabs-Start");
     M.Tabs.init(elem, {
@@ -55,10 +55,20 @@ export function Start({adFlag, repFlag, empFlag, userFlag, startFlag}) {
         </div>
       </nav>
 
-      <div id="login" className="col s12 contenedor contenedor-1" style={{height: "85.2vh"}}>
+      <div
+        id="login"
+        className="col s12 contenedor contenedor-1"
+        style={{ height: "85.2vh" }}
+      >
         <br />
         <br />
-        <Login adFlag={adFlag} empFlag={empFlag} repFlag={repFlag} userFlag={userFlag} startFlag={startFlag} />
+        <Login
+          adFlag={adFlag}
+          empFlag={empFlag}
+          repFlag={repFlag}
+          userFlag={userFlag}
+          startFlag={startFlag}
+        />
       </div>
 
       <div id="regNeg" className="col s12 contenedor contenedor-2">
@@ -67,7 +77,11 @@ export function Start({adFlag, repFlag, empFlag, userFlag, startFlag}) {
         <RegistrarEmpresa />
       </div>
 
-      <div id="regUsr" className="col s12 contenedor contenedor-3">
+      <div
+        id="regUsr"
+        className="col s12 contenedor contenedor-3"
+        style={{ height: "85.2vh" }}
+      >
         <br />
         <br />
         <RegistrarUsuario />

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
+import "../../styles/remover_usuario.css";
 
-export function RemoverRepartidor() {
-  const [listadoRepartidores, setListadoRepartidores] = useState([]);
-  const [repartidorModal, setRepartidor] = useState("");
+export function RemoverUsuario() {
+  const [listaUsers, setListadoUsers] = useState([]);
+  const [userModal, setUserModal] = useState("");
+  const [userID, setUserID] = useState(0)
 
   useEffect(() => {
     getData();
@@ -19,16 +21,21 @@ export function RemoverRepartidor() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "getRepartidores")).data;
+      const result = (await axios.get(url + "get-usuarios-admin")).data;
       console.log(result);
 
       if (result.res) {
-        setListadoUsers(result.users);
+        setListadoUsers(result.res);
 
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
         });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4"
+        })
       }
     } catch (error) {
       M.toast({
@@ -38,20 +45,18 @@ export function RemoverRepartidor() {
     }
   };
 
-  const eliminarRepartidor = async () => {
+  const eliminarUsuario = async () => {
     const data = {
-      repartidor: repartidorModal,
+      user: userID
     };
 
     try {
-      const result = (await axios.post(url + "deleteRepartidor", data)).data;
+      const result = (await axios.post(url + "remover-usuario", data)).data;
       console.log(result);
 
       if (result.res) {
-        let aux = listadoRepartidores.filter(
-          (repartidor) => repartidor.nombre !== repartidorModal
-        );
-        setListadoRepartidores(aux);
+        let aux = listaUsers.filter((user) => user.id !== userID);
+        setListadoUsers(aux);
 
         M.toast({
           html: result.message,
@@ -77,8 +82,8 @@ export function RemoverRepartidor() {
         <div className="container">
           <div className="row">
             <div className="col s12">
-              <h2 className="deep-purple-text text-darken-2 center-align">
-                Remover Repartidores
+              <h2 className="red-text text-darken-3 center-align">
+                Remover Usuarios
               </h2>
               <div className="divider"></div>
             </div>
@@ -86,21 +91,25 @@ export function RemoverRepartidor() {
           <div className="row">
             <div className="col s12">
               <ul className="collection">
-                {listadoRepartidores.map((repartidor) => {
+                {listaUsers.map((user) => {
                   return (
                     <li className="collection-item avatar">
-                      <i className="material-icons circle indigo darken-2">
-                        delivery_dining
+                      <i className="material-icons circle green darken-1">
+                        person
                       </i>
-                      <span className="title">{repartidor.nombre}</span>
+                      <span className="title">{user.name}</span>
                       <p>
-                        {repartidor.correo} <br />
-                        {repartidor.numero}
+                        {"Nombre: " + user.name} <br />
+                        {"Correo: " + user.mail}
                       </p>
                       <a
-                        href="#conf-delete-rep"
+                        href="#conf-delete"
                         className="secondary-content modal-trigger hicon"
-                        onClick={() => setRepartidor(repartidor.nombre)}
+                        onClick={() => {
+                            setUserModal(user.name)
+                            setUserID(user.id)
+                          }
+                        }
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -114,23 +123,23 @@ export function RemoverRepartidor() {
           </div>
         </div>
       </section>
-      <div className="modal" id="conf-delete-rep">
+      <div id="conf-delete" className="modal">
         <div className="modal-content">
           <h4>Confirmar Eliminacion</h4>
           <div className="divider"></div>
-          <p>Seguro que desea eliminar al Repartidor {repartidorModal}?</p>
-          <p>Esta opcion no se puede revertir...</p>
+          <h6>Seguro que desea eliminar al usuario {userModal}?</h6>
+          <h6>Esta opcion no se puede revertir...</h6>
         </div>
         <div className="modal-footer">
           <a
             href="#!"
             className="modal-close waves-effect waves-green btn-flat"
-            onClick={eliminarRepartidor}
+            onClick={eliminarUsuario}
           >
-            Agree
+            ACEPTAR
           </a>
           <a href="#!" className="modal-close waves-effect waves-red btn-flat">
-            Dismiss
+            CANCELAR
           </a>
         </div>
       </div>

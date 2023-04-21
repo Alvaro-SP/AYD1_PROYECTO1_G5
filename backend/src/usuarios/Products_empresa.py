@@ -20,7 +20,10 @@ def productsEmpresa(conn, request):
                             'name': fila[1],
                             'precio' : fila[2],
                             'imagen' : fila[4],
-                            'categoria' : fila[5]}
+                            'categoria' : fila[5],
+                            'categoryProduct_id' : fila[6],
+                            'disponibilidad' : fila[7],
+                            'description' : fila[8]}
                 templist.append(atributos)
             cursor.close()
             # conn.close()

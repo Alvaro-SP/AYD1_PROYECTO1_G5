@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
-import "../../styles/remover_usuario.css";
 
-export function RemoverUsuario() {
-  const [listaUsers, setListadoUsers] = useState([]);
-  const [userModal, setUserModal] = useState([]);
+export function RemoverRepartidor() {
+  const [listadoRepartidores, setListadoRepartidores] = useState([]);
+  const [repartidorModal, setRepartidor] = useState("");
+  const [idRepartidor, setRepartidorID] = useState(0)
 
   useEffect(() => {
     getData();
@@ -20,11 +20,12 @@ export function RemoverUsuario() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "getUsers")).data;
+      const result = (await axios.get(url + "solicitudes-repartidor")).data;
       console.log(result);
 
       if (result.res) {
-        setListadoUsers(result.users);
+        let listaAux = result.res.filter(repartidor => repartidor.approved === 1)
+        setListadoRepartidores(listaAux);
 
         M.toast({
           html: result.message,
@@ -39,18 +40,21 @@ export function RemoverUsuario() {
     }
   };
 
-  const eliminarUsuario = async () => {
+  const eliminarRepartidor = async () => {
     const data = {
-      user: userModal,
+      repartidor: idRepartidor,
+      state: 2
     };
 
     try {
-      const result = (await axios.post(url + "deleteUser", data)).data;
+      const result = (await axios.post(url + "confirmar-repartidor", data)).data;
       console.log(result);
 
       if (result.res) {
-        let aux = listaUsers.filter((user) => user.nombre !== userModal);
-        setListadoUsers(aux);
+        let aux = listadoRepartidores.filter(
+          (repartidor) => repartidor.id !== idRepartidor
+        );
+        setListadoRepartidores(aux);
 
         M.toast({
           html: result.message,
@@ -76,8 +80,8 @@ export function RemoverUsuario() {
         <div className="container">
           <div className="row">
             <div className="col s12">
-              <h2 className="red-text text-darken-3 center-align">
-                Remover Usuarios
+              <h2 className="deep-purple-text text-darken-2 center-align">
+                Remover Repartidores
               </h2>
               <div className="divider"></div>
             </div>
@@ -85,21 +89,25 @@ export function RemoverUsuario() {
           <div className="row">
             <div className="col s12">
               <ul className="collection">
-                {listaUsers.map((user) => {
+                {listadoRepartidores.map((repartidor) => {
                   return (
                     <li className="collection-item avatar">
-                      <i className="material-icons circle green darken-1">
-                        person
+                      <i className="material-icons circle indigo darken-2">
+                        delivery_dining
                       </i>
-                      <span className="title">{user.nombre}</span>
+                      <span className="title">{repartidor.name}</span>
                       <p>
-                        {"Usuario: " + user.usuario} <br />
-                        {"Correo: " + user.correo}
+                        {repartidor.mail} <br />
+                        {repartidor.phone}
                       </p>
                       <a
-                        href="#conf-delete"
+                        href="#conf-delete-rep"
                         className="secondary-content modal-trigger hicon"
-                        onClick={() => setUserModal(user.nombre)}
+                        onClick={() => {
+                            setRepartidor(repartidor.name)
+                            setRepartidorID(repartidor.id)
+                          }
+                        }
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -113,18 +121,18 @@ export function RemoverUsuario() {
           </div>
         </div>
       </section>
-      <div id="conf-delete" className="modal">
+      <div className="modal" id="conf-delete-rep">
         <div className="modal-content">
           <h4>Confirmar Eliminacion</h4>
           <div className="divider"></div>
-          <p>Seguro que desea eliminar al usuario {userModal}?</p>
-          <p>Esta opcion no se puede revertir...</p>
+          <h6>Seguro que desea eliminar al Repartidor {repartidorModal}?</h6>
+          <h6>Esta opcion no se puede revertir...</h6>
         </div>
         <div className="modal-footer">
           <a
             href="#!"
             className="modal-close waves-effect waves-green btn-flat"
-            onClick={eliminarUsuario}
+            onClick={eliminarRepartidor}
           >
             Agree
           </a>

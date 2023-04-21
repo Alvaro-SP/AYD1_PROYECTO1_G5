@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { Start } from "./components/Start/Start";
+import { SidebarAdmin } from "./components/Administrador/Sidebar";
+import { SidebarRepartidor } from "./components/Repartidor/Sidebar";
 
 import Categorias from "./components/Usuario/empresas/Categorias";
 import Empresas from "./components/Usuario/empresas/Empresas";
@@ -7,49 +11,49 @@ import HistorialPedidos from "./components/Usuario/historialpedidos/HistorialPed
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useState } from "react";
 function App() {
-  const [idrestaurante, setIdRestaurante] = useState(0);
-  const [carrito, setCarrito] = useState([]);
-  const [totalPedido, setTotalPedido] = useState(0);
-  const orders = [
-    {
-      id: 1,
-      items: [
-        { id: 1, name: "Producto 1" },
-        { id: 2, name: "Producto 2" },
-        { id: 3, name: "Producto 3" },
-      ],
-      total: 150,
-    },
-    {
-      id: 2,
-      items: [
-        { id: 4, name: "Producto 4" },
-        { id: 5, name: "Producto 5" },
-      ],
-      total: 75,
-    },
-    {
-      id: 3,
-      items: [
-        { id: 6, name: "Producto 6" },
-        { id: 7, name: "Producto 7" },
-        { id: 8, name: "Producto 8" },
-        { id: 9, name: "Producto 9" },
-      ],
-      total: 220,
-    },
-  ];
-  
+  const [flagAdmin, setAdminFlag] = useState(false);
+  const [flagRepartidor, setRepartidorFlag] = useState(true);
+  const [flagEmpresa, setEmpresaFlag] = useState(false);
+  const [flagUsuario, setUsuarioFlag] = useState(false);
+  const [flagStart, setStartFlag] = useState(false);
 
-  function establecerRestaurante(id) {
-    setIdRestaurante(id);
-    console.log(id);
+  const logout = () => {
+    setAdminFlag(false);
+    setRepartidorFlag(false);
+    setEmpresaFlag(false);
+    setUsuarioFlag(false);
+    setStartFlag(true);
+  };
+
+  if (flagStart) {
+    return (
+      <>
+        <Start
+          adFlag={setAdminFlag}
+          repFlag={setRepartidorFlag}
+          empFlag={setEmpresaFlag}
+          userFlag={setUsuarioFlag}
+          startFlag={setStartFlag}
+        />
+      </>
+    );
   }
 
-  function agregarConfirmacion(carro, total) {
-    console.log(carro);
-    setCarrito(carro);
-    setTotalPedido(total);
+  if (flagAdmin) {
+    return (
+      <>
+        <SidebarAdmin logout={logout} />
+      </>
+    )
+    
+  }
+
+  if (flagRepartidor) {
+    return (
+      <>
+        <SidebarRepartidor logout={logout} />
+      </>
+    );
   }
 
   return (
