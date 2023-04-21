@@ -120,9 +120,9 @@ CREATE TABLE IF NOT EXISTS `dbproyectoayd`.`empresa` (
   `password` VARCHAR(100) NULL,
   `imagen` TEXT NULL,
   `category_id` INT NULL,
-  `docauth` LONGBLOB NOT NULL,
-  `docreg` LONGBLOB NOT NULL,
-  `docregsan` LONGBLOB NOT NULL,
+  `docauth` LONGBLOB NULL,
+  `docreg` LONGBLOB NULL,
+  `docregsan` LONGBLOB NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_empresa_category1_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `fk_empresa_category1`
