@@ -51,6 +51,9 @@ CREATE TABLE IF NOT EXISTS `dbproyectoayd`.`repartidor` (
   `cv` LONGBLOB NOT NULL,
   `approved` INT NOT NULL,
   `password` VARCHAR(45) NULL,
+  `solizone` INT NULL,
+  `deptotemp` VARCHAR(100) NULL,
+  `citytemp` VARCHAR(100) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -69,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `dbproyectoayd`.`pedido` (
   `repartidor_id` INT NULL,
   `address` VARCHAR(100) NULL,
   `payment_method` VARCHAR(45) NULL,
-  `rate` VARCHAR(45) NULL,
+  `rate` INT NULL,
   `empresa` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pedido_user1_idx` (`user_id` ASC) VISIBLE,

@@ -5,6 +5,7 @@ import axios from "axios";
 export function RemoverNegocio() {
   const [listaNegocios, setListadoNegocios] = useState([]);
   const [negocioModal, setNegocio] = useState("");
+  const [idNegocio, setNegocioID] = useState(0)
 
   useEffect(() => {
     getData();
@@ -19,12 +20,13 @@ export function RemoverNegocio() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "getNegocios")).data;
+      const result = (await axios.get(url + "solicitudes-empresa")).data;
       console.log(result);
 
       if (result.res) {
-        setListadoNegocios(result.negocios);
-
+        let listaAux = result.res.filter(negocio => negocio.approved === 1)
+        setListadoNegocios(listaAux);
+        
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -45,16 +47,17 @@ export function RemoverNegocio() {
 
   const eliminarNegocio = async () => {
     const data = {
-      negocio: negocioModal,
+      negocio: idNegocio,
+      state: 2
     };
 
     try {
-      const result = (await axios.post(url + "deleteNegocio", data)).data;
+      const result = (await axios.post(url + "confirmar-empresa", data)).data;
       console.log(result);
 
       if (result.res) {
         let aux = listaNegocios.filter(
-          (negocio) => negocio.nombre !== userModal
+          (negocio) => negocio.id !== idNegocio
         );
         setListadoNegocios(aux);
 
@@ -98,13 +101,17 @@ export function RemoverNegocio() {
                         restaurant
                       </i>
                       <span className="title">
-                        {"Negocio: " + negocio.nombre}
+                        {"Negocio: " + negocio.name}
                       </span>
-                      <p>{"Correo: " + negocio.correo}</p>
+                      <p>{"Correo: " + negocio.mail}</p>
                       <a
                         href="#conf-delete-buisness"
                         className="secondary-content modal-trigger hicon"
-                        onClick={() => setNegocio(user.nombre)}
+                        onClick={() => {
+                            setNegocio(negocio.name)
+                            setNegocioID(negocio.id)
+                          }
+                        }
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -122,8 +129,8 @@ export function RemoverNegocio() {
         <div className="modal-content">
           <h4>Confirmar Eliminacion</h4>
           <div className="divider"></div>
-          <p>Seguro que desea eliminar al negocio {negocioModal}?</p>
-          <p>Esta opcion no se puede revertir...</p>
+          <h6>Seguro que desea eliminar al negocio {negocioModal}?</h6>
+          <h6>Esta accion no se puede revertir...</h6>
         </div>
         <div className="modal-footer">
           <a
