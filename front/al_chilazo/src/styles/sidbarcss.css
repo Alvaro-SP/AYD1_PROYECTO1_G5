@@ -1,0 +1,18 @@
+/* Ajusta el ancho del menú lateral según el tamaño de la pantalla */
+@media only screen and (max-width: 1000px) {
+    .sidebb {
+      width: 50%;
+      background-color: aqua;
+    }
+    .iconSize {
+        font-size: 24px;
+    }
+  }
+  
+  /* Ajusta el tamaño de fuente del icono según el tamaño de la pantalla */
+  @media only screen and (max-width: 400px) {
+    .iconSize {
+      font-size: 24px;
+    }
+  }
+  

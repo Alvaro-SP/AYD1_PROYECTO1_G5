@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Start } from "./components/Start/Start";
 import { SidebarAdmin } from "./components/Administrador/Sidebar";
@@ -8,13 +9,17 @@ import Empresas from "./components/Usuario/empresas/Empresas";
 import Productos from "./components/Usuario/productos/Productos";
 import FinalizarPedido from "./components/Usuario/confirmarpedido/FinalizarPedido";
 import HistorialPedidos from "./components/Usuario/historialpedidos/HistorialPedidos";
+import Usuario from "./components/Usuario/empresas/Empresas";
+import {SidebarEmpresa} from "./components/empresa/Sidebar";
+import {SidebarUsuario} from "./components/Usuario/Sidebar";
+
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useState } from "react";
+
 function App() {
   const [flagAdmin, setAdminFlag] = useState(false);
-  const [flagRepartidor, setRepartidorFlag] = useState(true);
+  const [flagRepartidor, setRepartidorFlag] = useState(false);
   const [flagEmpresa, setEmpresaFlag] = useState(false);
-  const [flagUsuario, setUsuarioFlag] = useState(false);
+  const [flagUsuario, setUsuarioFlag] = useState(true);
   const [flagStart, setStartFlag] = useState(false);
 
   const logout = () => {
@@ -52,6 +57,21 @@ function App() {
     return (
       <>
         <SidebarRepartidor logout={logout} />
+      </>
+    );
+  }
+
+  if (flagEmpresa) {
+    return (
+      <>
+        <SidebarEmpresa logout={logout} />
+      </>
+    );
+  }
+  if (flagUsuario) {
+    return (
+      <>
+        <SidebarUsuario logout={logout} />
       </>
     );
   }

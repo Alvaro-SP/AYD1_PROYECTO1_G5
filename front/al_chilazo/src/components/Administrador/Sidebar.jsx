@@ -7,7 +7,7 @@ import { RemoverRepartidor } from "./Remover_Repartidor";
 import { RemoverNegocio } from "./Remover_Negocio";
 import "../../styles/sidebar_admin.css";
 import { SolicitudCambiarUbicacion } from "./Solicitud_UbRep";
-
+import logo from '../../shared/logo.gif'
 export function SidebarAdmin({ logout }) {
   const [valPrev, setValPrev] = useState(-1);
   const [colorText, setColorText] = useState([
@@ -64,7 +64,7 @@ export function SidebarAdmin({ logout }) {
           <ul id="sidenav" className="sidenav sidenav-fixed">
             <li className="center-content">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/9561/9561845.png"
+                src={logo}
                 alt="logo"
                 className="circular responsive-img tooltipped"
                 data-position="right"

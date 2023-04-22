@@ -78,7 +78,7 @@ export function SidebarEmpresa() {
             <br />
             <li>
               <Link
-                to="/empresa/Pedido"
+                to="/empresa"
                 className={"center-content tooltipped " + colores[0]}
                 data-position="right"
                 data-tooltip="Pedidos"
@@ -138,7 +138,7 @@ export function SidebarEmpresa() {
           </ul>
           <Routes>
             <Route
-              path="/empresa/Pedido"
+              path="/empresa"
               element={<Pedido />}
             />
             <Route

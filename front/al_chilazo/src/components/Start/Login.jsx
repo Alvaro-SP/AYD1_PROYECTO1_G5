@@ -91,11 +91,11 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
 
   return (
     <>
-      <div className="container">
+      <div className="containerl">
         <div className="row">
           <div className="col s8 offset-s2">
             <div className="card-panel hoverable">
-              <div className="card-content">
+              <div className="card-contentl">
                 <h3 className="red-text text-darken-2 center-align">LOGIN</h3>
                 <div className="row">
                   <form className="col s10 offset-s1">

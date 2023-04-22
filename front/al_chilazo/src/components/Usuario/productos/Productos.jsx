@@ -28,12 +28,12 @@ function Productos(props) {
     };
 
     fetchDta();
-    const getCarrito = async() => {
-      const response = await axios.post(url + "get-cart",user) 
-      console.log("se recibe carritop: ",response.data.cart  )
-      setCarrito(response.data.cart);
-    }
-    getCarrito();
+    //const getCarrito = async() => {
+    //  const response = await axios.post(url + "get-cart",user) 
+    //  console.log("se recibe carritop: ",response.data.cart  )
+    //  setCarrito(response.data.cart);
+    //}
+    //getCarrito();
   }, []);
 
   useEffect(() => {
@@ -97,6 +97,7 @@ function Productos(props) {
   };
 
   const sumarCantidad = (producto) => {
+    //disponibilidad
     const nuevoCarrito = [...carrito];
     const productoExistente = nuevoCarrito.find((p) => p.id === producto.id);
     productoExistente.cantidad++;
@@ -161,7 +162,7 @@ function Productos(props) {
         </div>
       </div>
       <div className="pedidos">
-        <div className="row">
+        <div className="rowl">
           <h4>Mi pedido: {`Q. ${totalPedido}`}</h4>
           <div className="productos-containerp">
             {carrito.map((producto) => (
@@ -172,7 +173,7 @@ function Productos(props) {
               </div>
               <div className="botones">
                   <button className="boton-sumar" onClick={() => sumarCantidad(producto)}>+</button>
-                  <span className="cantidad">{producto.cant}</span>
+                  <span className="cantidad">{producto.cantidad}</span>
                   <button className="boton-restar" onClick={() => restarCantidad(producto)}>-</button>
                   <button className="boton-eliminar" onClick={() => eliminarDelCarrito(producto)}>Eliminar</button>
               </div>

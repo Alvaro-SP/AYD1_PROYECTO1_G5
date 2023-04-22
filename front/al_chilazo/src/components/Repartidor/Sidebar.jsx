@@ -4,6 +4,7 @@ import { PerfilRepartidor } from "./Perfil";
 import { PedidosPendientes } from "./PedidosPend";
 import { PedidosAsignados } from "./PedidosAsig";
 import "../../styles/sidebar_repartidor.css";
+import logo from '../../shared/logo.gif'
 
 export function SidebarRepartidor({ logout }) {
   const [valPrev, setValPrev] = useState(-1);
@@ -50,7 +51,7 @@ export function SidebarRepartidor({ logout }) {
           <ul id="sidenav" className="sidenav sidenav-fixed">
             <li className="center-content">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/9561/9561845.png"
+                src={logo}
                 alt="logo"
                 className="circular responsive-img tooltipped"
                 data-position="right"
