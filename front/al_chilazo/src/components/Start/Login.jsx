@@ -51,11 +51,13 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
 
       console.log(data);
       const result = (await axios.post(url + "login", data)).data;
-      console.log(result)
+      console.log("usuario devuelto: ",result)
 
       if (result.res) {
         sessionStorage.setItem("auth", result.access_token);
         localStorage.setItem("rol", rol)
+        localStorage.setItem("user", JSON.stringify(result.user))
+        
 
         if(rol === "0"){
           startFlag(false)
@@ -63,6 +65,9 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
         } else if(rol === "1") {
           startFlag(false)
           userFlag(true)
+          //reiniar carrito al iniciar sesion en local storage
+          localStorage.setItem("carrito", JSON.stringify([]))
+          localStorage.setItem("totalPedido", JSON.stringify(0))
         } else if(rol === "2") {
           startFlag(false)
           repFlag(true)

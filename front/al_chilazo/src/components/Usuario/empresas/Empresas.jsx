@@ -59,6 +59,7 @@ function Empresas(props) {
   function handleClickId(id) {
     console.log("empresa id desde componente empresa: " + id);
     functionapp(id);
+    localStorage.setItem("idempresauser", id);
   }
 
   return (

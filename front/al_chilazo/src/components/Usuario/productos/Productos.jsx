@@ -7,7 +7,6 @@ import axios from "axios";
 import { url } from "../../../shared/url";
 
 function Productos(props) {
-  const { empresa } = props;
   const { functionconfirmar } = props;
   const [busqueda, setBusqueda] = useState("");
   const [categoria, setCategoria] = useState("Todas");
@@ -15,10 +14,11 @@ function Productos(props) {
   const [totalPedido, setTotalPedido] = useState(0);
   const [productos,setProductos] = useState([]);
   const data = {
-    id: empresa,
+    id: localStorage.getItem("idempresauser")
   }
+  let usr = localStorage.getItem("user")
   const user = {
-    id_usr: 1
+    id_usr: usr.id
   }
   useEffect(() => {
     const fetchDta = async () => {
@@ -34,13 +34,17 @@ function Productos(props) {
     //  setCarrito(response.data.cart);
     //}
     //getCarrito();
+    setCarrito(JSON.parse(localStorage.getItem("carrito")) || []);
+    setTotalPedido(JSON.parse(localStorage.getItem("totalPedido")) || 0);
   }, []);
 
   useEffect(() => {
     M.AutoInit();
   }, []);
 
-  
+  useEffect(() => {
+    guardarCarritoEnLocalStorage();
+  }, [carrito]);
 
 
   const categoriasUnicas = [...new Set(productos.map(producto => producto.categoria))];
@@ -66,46 +70,81 @@ function Productos(props) {
 
   const agregarAlCarrito = (producto) => {
     const productoExistente = carrito.find((p) => p.id === producto.id);
-
+  
+    // Verificar si el producto ya está en el carrito
     if (productoExistente) {
-      // Si el producto ya está en el carrito, aumentamos su cantidad
-      setCarrito(
-        carrito.map((p) =>
-          p.id === producto.id ? { ...productoExistente, cantidad: p.cantidad + 1 } : p
-        )
-      );
+      // Aumentar la cantidad del producto existente en el carrito
+      if (productoExistente.disponibilidad > productoExistente.cantidad) {
+        productoExistente.cantidad++;
+        setCarrito([...carrito]);
+        setTotalPedido(totalPedido + parseFloat(producto.precio));
+        producto.disponibilidad -= 1;
+        guardarCarritoEnLocalStorage();
+      } else {
+        M.toast({ html: "No hay más unidades disponibles" });
+      }
     } else {
-      // Si el producto no está en el carrito, lo agregamos con cantidad 1
+      // Si el producto no está en el carrito, agregarlo con cantidad 1
+      console.log("producto en else: ", producto);
+      if (producto.disponibilidad === 0) {
+        M.toast({ html: "No hay más unidades disponibles" });
+        return;
+      }
+      if (carrito.length === 0) {
+        console.log("carrito vacio");
+        setCarrito([{ ...producto, cantidad: 1 }]);
+      } else {
       setCarrito([...carrito, { ...producto, cantidad: 1 }]);
+      }
+      console.log("carrito: ", carrito);
+      producto.disponibilidad -= 1;
+      setTotalPedido(totalPedido + parseFloat(producto.precio));
+      guardarCarritoEnLocalStorage();
     }
-    setTotalPedido(totalPedido + parseFloat(producto.precio));
   };
-
-
+  
+  
+  
+  
   const eliminarDelCarrito = (producto) => {
     // buscar todos los productos del mismo tipo
     const productosDelMismoTipo = carrito.filter((p) => p.id === producto.id);
     console.log("productos del mismo tipo: ", productosDelMismoTipo);
     // calcular la cantidad total de estos productos
     const cantidadTotal = productosDelMismoTipo.reduce((total, p) => total + p.cantidad, 0);
-
+    
+  
     // restar la cantidad total del totalPedido
     setTotalPedido(totalPedido - producto.precio * cantidadTotal);
-
+  
     // eliminar los productos del carrito
     setCarrito(carrito.filter((p) => p.id !== producto.id));
+    producto.disponibilidad += cantidadTotal;
+    guardarCarritoEnLocalStorage();
   };
-
+  
+  
+  
   const sumarCantidad = (producto) => {
     //disponibilidad
     const nuevoCarrito = [...carrito];
     const productoExistente = nuevoCarrito.find((p) => p.id === producto.id);
+    console.log("producto existente: ", productoExistente);
+    console.log("producto: ", producto);
+    if (productoExistente.disponibilidad <= productoExistente.cantidad || productoExistente.disponibilidad <= 0) {
+      M.toast({ html: "No hay más unidades disponibles" });
+      return;
+    }
     productoExistente.cantidad++;
     setCarrito(nuevoCarrito);
     setTotalPedido(totalPedido + parseFloat(producto.precio));
+    productoExistente.disponibilidad -= 1;
     //getCarrito();
+    guardarCarritoEnLocalStorage();
   };
-
+  
+  
+  
   const restarCantidad = (producto) => {
     const nuevoCarrito = [...carrito];
     const productoExistente = nuevoCarrito.find((p) => p.id === producto.id);
@@ -113,17 +152,27 @@ function Productos(props) {
       eliminarDelCarrito(producto);
     } else {
       productoExistente.cantidad--;
+      productoExistente.disponibilidad += 1;
       setCarrito(nuevoCarrito);
     }
-
+  
     setTotalPedido(totalPedido - producto.precio);
+    guardarCarritoEnLocalStorage();
+    console.log("producto luego de restar: ", producto);
   };
+  
 
   const confirmar = (carro, totalPedido) => {
     console.log("carro: ", carro);
     functionconfirmar(carro, totalPedido)
   }
 
+  const guardarCarritoEnLocalStorage = () => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    localStorage.setItem("totalPedido", JSON.stringify(totalPedido));
+  }
+
+  
 
 
 

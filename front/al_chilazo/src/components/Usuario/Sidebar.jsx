@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Empresas from "./empresas/Empresas";
 import Productos from "./productos/Productos";
 import FinalizarPedido from "./confirmarpedido/FinalizarPedido";
+import HistorialPedidos from "./historialpedidos/HistorialPedidos";
 import Categorias from "./empresas/Categorias";
 
 import "../../styles/sidbarcss.css";
@@ -60,7 +61,29 @@ export function SidebarUsuario({ logout }) {
     setColores(newColores);
     setValPrev(value);
   };
-
+  //este array solo es para probar el endpoint de historial de pedidos en lo que se tiene el endpoint de historial de pedidos
+  
+  const orders = [
+    {
+      id: 1,
+      items: [
+        { id: 1, name: "Hamburguesa de carne" },
+        { id: 2, name: "Papas fritas" },
+        { id: 3, name: "Refresco" }
+      ],
+      total: 150.0
+    },
+    {
+      id: 2,
+      items: [
+        { id: 4, name: "Hamburguesa de pollo" },
+        { id: 5, name: "Aros de cebolla" },
+        { id: 6, name: "Refresco" }
+      ],
+      total: 200.0
+    }
+  ];
+  
   return (
     <>
       <aside>
@@ -81,14 +104,25 @@ export function SidebarUsuario({ logout }) {
             <br />
             <li>
               <Link
-                to="/restaurantes"
+                to="/"
                 className={"center-content tooltipped " + colores[0]}
                 data-position="right"
-                data-tooltip="Mi Perfil"
+                data-tooltip="Restaurantes"
                 onClick={() => changeColor(0)}
               >
                 <i className={"material-icons iconSize " + colorText[0]}>
                   restaurant
+                </i>
+              </Link>
+              <Link
+                to="/historialuser"
+                className={"center-content tooltipped " + colores[0]}
+                data-position="right"
+                data-tooltip="Historial de pedidos"
+                onClick={() => changeColor(0)}
+              >
+                <i className={"material-icons iconSize " + colorText[0]}>
+                history
                 </i>
               </Link>
             </li>
@@ -97,14 +131,13 @@ export function SidebarUsuario({ logout }) {
           </div>
           <Routes>
             <Route
-              path="/restaurantes"
+              path="/"
               element={<Empresas functionapp={establecerRestaurante} />}
             />
             <Route
               path="/productos"
               element={
                 <Productos
-                  empresa={idrestaurante}
                   functionconfirmar={agregarConfirmacion}
                 />
               }
@@ -115,6 +148,10 @@ export function SidebarUsuario({ logout }) {
                 <FinalizarPedido carrito={carrito} totalPedido={totalPedido} />
               }
             />
+            <Route
+              path="/historialuser"
+              element={<HistorialPedidos />}
+            />   
           </Routes>
         </Router>
       </aside>

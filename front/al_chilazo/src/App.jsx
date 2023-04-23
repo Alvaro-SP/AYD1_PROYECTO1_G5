@@ -19,8 +19,8 @@ function App() {
   const [flagAdmin, setAdminFlag] = useState(false);
   const [flagRepartidor, setRepartidorFlag] = useState(false);
   const [flagEmpresa, setEmpresaFlag] = useState(false);
-  const [flagUsuario, setUsuarioFlag] = useState(true);
-  const [flagStart, setStartFlag] = useState(false);
+  const [flagUsuario, setUsuarioFlag] = useState(false);
+  const [flagStart, setStartFlag] = useState(true);
 
   const logout = () => {
     setAdminFlag(false);

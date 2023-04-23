@@ -13,10 +13,15 @@ function FinalizarPedido(props) {
             telefono: "",
         }
     ]);
+    const [paymentMethod, setPaymentMethod] = useState("");
+
+    const handlePaymentMethodChange = (event) => {
+        setPaymentMethod(event.target.value);
+    }
 
     useEffect(() => {
         M.AutoInit();
-        console.log(carrito);
+        //console.log(carrito);
     }, []);
 
     const sumarCantidad = (producto) => {
@@ -29,6 +34,7 @@ function FinalizarPedido(props) {
         setProductos(nuevosProductos);
         setTotal(total + parseFloat(producto.precio));
     };
+    
 
     const restarCantidad = (producto) => {
         const nuevosProductos = productos.map((p) => {
@@ -65,21 +71,33 @@ function FinalizarPedido(props) {
 
     const confirmarPedido = () => {
         console.log("direccion: ", direccion);
-        if (direccion.direccion === "" || direccion.telefono === "") {
+        if (direccion.direccion === "" ) {
             M.toast({ html: 'Ingresa una direccion de envío', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
         } else {
-            if (direccion.telefono.length < 8 || direccion.telefono.length > 8) {
-                M.toast({ html: 'Ingresa un número de teléfono válido', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
-            }
-            else if (isNaN(direccion.telefono)) {
-                M.toast({ html: 'Ingresa un número de teléfono válido', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 })
+            if(paymentMethod === ""){
+                M.toast({ html: 'Selecciona un metodo de pago', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
             }
             else {
+                const user = JSON.parse(localStorage.getItem("user"));
 
-                console.log("direccion: ", direccion);
-                console.log("confirmar pedido");
-                console.log("carrito: ", carrito);
-                console.log("totalPedido: ", totalPedido);
+                const jsonPedido = {
+                    user_id:user.id,
+                    total_price:total,
+                    address:direccion.direccion,
+                    payment_method:paymentMethod,
+                    id_empresa: localStorage.getItem("idempresauser"),
+                    //enviar array de productos
+                    products:
+                        productos.map((producto) => {
+                            return {
+                                product_id: producto.id,
+                                quantity: producto.cantidad,
+                                price: producto.precio
+                            }
+                        })                    
+            }
+
+            console.log("json: ", jsonPedido);
             }
         }
     };
@@ -108,19 +126,23 @@ function FinalizarPedido(props) {
             <div className="direccion-container">
                 <div className="containers">
                     <form onSubmit={handleSubmit}>
+                       
                         <div className="input-field col s12">
                             <input id="direccion" name="direccion" type="text" className="validate" onChange={handleChange} />
-                            <label htmlFor="direccion">Dirección / Punto de Referencia</label>
+                            <label 
+                            htmlFor="direccion">Dirección / Punto de Referencia</label>
                         </div>
                         <div className="input-field col s12">
-                            <input id="indicacion" name="indicacion" type="text" className="validate" onChange={handleChange} />
-                            <label htmlFor="indicacion">Indicaciones para la entrega</label>
+                            {/*select para tipo de pago */}
+                            <select id="comboboxx"className="browser-default" name="paymentMethod" value={paymentMethod} onChange={handlePaymentMethodChange}>
+                                <option value="" disabled>Seleccione el método de pago</option>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="tarjeta">Tarjeta de Crédito</option>
+                                <option value="tarjeta">Tarjeta de Débito</option>
+                            </select>
+                            
                         </div>
-                        <div className="input-field col s12">
-                            <i className="material-icons prefix">phone</i>
-                            <input id="icon_telephone" type="tel" className="validate" name="telefono" pattern="[0-9]*" inputMode="numeric" onChange={handleChange} />
-                            <label htmlFor="icon_telephone">Teléfono</label>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
