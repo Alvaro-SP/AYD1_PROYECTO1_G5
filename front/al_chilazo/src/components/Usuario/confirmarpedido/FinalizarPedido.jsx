@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import M from "materialize-css";
 import "../../../styles/FinalizarPedido.css";
-
+import axios from "axios";
+import { url } from "../../../shared/url";
 function FinalizarPedido(props) {
     const { carrito, totalPedido } = props;
     const [productos, setProductos] = useState(carrito);
@@ -33,7 +34,7 @@ function FinalizarPedido(props) {
         setProductos(nuevosProductos);
         setTotal(total + parseFloat(producto.precio));
     };
-    
+
 
     const restarCantidad = (producto) => {
         const nuevosProductos = productos.map((p) => {
@@ -70,20 +71,20 @@ function FinalizarPedido(props) {
 
     const confirmarPedido = () => {
         console.log("direccion: ", direccion);
-        if (direccion.direccion === "" ) {
+        if (direccion.direccion === "") {
             M.toast({ html: 'Ingresa una direccion de envío', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
         } else {
-            if(paymentMethod === ""){
+            if (paymentMethod === "") {
                 M.toast({ html: 'Selecciona un metodo de pago', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
             }
             else {
                 const user = JSON.parse(localStorage.getItem("user"));
 
                 const jsonPedido = {
-                    user_id:user.id,
-                    total_price:total,
-                    address:direccion.direccion,
-                    payment_method:paymentMethod,
+                    user_id: user.id,
+                    total_price: total,
+                    address: direccion.direccion,
+                    payment_method: paymentMethod,
                     id_empresa: localStorage.getItem("idempresauser"),
                     //enviar array de productos
                     products:
@@ -93,10 +94,23 @@ function FinalizarPedido(props) {
                                 quantity: producto.cantidad,
                                 price: producto.precio
                             }
-                        })                    
-            }
+                        })
+                }
+                const fetchData = async () => {
+                    const response = await axios.post(url + "realizar-pedido-user", jsonPedido);
+                    console.log("respuesta: ",response);
+                }
+                fetchData();
 
-            console.log("json: ", jsonPedido);
+                //limpio el carrito
+                localStorage.setItem("carrito", JSON.stringify([]))
+                localStorage.setItem("totalPedido", JSON.stringify(0))
+                M.toast({ html: 'Pedido realizado con éxito', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
+
+                //me redirige a la pagina restaurantes
+                window.location.href = "/";
+
+                //console.log("json: ", jsonPedido);
             }
         }
     };
@@ -125,23 +139,23 @@ function FinalizarPedido(props) {
             <div className="direccion-container">
                 <div className="containers">
                     <form onSubmit={handleSubmit}>
-                       
+
                         <div className="input-field col s12">
                             <input id="direccion" name="direccion" type="text" className="validate" onChange={handleChange} />
-                            <label 
-                            htmlFor="direccion">Dirección / Punto de Referencia</label>
+                            <label
+                                htmlFor="direccion">Dirección / Punto de Referencia</label>
                         </div>
                         <div className="input-field col s12">
                             {/*select para tipo de pago */}
-                            <select id="comboboxx"className="browser-default" name="paymentMethod" value={paymentMethod} onChange={handlePaymentMethodChange}>
+                            <select id="comboboxx" className="browser-default" name="paymentMethod" value={paymentMethod} onChange={handlePaymentMethodChange}>
                                 <option value="" disabled>Seleccione el método de pago</option>
                                 <option value="efectivo">Efectivo</option>
                                 <option value="tarjeta">Tarjeta de Crédito</option>
                                 <option value="tarjeta">Tarjeta de Débito</option>
                             </select>
-                            
+
                         </div>
-                        
+
                     </form>
                 </div>
             </div>

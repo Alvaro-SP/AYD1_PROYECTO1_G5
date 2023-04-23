@@ -142,9 +142,9 @@ def historialpedidosuserrrrr():
 def hacerunpedido():
     global conn
     res_prev = realizarpedidousuario(conn, request)
-    res = jsonify(res_prev)
-    res.headers.add('Access-Control-Allow-Origin', '*')
-    return res
+    #res = jsonify(res_prev)
+    res_prev.headers.add('Access-Control-Allow-Origin', '*')
+    return res_prev
 
 #*  ***********************  REPARTIDORES *********************
 @app.route('/soli-change-zone', methods=['POST'])
