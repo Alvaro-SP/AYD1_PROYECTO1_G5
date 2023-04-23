@@ -276,7 +276,7 @@ def confirmarpedidosendpoin():
     return response
 #*  *********************** ADMINISTRADOR *********************
 @app.route('/solicitudes-repartidor', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def solicitudes_repartidor():
     global conn
     response = solicitudRepartidor(conn, request)

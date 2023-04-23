@@ -17,12 +17,18 @@ export default function Producto() {
 
   useEffect(() => {
     getDatos();
+
+    var elems = document.querySelectorAll(".tooltipped");
+    M.Tooltip.init(elems, {
+      inDuration: 200,
+      outDuration: 200,
+    });
   }, []);
 
   useEffect(() => {
     var elems = document.querySelectorAll("select");
     M.FormSelect.init(elems, {});
-  }, [listaCategoria,categoria]);
+  }, [listaCategoria, categoria]);
   const getDatos = async () => {
     await getData();
     await getData2();
@@ -105,7 +111,7 @@ export default function Producto() {
     }
   };
   const seleccionar = async (elemento) => {
-    setIdProducto(elemento.id)
+    setIdProducto(elemento.id);
     setNombre(elemento.name);
     setPrecio(elemento.precio);
     setImagen(elemento.imagen);
@@ -122,35 +128,35 @@ export default function Producto() {
     console.log("para eliminar");
 
     try {
-            const result = (await axios.post(url + "deleteproduct", data)).data;
-            console.log(result);
+      const result = (await axios.post(url + "deleteproduct", data)).data;
+      console.log(result);
 
-            if (result.res) {
-                getDatos();
+      if (result.res) {
+        getDatos();
 
-                M.toast({
-                    html: 'Se elimino con exito',
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }
+        M.toast({
+          html: "Se elimino con exito",
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
 
   const agregarProducto = async () => {
-    let noc=''
-    listaCategoria.forEach(element => {
-      if(element.id==categoria){
-        noc=element.name;
+    let noc = "";
+    listaCategoria.forEach((element) => {
+      if (element.id == categoria) {
+        noc = element.name;
         return;
       }
     });
@@ -162,40 +168,40 @@ export default function Producto() {
       category: noc,
       categoryProduct_id: categoria,
       disponibilidad: disponibilidad,
-      description: descripcion
+      description: descripcion,
     };
     console.log(data);
 
     try {
-            const result = (await axios.post(url + "addproduct", data)).data;
-            console.log(result);
+      const result = (await axios.post(url + "addproduct", data)).data;
+      console.log(result);
 
-            if (result.res) {
-                getDatos();
+      if (result.res) {
+        getDatos();
 
-                M.toast({
-                    html: 'Se agrego con exito',
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }
+        M.toast({
+          html: "Se agrego con exito",
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
 
   const modificarProducto = async () => {
-    let noc=''
-    listaCategoria.forEach(element => {
-      if(element.id==categoria){
-        noc=element.name;
+    let noc = "";
+    listaCategoria.forEach((element) => {
+      if (element.id == categoria) {
+        noc = element.name;
         return;
       }
     });
@@ -207,33 +213,33 @@ export default function Producto() {
       category: noc,
       categoryProduct_id: categoria,
       disponibilidad: disponibilidad,
-      description: descripcion
+      description: descripcion,
     };
     console.log(data);
 
     try {
-            const result = (await axios.post(url + "updateproduct", data)).data;
-            console.log(result);
+      const result = (await axios.post(url + "updateproduct", data)).data;
+      console.log(result);
 
-            if (result.res) {
-                getDatos();
+      if (result.res) {
+        getDatos();
 
-                M.toast({
-                    html: 'Se actualizo con exito',
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }
+        M.toast({
+          html: "Se actualizo con exito",
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
 
   const filtrar = () => {
@@ -245,45 +251,45 @@ export default function Producto() {
     });
   };
   return (
-    <>
+    <section>
       <div className="container">
         <div className="row">
-          <div className="col s6">
-            <h1>Productos</h1>
+          <div className="col s6 offset-s3">
+            <h1 className="center-align">PRODUCTOS</h1>
+          </div>
+          <div className="col s1" style={{ paddingTop: 45 }}>
             <a
               href="#modalAgregarProducto"
-              className="btn-floating btn-large waves-effect waves-light indigo darken-1 modal-trigger"
+              className="btn-floating btn-large waves-effect waves-light red darken-1 modal-trigger tooltipped"
+              data-position="right"
+              data-tooltip="Nuevo Producto"
             >
               <i className="material-icons">queue</i>
             </a>
           </div>
-
-          <div className="col s6" style={{ paddingTop: 50 }}>
-            <div className="col">
-              <div className="row">
-                <div className="input-field inline">
-                  <select
-                    onChange={(e) => setFiltro(e.target.value)}
-                    defaultValue={""}
-                  >
-                    <option value="0">Ninguno</option>
-                    {listaCategoria.map((categoria) => {
-                        return (
-                          <option key={categoria.id} value={categoria.id}>
-                            {categoria.name}
-                          </option>
-                        );
-                      })}
-                  </select>
-                  <label>Buscar por categoria</label>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div className="row">
+          <div className="input-field col s8 offset-s2">
+            <i className="material-icons prefix">filter_alt</i>
+            <select
+              onChange={(e) => setFiltro(e.target.value)}
+              defaultValue={""}
+            >
+              <option value="">Ninguno</option>
+              {listaCategoria.map((categoria) => {
+                return (
+                  <option key={categoria.id} value={categoria.id}>
+                    {categoria.name}
+                  </option>
+                );
+              })}
+            </select>
+            <label>Buscar por categoria</label>
           </div>
         </div>
         <div className="row">
-          <table className="responsive-table highlight grey lighten-4">
-            <thead className="indigo darken-1 white-text">
+          <table className="centered highlight grey lighten-4">
+            <thead className="red darken-1 white-text">
               <tr>
                 <th>Id</th>
                 <th>Nombre</th>
@@ -297,35 +303,41 @@ export default function Producto() {
             </thead>
 
             <tbody>
-              {filtrar().map((pelicula) => {
+              {filtrar().map((producto) => {
                 return (
-                  <tr key={pelicula.id}>
-                    <td>{pelicula.id}</td>
-                    <td>{pelicula.name}</td>
+                  <tr key={producto.id}>
+                    <td>{producto.id}</td>
+                    <td>{producto.name}</td>
                     <td>
                       <img
                         className="materialboxed"
                         width="100"
-                        src={pelicula.imagen}
+                        src={producto.imagen}
                       />
                     </td>
-                    <td>{pelicula.precio}</td>
-                    <td>{pelicula.disponibilidad}</td>
-                    <td>{pelicula.description}</td>
-                    <td>{pelicula.categoria}</td>
+                    <td>{producto.precio}</td>
+                    <td>{producto.disponibilidad}</td>
+                    <td>{producto.description}</td>
+                    <td>{producto.categoria}</td>
                     <td>
                       <a
                         href="#modalModificarProducto"
-                        className=" modal-trigger waves-effect waves-light black-text yellow btn-small"
-                        onClick={() => seleccionar(pelicula)}
+                        className=" modal-trigger waves-effect waves-light black-text indigo darken-4 btn-small tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Editar"
+                        onClick={() => seleccionar(producto)}
                       >
-                        Editar
+                        <i className="material-icons white-text">
+                          drive_file_rename_outline
+                        </i>
                       </a>
                       <a
-                        className="waves-effect waves-light red btn-small"
-                        onClick={() => eliminar(pelicula.id)}
+                        className="waves-effect waves-light red btn-small tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Eliminar"
+                        onClick={() => eliminar(producto.id)}
                       >
-                        Eliminar
+                        <i className="material-icons">delete_forever</i>
                       </a>
                     </td>
                   </tr>
@@ -337,70 +349,81 @@ export default function Producto() {
 
         <div id="modalAgregarProducto" className="modal">
           <div className="modal-content">
-            <h4>Agregar Producto</h4>
+            <blockquote style={{ borderRight: "solid 5px #ee6e73" }}>
+              <h4 className="center-align">AGREGAR PRODUCTO</h4>
+            </blockquote>
             <div className="row">
               <form className="col s12">
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                    <i className="material-icons prefix">business_center</i>
                     <input
                       onChange={(e) => setNombre(e.target.value)}
-                      id="nombre"
+                      id="nombreNewProducto"
                       type="text"
                       className="validate"
                     />
-                    <label htmlFor="nombre">Nombre Producto</label>
+                    <label htmlFor="nombreNewProducto">Nombre Producto</label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                    <i className="material-icons prefix">price_check</i>
                     <input
                       onChange={(e) => setPrecio(e.target.value)}
-                      id="precio"
+                      id="precioNewProducto"
                       type="number"
                       className="validate"
                     />
-                    <label htmlFor="precio">Precio</label>
+                    <label htmlFor="precioNewProducto">Precio</label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                    <i className="material-icons prefix">format_quote</i>
                     <textarea
                       onChange={(e) => setDescripcion(e.target.value)}
-                      id="descripcionm"
+                      id="descripcionNewProducto"
                       className="materialize-textarea"
                     ></textarea>
-                    <label htmlFor="descripcionm">Descripcion</label>
+                    <label htmlFor="descripcionNewProducto">Descripcion</label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                    <i className="material-icons prefix">image</i>
                     <input
                       onChange={(e) => setImagen(e.target.value)}
-                      id="imagen"
+                      id="imagenNewProducto"
                       type="text"
                       className="validate"
                     />
-                    <label htmlFor="imagen">Url imagen</label>
+                    <label htmlFor="imagenNewProducto">Url imagen</label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                    <i className="material-icons prefix">
+                      production_quantity_limits
+                    </i>
                     <input
                       onChange={(e) => setDisponibilidad(e.target.value)}
-                      id="disponibilidad"
+                      id="dispNewProducto"
                       type="number"
                       className="validate"
                     />
-                    <label htmlFor="disponibilidad">Disponibilidad</label>
+                    <label htmlFor="dispNewProducto">Disponibilidad</label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                    <i className="material-icons prefix">category</i>
                     <select
                       onChange={(e) => setCategoria(e.target.value)}
                       defaultValue={""}
+                      id="catNewProducto"
                     >
-                      <option value="0">Ninguno</option>
+                      <option value="">Ninguno</option>
                       {listaCategoria.map((categoria) => {
                         return (
                           <option key={categoria.id} value={categoria.id}>
@@ -409,138 +432,150 @@ export default function Producto() {
                         );
                       })}
                     </select>
-                    <label>Selecionar Categoria</label>
+                    <label htmlFor="catNewProducto">Selecionar Categoria</label>
                   </div>
                 </div>
-
-                <a
-                  onClick={agregarProducto}
-                  className="modal-close waves-effect waves-light btn-small"
-                >Agregar</a>
+                <div className="row">
+                  <div className="col s8 offset-s3">
+                    <a
+                      onClick={agregarProducto}
+                      className="modal-close waves-effect waves-light btn-large green darken-3"
+                    >
+                      <i className="material-icons left">control_point</i>
+                      Agregar Nuevo Producto
+                    </a>
+                  </div>
+                </div>
               </form>
             </div>
-          </div>
-          <div className="modal-footer">
-            <a
-              href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
-            >
-              Agree
-            </a>
           </div>
         </div>
 
         <div id="modalModificarProducto" className="modal">
           <div className="modal-content">
-            <h4>Modificar Producto</h4>
+            <blockquote style={{ borderRight: "solid 5px #ee6e73" }}>
+              <h4 className="center-align">MODIFICAR PRODUCTO</h4>
+            </blockquote>
             <div className="row">
               <form className="col s12">
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">business_center</i>
                     <input
                       value={nombre}
                       onChange={(e) => setNombre(e.target.value)}
-                      id="nombrem"
+                      id="nombreModProducto"
                       type="text"
                       className="validate"
                     />
-                    <label className="active" htmlFor="nombrem">Nombre Producto</label>
+                    <label className="active" htmlFor="nombreModProducto">
+                      Nombre Producto
+                    </label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">price_check</i>
                     <input
                       value={precio}
                       onChange={(e) => setPrecio(e.target.value)}
-                      id="preciom"
+                      id="precioModProducto"
                       type="number"
                       className="validate"
                     />
-                    <label className="active" htmlFor="preciom">Precio</label>
+                    <label className="active" htmlFor="precioModProducto">
+                      Precio
+                    </label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">
+                      production_quantity_limits
+                    </i>
                     <input
                       value={disponibilidad}
                       onChange={(e) => setDisponibilidad(e.target.value)}
-                      id="disponibilidadm"
+                      id="dispModProducto"
                       type="number"
                       className="validate"
                     />
-                    <label className="active"  htmlFor="disponibilidadm">Disponibilidad</label>
+                    <label className="active" htmlFor="dispModProducto">
+                      Disponibilidad
+                    </label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">format_quote</i>
                     <textarea
                       onChange={(e) => setDescripcion(e.target.value)}
-                      id="descripcionm"
+                      id="descModProducto"
                       value={descripcion}
                       className="materialize-textarea"
                     ></textarea>
-                    <label className="active"  htmlFor="descripcionm">Descripcion</label>
+                    <label className="active" htmlFor="descModProducto">
+                      Descripcion
+                    </label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">image</i>
                     <input
                       value={imagen}
                       onChange={(e) => setImagen(e.target.value)}
-                      id="imagenm"
+                      id="imagenModProducto"
                       type="text"
                       className="validate"
                     />
-                    <label className="active"  htmlFor="imagenm">Url imagen</label>
+                    <label className="active" htmlFor="imagenModProducto">
+                      Url imagen
+                    </label>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="input-field col s12">
+                  <div className="input-field col s10 offset-s1">
+                  <i className="material-icons prefix">category</i>
                     <select
                       onChange={(e) => setCategoria(e.target.value)}
-                      
-                      value={categoria}
+                      defaultValue={categoria}
                     >
                       {listaCategoria.map((cate) => {
-                        if(cate.name==categoria){
+                        if (cate.name == categoria) {
                           return (
                             <option selected key={cate.id} value={cate.id}>
                               {cate.name}
                             </option>
                           );
-                        }else{
+                        } else {
                           return (
                             <option key={cate.id} value={cate.id}>
                               {cate.name}
                             </option>
                           );
                         }
-                        
                       })}
                     </select>
                     <label>Selecionar Categoria</label>
                   </div>
                 </div>
-
-                <a
-                  onClick={modificarProducto}
-                  className="modal-close waves-effect waves-light btn-small"
-                >
-                  Modificar
-                </a>
+                <div className="row">
+                  <div className="col s8 offset-s4">
+                    <a
+                      onClick={modificarProducto}
+                      className="modal-close waves-effect waves-light btn-large green darken-3"
+                    >
+                      <i className="material-icons left">drive_file_rename_outline</i>
+                      Modificar Producto
+                    </a>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
-          <div className="modal-footer">
-            <a
-              href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
-            >
-              Agree
-            </a>
-          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }

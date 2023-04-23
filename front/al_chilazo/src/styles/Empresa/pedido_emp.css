@@ -1,0 +1,16 @@
+.fondo{
+    border-right: solid 1px;
+    border-left: solid 1px;
+    min-height: 70vh !important;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.marginRow {
+    margin-top: 25px !important;
+    margin-bottom: 25px !important;
+}
+
+.iconSizeModalPedido {
+    font-size: 2.2rem !important;
+}

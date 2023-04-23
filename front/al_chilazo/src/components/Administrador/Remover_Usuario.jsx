@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
-import "../../styles/remover_usuario.css";
+import "../../styles/Administrador/remover_usuario.css";
 
 export function RemoverUsuario() {
   const [listaUsers, setListadoUsers] = useState([]);

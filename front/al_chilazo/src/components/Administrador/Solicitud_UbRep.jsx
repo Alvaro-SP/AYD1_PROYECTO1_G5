@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
-import "../../styles/cambio_ubicacion.css";
+import "../../styles/Administrador/cambio_ubicacion.css";
 
 export function SolicitudCambiarUbicacion() {
   const [listaSolicitudes, setSolicitudes] = useState([]);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import { departamentos, municipios } from "../../shared/ubicacion";
 import axios from "axios";
-import "../../styles/perfil_rep.css";
+import "../../styles/Repartidor/perfil_rep.css";
 
 export function PerfilRepartidor() {
   const [dept, setDepartamento] = useState("");
@@ -324,13 +324,13 @@ export function PerfilRepartidor() {
                 </div>
               </div>
               <div className="row">
-                <div className="col s10 offset-s4">
+                <div className="col s8 offset-s4">
                   <a
                     className="btn green darken-3 white-text modal-trigger"
                     href="#changeUbication"
                   >
                     <i className="material-icons left">change_circle</i>
-                    SOLICITUD PARA CAMBIAR UBICACION
+                    SOLICITAR CAMBIO DE UBICACION
                   </a>
                 </div>
               </div>

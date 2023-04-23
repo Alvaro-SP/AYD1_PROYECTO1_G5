@@ -2,30 +2,19 @@
   font-family: "Varela Round", sans-serif;
 }
 
-.sidenav {
-  width: 150px !important;
-  padding-top: 40px;
-  border: hidden !important;
-}
-
 .center-content {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-.iconSize {
+.iconSideAdmin {
   font-size: 2.5rem;
+  margin-right: 16px !important;
 }
 
-.badge {
-  margin: 0 !important;
-}
-
-li > a {
+.iconContainerSideAdmin {
   padding: 0 !important;
-}
-
-section {
-  overflow: auto !important;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }

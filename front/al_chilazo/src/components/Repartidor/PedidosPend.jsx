@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
-import "../../styles/pedidos_pend.css";
+import "../../styles/Repartidor/pedidos_pend.css";
 
 export function PedidosPendientes() {
   const [listaPedidos, setListaPedidos] = useState([])

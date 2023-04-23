@@ -3,7 +3,7 @@ import { Login } from "./Login";
 import { RegistrarEmpresa } from "./Reg_Empresa";
 import { RegistrarUsuario } from "./Reg_Usuario";
 import { RegistrarRepartidor } from "./Reg_Repartidor";
-import "../../styles/Start.css";
+import "../../styles/Start/Start.css";
 
 export function Start({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
   useEffect(() => {
@@ -28,27 +28,65 @@ export function Start({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
             id="tabs-Start"
           >
             <li className="tab">
-              <a href="#login" className="active">
-                <i className="material-icons left">login</i>
-                Login
+              <a href="#loginTab" className="active">
+                <div className="row">
+                  <div className="col s8 offset-s3 valign-wrapper">
+                    <i
+                      className="material-icons left"
+                      style={{ marginBottom: "0", marginRight: "25px" }}
+                    >
+                      login
+                    </i>
+                    <div className="hide-on-small-only">Login</div>
+                  </div>
+                </div>
               </a>
             </li>
             <li className="tab">
-              <a href="#regNeg">
-                <i className="material-icons left">apartment</i>
-                Registro Negocio
+              <a href="#regNegTab">
+                <div className="row">
+                  <div className="col s8 offset-s2 valign-wrapper">
+                    <i
+                      className="material-icons left"
+                      style={{ marginBottom: "0", marginRight: "25px" }}
+                    >
+                      apartment
+                    </i>
+                    <div className="hide-on-small-only">Registro Negocio</div>
+                  </div>
+                </div>
               </a>
             </li>
             <li className="tab">
-              <a href="#regUsr">
-                <i className="material-icons left">person_add</i>
-                Registro Usuario
+              <a href="#regUsrTab">
+                <div className="row">
+                  <div className="col s8 offset-s2 valign-wrapper">
+                    <i
+                      className="material-icons left"
+                      style={{ marginBottom: "0", marginRight: "25px" }}
+                    >
+                      person_add
+                    </i>
+                    <div className="hide-on-small-only">Registro Usuario</div>
+                  </div>
+                </div>
               </a>
             </li>
             <li className="tab">
-              <a href="#regDel">
-                <i className="material-icons left">local_shipping</i>
-                Registro Repartidor
+              <a href="#regDelTab">
+                <div className="row">
+                  <div className="col s8 offset-s3 valign-wrapper">
+                    <i
+                      className="material-icons left"
+                      style={{ marginBottom: "0", marginRight: "25px" }}
+                    >
+                      local_shipping
+                    </i>
+                    <div className="hide-on-small-only">
+                      Registro Repartidor
+                    </div>
+                  </div>
+                </div>
               </a>
             </li>
           </ul>
@@ -56,9 +94,9 @@ export function Start({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
       </nav>
 
       <div
-        id="login"
-        className="col s12 contenedor contenedor-1"
-        style={{ height: "85.2vh" }}
+        id="loginTab"
+        className="contenedor-1"
+        style={{ minHeight: "100vh", height: "100%" }}
       >
         <br />
         <br />
@@ -71,23 +109,31 @@ export function Start({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
         />
       </div>
 
-      <div id="regNeg" className="col s12 contenedor contenedor-2">
+      <div
+        id="regNegTab"
+        className="contenedor-2"
+        style={{ maxHeight: "100%", height: "100%" }}
+      >
         <br />
         <br />
         <RegistrarEmpresa />
       </div>
 
       <div
-        id="regUsr"
-        className="col s12 contenedor contenedor-3"
-        style={{ height: "85.2vh" }}
+        id="regUsrTab"
+        className="contenedor-3"
+        style={{ minHeight: "100vh", height: "100%" }}
       >
         <br />
         <br />
         <RegistrarUsuario />
       </div>
 
-      <div id="regDel" className="col s12 contenedor contenedor-4">
+      <div
+        id="regDelTab"
+        className="contenedor-4"
+        style={{ maxHeight: "100%", height: "100%" }}
+      >
         <br />
         <br />
         <RegistrarRepartidor />
