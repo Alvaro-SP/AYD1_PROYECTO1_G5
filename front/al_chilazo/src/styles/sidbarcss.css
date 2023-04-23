@@ -1,18 +1,14 @@
-/* Ajusta el ancho del menú lateral según el tamaño de la pantalla */
-@media only screen and (max-width: 1000px) {
-    .sidebb {
-      width: 50%;
-      background-color: aqua;
-    }
-    .iconSize {
-        font-size: 24px;
-    }
+* {
+    font-family: "Varela Round", sans-serif;
+  }
+
+  .iconSideUser {
+    font-size: 2.5rem;
+    margin-right: 16px !important;
   }
   
-  /* Ajusta el tamaño de fuente del icono según el tamaño de la pantalla */
-  @media only screen and (max-width: 400px) {
-    .iconSize {
-      font-size: 24px;
-    }
+  .iconContainerSideUser {
+    padding: 0 !important;
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
-  

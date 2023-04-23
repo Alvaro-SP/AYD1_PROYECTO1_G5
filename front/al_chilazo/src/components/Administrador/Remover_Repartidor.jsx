@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
 
 export function RemoverRepartidor() {
@@ -20,7 +21,7 @@ export function RemoverRepartidor() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "solicitudes-repartidor")).data;
+      const result = (await axios.get(url + "solicitudes-repartidor", auth)).data;
       console.log(result);
 
       if (result.res) {
@@ -42,17 +43,17 @@ export function RemoverRepartidor() {
 
   const eliminarRepartidor = async () => {
     const data = {
-      repartidor: idRepartidor,
+      repartidor: JSON.parse(localStorage.getItem("user")).id,
       state: 2
     };
 
     try {
-      const result = (await axios.post(url + "confirmar-repartidor", data)).data;
+      const result = (await axios.post(url + "confirmar-repartidor", data, auth)).data;
       console.log(result);
 
       if (result.res) {
         let aux = listadoRepartidores.filter(
-          (repartidor) => repartidor.id !== idRepartidor
+          (repartidor) => repartidor.id !== JSON.parse(localStorage.getItem("user")).id
         );
         setListadoRepartidores(aux);
 

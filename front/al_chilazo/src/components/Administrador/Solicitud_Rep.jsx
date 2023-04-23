@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
 import "../../styles/Administrador/solicitud_rep.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
@@ -8,8 +9,8 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 export function SolicitudRepartidor() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
   const [listaRegistrados, setRegistros] = useState([]);
-  const [pdfFile, setPDFFile] = useState(null);
-  const [viewPDF, setViewPDF] = useState(false);
+  /* const [pdfFile, setPDFFile] = useState(null);
+  const [viewPDF, setViewPDF] = useState(false); */
 
   useEffect(() => {
     getData();
@@ -29,29 +30,14 @@ export function SolicitudRepartidor() {
   }, []);
 
   const getData = async () => {
-    // ! CONFIGURAR HEADERS
-    const config = {
-      headers: {
-        'Authorization': "Bearer " + sessionStorage.getItem("auth"),
-      },
-    };
-
     try {
-      const result = (await axios.get(url + "solicitudes-repartidor", config))
+      const result = (await axios.get(url + "solicitudes-repartidor", auth))
         .data;
-      console.log(result);
 
       if (result.res) {
-        let lista1 = result.res.filter(
-          (repartidor) => repartidor.approved === 0
-        );
-        let lista2 = result.res.filter(
-          (repartidor) => repartidor.approved === 1
-        );
-
-        setSolicitudes(lista1);
-        setRegistros(lista2);
-
+        setSolicitudes(result.res.filter(repartidor => repartidor.approved === 0));
+        setRegistros(result.res.filter(repartidor => repartidor.approved === 1));
+        
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -77,26 +63,22 @@ export function SolicitudRepartidor() {
     };
 
     try {
-      const result = (await axios.post(url + "confirmar-repartidor", data))
+      const result = (await axios.post(url + "confirmar-repartidor", data, auth))
         .data;
       console.log(result);
 
       if (result.res) {
         if (state === 1) {
-          const aux = listaSolicitudes.filter(
-            (solicitud) => solicitud.id !== id
-          );
-          setSolicitudes(aux);
-
           const aux2 = listaRegistrados;
-          aux2.push(
-            listaSolicitudes.filter((solicitud) => solicitud.id === id)
-          );
+          aux2.push(listaSolicitudes.find(solicitud => solicitud.id === id));
+
+          const aux = listaSolicitudes.filter(solicitud => solicitud.id !== id);
+
+          setSolicitudes(aux);
           setRegistros(aux2);
+
         } else {
-          const aux = listaSolicitudes.filter(
-            (solicitud) => solicitud.id !== id
-          );
+          const aux = listaSolicitudes.filter(solicitud => solicitud.id !== id);
           setSolicitudes(aux);
         }
 
@@ -176,7 +158,6 @@ export function SolicitudRepartidor() {
             <div className="col s12">
               <ul className="collapsible popout">
                 {listaSolicitudes.map((solicitud, index) => {
-                  // ! <!-- AGREGAR MANEJO DEL ARCHIVO EN BASE 64 -->
                   let own = getOwnTrans(solicitud.own_transport);
                   let license = getLicencia(solicitud.license);
                   return (
@@ -545,13 +526,13 @@ export function SolicitudRepartidor() {
       <br />
       <br />
       <br />
-      <div className="modal" id="viewPDF">
+      {/* <div className="modal" id="viewPDF">
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
           {viewPDF && <Viewer fileUrl={pdfFile} />}
 
           {!viewPDF && <>NO PDF</>}
         </Worker>
-      </div>
+      </div> */}
     </div>
   );
 }

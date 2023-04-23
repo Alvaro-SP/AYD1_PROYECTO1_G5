@@ -27,7 +27,6 @@ def solicitudRepartidor(conn, request):
                     'city': repartidor[6],
                     'license': repartidor[7],
                     'own_transport': repartidor[8],
-                    """ 'cv': blob_base64, """
                     'approved': repartidor[10]
                 }
 

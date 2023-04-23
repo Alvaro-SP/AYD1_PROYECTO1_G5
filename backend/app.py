@@ -11,6 +11,8 @@ from src.usuarios.Products_empresa import productsEmpresa
 from src.usuarios.GetCart import get_cart
 from src.usuarios.AddToCart import add_to_cart
 from src.usuarios.DeleteFromCart import delete_from_cart
+from src.usuarios.HistorialPedidos import historialpedidosUSUARIO
+from src.usuarios.RealizarPedido import realizarpedidousuario
 from src.repartidores.CambioZona import cambiozona, solicambiozona
 from src.repartidores.ComisionesGeneradas import comisionesgeneradas
 from src.repartidores.HistorialPedidosComp import historialpedidosNAMEUSER
@@ -59,7 +61,7 @@ def loginzzzz():
 
 @app.route("/logout", methods=["POST"])
 def logout():
-    response = jsonify({"res": "logout successful"})
+    response = jsonify({"res": True, "message": "Session Finalizada"})
     unset_jwt_cookies(response)
     return response
 
@@ -122,6 +124,24 @@ def agregar_al_carrito():
 def eliminar_del_carrito():
     global conn
     res_prev = delete_from_cart(conn, request)
+    res = jsonify(res_prev)
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
+
+@app.route('/historial-pedidos-user', methods=['POST'])
+# @jwt_required()
+def historialpedidosuserrrrr():
+    global conn
+    res_prev = historialpedidosUSUARIO(conn, request)
+    # res = jsonify(res_prev)
+    res_prev.headers.add('Access-Control-Allow-Origin', '*')
+    return res_prev
+
+@app.route('/realizar-pedido-user', methods=['POST'])
+# @jwt_required()
+def hacerunpedido():
+    global conn
+    res_prev = realizarpedidousuario(conn, request)
     res = jsonify(res_prev)
     res.headers.add('Access-Control-Allow-Origin', '*')
     return res

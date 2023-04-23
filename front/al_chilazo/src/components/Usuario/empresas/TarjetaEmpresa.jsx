@@ -5,10 +5,10 @@ function TarjetasEmpresa(props) {
   const { metodo } = props;
   return (
     <div className="thorizontalm">
-      <div className="card-image">
+      <div className="card-image" style={{display: "flex", alignItems: "center"}}>
         <Link to={{ pathname: "/productos", state: { empresa: empresa.id } }} onClick={() => metodo(empresa.id)}>
           {console.log("EMPRESAID: ",empresa.id)}
-          <img src={empresa.imagen} />
+          <img src={empresa.imagen} className='responsive-img'/>
         </Link>
       </div>
       <div className="card-stacked">

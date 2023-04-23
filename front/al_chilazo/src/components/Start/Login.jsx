@@ -49,13 +49,13 @@ export function Login({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
 
       console.log(data);
       const result = (await axios.post(url + "login", data)).data;
-      console.log("usuario devuelto: ",result)
+      console.log(result);
+      localStorage.setItem("rol", "")
 
       if (result.res) {
         sessionStorage.setItem("auth", result.access_token);
+        localStorage.setItem("user", JSON.stringify( result.user))
         localStorage.setItem("rol", rol)
-        localStorage.setItem("user", JSON.stringify(result.user))
-        
 
         if(rol === "0"){
           startFlag(false)

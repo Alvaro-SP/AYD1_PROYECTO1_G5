@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
 
 export function PedidosAsignados() {
@@ -29,12 +30,12 @@ export function PedidosAsignados() {
 
   const getPedidosRepartidorCompleto = async () => {
     const data = {
-      id: 1,
+      id: JSON.parse(localStorage.getItem("user")).id,
     };
 
     try {
       const result = (
-        await axios.post(url + "historialpedidos-repartidor", data)
+        await axios.post(url + "historialpedidos-repartidor", data, auth)
       ).data;
       if (result.res) {
         setComisionTotal(result.comisiontotal);
@@ -81,13 +82,13 @@ export function PedidosAsignados() {
     }
   };
 
-  const completarPedido = async () => {
+  const completarPedido = async (idCurso) => {
     const data = {
       id: idCurso,
     };
 
     try {
-      const result = (await axios.post(url + "entregarpedido-repartidor", data))
+      const result = (await axios.post(url + "entregarpedido-repartidor", data, auth))
         .data;
       console.log(result);
 
@@ -181,7 +182,7 @@ export function PedidosAsignados() {
                     <a
                       href="#"
                       className="green-text text-darken-3 center-content"
-                      onClick={completarPedido}
+                      onClick={() => completarPedido(idCurso)}
                     >
                       <i className="material-icons left">done_all</i>COMPLETAR
                       PEDIDO

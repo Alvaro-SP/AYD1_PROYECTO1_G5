@@ -3,7 +3,7 @@ from flask import jsonify
 def perfilrepartidor(conn, request):
     data = request.get_json()
     idRepartidor = data['id']
-
+    print(idRepartidor)
     try:
         with conn.cursor() as cursor:
             sql = '''
@@ -29,6 +29,7 @@ def perfilrepartidor(conn, request):
                 templist=(atributos)
             cursor.close()
             # conn.close()
+            print(templist)
             return jsonify({'res': templist, 'message': "Datos personales de repartidor"})
 
     except Exception as ex:

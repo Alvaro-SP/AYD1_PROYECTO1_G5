@@ -6,9 +6,9 @@ function Tarjetas(props) {
         <div className="row">
             <div className="col s12 m6 l3">
                 <div className="card">
-                    <div className="card-image">
+                    <div className="card-image" style={{display: "flex", alignItems: "center"}}>
                         <a href='#'>
-                        <img src={categoria.imagen}/>
+                        <img src={categoria.imagen} className="responsive-img" />
                         </a>
                         <a href='#'> <span className="card-title">{categoria.name}</span></a>
                     </div>

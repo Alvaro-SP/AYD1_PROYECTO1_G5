@@ -5,7 +5,6 @@ import Productos from "./productos/Productos";
 import FinalizarPedido from "./confirmarpedido/FinalizarPedido";
 import HistorialPedidos from "./historialpedidos/HistorialPedidos";
 import Categorias from "./empresas/Categorias";
-
 import "../../styles/sidbarcss.css";
 import logo from "../../shared/logo.gif";
 
@@ -55,7 +54,7 @@ export function SidebarUsuario({ logout }) {
     }
 
     newColorText[value] = "white-text";
-    newColores[value] = "green darken-2";
+    newColores[value] = "orange darken-2";
 
     setColorText(newColorText);
     setColores(newColores);
@@ -88,16 +87,15 @@ export function SidebarUsuario({ logout }) {
     <>
       <aside>
         <Router>
-          <div className="sidebb">
           <ul id="sidenav" className="sidenav sidenav-fixed">
             <li className="center-content">
               <img
                 src={logo}
                 alt="logo"
-                className="circular responsive-img tooltipped"
+                className="tooltipped"
                 data-position="right"
                 data-tooltip="Al Chilazo"
-                style={{ width: "80%" }}
+                style={{ width: "80%", paddingTop: "15px"}}
               />
             </li>
             <br />
@@ -105,30 +103,46 @@ export function SidebarUsuario({ logout }) {
             <li>
               <Link
                 to="/"
-                className={"center-content tooltipped " + colores[0]}
+                className={"iconContainerSideUser tooltipped " + colores[0]}
                 data-position="right"
                 data-tooltip="Restaurantes"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(0)}
               >
-                <i className={"material-icons iconSize " + colorText[0]}>
+                <i className={"material-icons iconSideUser " + colorText[0]}>
                   restaurant
                 </i>
               </Link>
-              <Link
+            </li>
+            <li>
+            <Link
                 to="/historialuser"
-                className={"center-content tooltipped " + colores[0]}
+                className={"iconContainerSideUser tooltipped " + colores[1]}
                 data-position="right"
                 data-tooltip="Historial de pedidos"
-                onClick={() => changeColor(0)}
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={() => changeColor(1)}
               >
-                <i className={"material-icons iconSize " + colorText[0]}>
+                <i className={"material-icons iconSideUser " + colorText[1]}>
                 history
                 </i>
               </Link>
             </li>
-            <br />
+            <li>
+              <Link
+                to="/"
+                className="iconContainerSideUser tooltipped"
+                data-position="right"
+                data-tooltip="Cerrar Sesion"
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={logout}
+              >
+                <i className="material-icons iconSideUser orange-text text-darken-4">
+                  logout
+                </i>
+              </Link>
+            </li>
           </ul>
-          </div>
           <Routes>
             <Route
               path="/"

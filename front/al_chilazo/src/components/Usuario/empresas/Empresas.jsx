@@ -63,19 +63,27 @@ function Empresas(props) {
   }
 
   return (
-    <div className="contenedor-general-empresas">
-      <div className="container-input">
-        <div className="input-field">
-          <i className="material-icons prefix">search</i>
-          <input
-            id="icon_prefix"
-            type="text"
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
-          <label htmlFor="search">Busqueda</label>
+    <section>
+      <div className="contenedor-general-empresas">
+        <div className="row">
+          <h2 className="orange-text text-darken-3">Bienvenido</h2>
         </div>
-        <ul id="dropdown2" className="dropdown-content red darken-2">
+      <div className="container-input">
+        <div className="row">
+          <div className="input-field inputField col s12">
+            <i className="material-icons prefix">search</i>
+            <input
+              id="icon_prefix"
+              type="text"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+            <label htmlFor="search">Busqueda</label>
+          </div>
+        </div>
+        <div className="row">
+       <div className="col s12">
+       <ul id="dropdown2" className="dropdown-content dropdownContent red darken-2">
           <li key="Todas" onClick={() => setCategoria("Todas")}>
             <a className="white-text">Todas</a>
           </li>
@@ -86,12 +94,14 @@ function Empresas(props) {
           ))}
         </ul>
         <a
-          className="btn dropdown-trigger red darken-2"
+          className="btn dropdown-trigger dropdownTrigger red darken-2"
           data-target="dropdown2"
         >{`Categoria: ${categoria}`}<i className="material-icons right">arrow_drop_down</i></a>
+       </div>
+        </div>
       </div>
       <div className="dropdown-departamentos">
-        <ul id="dropdown3" className="dropdown-content red darken-2">
+        <ul id="dropdown3" className="dropdown-content dropdownContent red darken-2">
           <li key="Guatemala" onClick={() => setDepartamento("Guatemala")}>
             <a className="white-text">Guatemala</a>
           </li>
@@ -102,12 +112,12 @@ function Empresas(props) {
           ))}
         </ul>
         <a
-          className="btn dropdown-trigger red darken-2"
+          className="btn dropdown-trigger dropdownTrigger red darken-2"
           data-target="dropdown3"
         >{`Departamento: ${departamento}`}<i className="material-icons right">arrow_drop_down</i></a>
       </div>
-      <row>
-        <div className="contenedor-empresas">
+      <div className="row">
+      <div className="contenedor-empresas">
           <div className="tarjetas-empresa">
             {filtrarEmpresas().map((empresa) => (
               <TarjetasEmpresa
@@ -118,8 +128,9 @@ function Empresas(props) {
             ))}
           </div>
         </div>
-      </row>
+      </div>
     </div>
+    </section>
   );
 }
 

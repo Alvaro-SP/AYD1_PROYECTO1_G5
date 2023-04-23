@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
 
 export function RemoverNegocio() {
@@ -20,7 +21,7 @@ export function RemoverNegocio() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "solicitudes-empresa")).data;
+      const result = (await axios.get(url + "solicitudes-empresa", auth)).data;
       console.log(result);
 
       if (result.res) {
@@ -47,12 +48,12 @@ export function RemoverNegocio() {
 
   const eliminarNegocio = async () => {
     const data = {
-      negocio: idNegocio,
+      negocio: JSON.parse(localStorage.getItem("user")).id,
       state: 2
     };
 
     try {
-      const result = (await axios.post(url + "confirmar-empresa", data)).data;
+      const result = (await axios.post(url + "confirmar-empresa", data, auth)).data;
       console.log(result);
 
       if (result.res) {

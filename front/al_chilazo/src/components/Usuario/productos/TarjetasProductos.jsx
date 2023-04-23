@@ -3,9 +3,9 @@ function TarjetasProductos(props) {
   const { producto, agregarAlCarrito } = props;
   return (
         <div className="thorizontal">
-          <div className="card-image">
+          <div className="card-image" style={{display: "flex", alignItems: "center"}}>
             <a href="#">
-            <img src={producto.imagen} />
+            <img src={producto.imagen} className="responsive-img"/>
             </a>
           </div>
           <div className="card-stacked">

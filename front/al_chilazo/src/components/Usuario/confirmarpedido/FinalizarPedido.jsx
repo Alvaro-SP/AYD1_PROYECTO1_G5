@@ -21,7 +21,6 @@ function FinalizarPedido(props) {
 
     useEffect(() => {
         M.AutoInit();
-        //console.log(carrito);
     }, []);
 
     const sumarCantidad = (producto) => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
 import "../../styles/Administrador/solicitud_rep.css";
 
@@ -19,7 +20,7 @@ export function SolicitudEmpresa() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "solicitudes-empresa")).data;
+      const result = (await axios.get(url + "solicitudes-empresa", auth)).data;
       console.log(result);
 
       if (result.res) {
@@ -54,7 +55,7 @@ export function SolicitudEmpresa() {
     };
 
     try {
-      const result = (await axios.post(url + "confirmar-empresa", data)).data;
+      const result = (await axios.post(url + "confirmar-empresa", data, auth)).data;
       console.log(result);
 
       if (result.res) {

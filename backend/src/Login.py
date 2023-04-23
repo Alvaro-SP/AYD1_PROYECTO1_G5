@@ -37,7 +37,7 @@ def login(conn, request, jwt):
                         "message": "Hola usuario usted se ha logueado exitosamente"
                     })
             elif rol == 2:
-                sql = "SELECT * FROM repartidor WHERE mail=%s AND password=%s"
+                sql = "SELECT * FROM repartidor WHERE mail=%s AND password=%s AND repartidor.approved = 1"
                 cursor.execute(sql, (username, password))
                 user = cursor.fetchone()
                 cursor.fetchall()
@@ -94,7 +94,7 @@ def login(conn, request, jwt):
                     })
             cursor.close()
             # conn.close()
-            return jsonify({'res': False, 'message': 'Usuario o contraseña incorrectos, revise bien'})
+            return jsonify({'res': False, 'message': 'Usuario o contraseña incorrectos esta Baneado'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos

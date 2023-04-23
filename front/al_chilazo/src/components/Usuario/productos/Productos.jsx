@@ -180,23 +180,27 @@ function Productos(props) {
     <div className="contenedor-general-productos">
       <div className="contenedor-busqueda">
         <div className="container-input">
-          <div className="input-field">
-            <i className="material-icons prefix">search</i>
-            <input
-              id="icon_prefix"
-              type="text"
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-            />
-            <label htmlFor="search">Busqueda</label>
-          </div>
-          <ul id="dropdown2" className="dropdown-content">
+          <div className="row">
+            <div className="input-field col s6">
+              <i className="material-icons prefix">search</i>
+              <input
+                id="icon_prefix"
+                type="text"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+              <label htmlFor="search">Busqueda</label>
+            </div>
+            <div className="col s6">
+            <ul id="dropdown2" className="dropdown-content">
             <li key="Todas" onClick={() => setCategoria("Todas")}> <a>Todas</a></li>
             {categoriasUnicas.map((producto) => (
               <li key={producto} onClick={() => setCategoria(producto)}> <a>{producto}</a></li>
             ))}
           </ul>
           <a className="btn dropdown-trigger" data-target="dropdown2">{`Categoria: ${categoria}`}<i className="material-icons right">arrow_drop_down</i></a>
+            </div>
+          </div>
         </div>
       </div>
       <div className="contenedor-productos">
