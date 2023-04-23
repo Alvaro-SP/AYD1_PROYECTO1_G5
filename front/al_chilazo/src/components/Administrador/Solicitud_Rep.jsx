@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { url } from "../../shared/url";
 import axios from "axios";
-import "../../styles/solicitud_rep.css";
+import "../../styles/Administrador/solicitud_rep.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 
 export function SolicitudRepartidor() {

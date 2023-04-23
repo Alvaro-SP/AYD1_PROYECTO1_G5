@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
 
-export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
-  //? AGREGAR VALIDACION DE CORREO CON EXPRESION REGULAR
-  //? CAMBIAR LOS ID, HACERLOS UNICOS
+export function Login({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [rol, setRol] = useState("");
@@ -51,24 +49,24 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
 
       console.log(data);
       const result = (await axios.post(url + "login", data)).data;
-      console.log(result)
+      console.log(result);
 
       if (result.res) {
         sessionStorage.setItem("auth", result.access_token);
-        localStorage.setItem("rol", rol)
+        localStorage.setItem("rol", rol);
 
-        if(rol === "0"){
-          startFlag(false)
-          adFlag(true)
-        } else if(rol === "1") {
-          startFlag(false)
-          userFlag(true)
-        } else if(rol === "2") {
-          startFlag(false)
-          repFlag(true)
-        } else if(rol === "3") {
-          startFlag(false)
-          empFlag(true)
+        if (rol === "0") {
+          startFlag(false);
+          adFlag(true);
+        } else if (rol === "1") {
+          startFlag(false);
+          userFlag(true);
+        } else if (rol === "2") {
+          startFlag(false);
+          repFlag(true);
+        } else if (rol === "3") {
+          startFlag(false);
+          empFlag(true);
         }
 
         M.toast({
@@ -91,11 +89,11 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
 
   return (
     <>
-      <div className="containerl">
+      <div className="container">
         <div className="row">
           <div className="col s8 offset-s2">
             <div className="card-panel hoverable">
-              <div className="card-contentl">
+              <div className="card-content">
                 <h3 className="red-text text-darken-2 center-align">LOGIN</h3>
                 <div className="row">
                   <form className="col s10 offset-s1">
@@ -103,24 +101,24 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                       <div className="input-field col s12">
                         <i className="material-icons prefix">email</i>
                         <input
-                          id="email"
+                          id="emailLogin"
                           type="email"
                           className="validate"
                           onChange={(e) => setEmail(e.target.value)}
                         />
-                        <label htmlFor="email">EMAIL</label>
+                        <label htmlFor="emailLogin">EMAIL</label>
                       </div>
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">key</i>
                         <input
-                          id="pass"
+                          id="passLogin"
                           type="password"
                           className="validate"
                           onChange={(e) => setPass(e.target.value)}
                         />
-                        <label htmlFor="pass">PASSWORD</label>
+                        <label htmlFor="passLogin">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -150,7 +148,7 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                           onClick={login}
                         >
                           <i className="material-icons left">login</i>
-                          Login
+                          LOGIN
                         </a>
                       </div>
                     </div>

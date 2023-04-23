@@ -178,7 +178,7 @@ export function RegistrarRepartidor() {
     <>
       <div className="container">
         <div className="row">
-          <div className="col s8 offset-s2">
+          <div className="col s10 offset-s1">
             <div className="card-panel hoverable">
               <div className="card-content">
                 <h3 className="indigo-text text-darken-3 center-align">

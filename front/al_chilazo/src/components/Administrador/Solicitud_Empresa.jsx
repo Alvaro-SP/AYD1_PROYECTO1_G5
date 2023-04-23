@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
-import "../../styles/solicitud_rep.css";
+import "../../styles/Administrador/solicitud_rep.css";
 
 export function SolicitudEmpresa() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
@@ -113,10 +113,10 @@ export function SolicitudEmpresa() {
     <>
       <section>
         <div className="container">
-          <div className="row">
-            <div className="col 12 offset-s1">
+        <div className="row">
+            <div className="col s12">
               <h2 className="teal-text text-darken-3 center-align">
-                Solicitudes De Negocios
+                Solicitudes Negocios
               </h2>
               <div className="divider"></div>
             </div>

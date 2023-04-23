@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "../../styles/sidebar_admin.css";
+import "../../styles/Empresa/SidebarEmpresa.css";
 import Pedido from "./Pedido";
 import Categoria from "./Categoria";
 import Producto from "./Producto";
-import logo from '../../shared/logo.gif'
+import logo from "../../shared/logo.gif";
 
-export function SidebarEmpresa() {
-  const [prueba, setPrueba] = useState("hide");
+export function SidebarEmpresa({ logout }) {
   const [valPrev, setValPrev] = useState(-1);
   const [colorText, setColorText] = useState([
-    "indigo-text text-darken-1",
-    "indigo-text text-darken-1",
-    "indigo-text text-darken-1",
-    "indigo-text text-darken-1",
-    "indigo-text text-darken-1",
-    "indigo-text text-darken-1",
+    "red-text text-darken-1",
+    "red-text text-darken-1",
+    "red-text text-darken-1",
+    "red-text text-darken-1",
+    "red-text text-darken-1",
+    "red-text text-darken-1",
   ]);
 
   const [colores, setColores] = useState([
@@ -33,6 +32,11 @@ export function SidebarEmpresa() {
       inDuration: 200,
       outDuration: 200,
     });
+
+    var elems = document.querySelectorAll(".sidenav");
+    M.Sidenav.init(elems, {
+      draggable: true,
+    });
   });
 
   setTimeout(() => {
@@ -46,12 +50,12 @@ export function SidebarEmpresa() {
     if (valPrev !== -1) {
       if (valPrev !== value) {
         newColores[valPrev] = "white";
-        newColorText[valPrev] = "indigo-text text-darken-1";
+        newColorText[valPrev] = "red-text text-darken-1";
       }
     }
 
     newColorText[value] = "white-text";
-    newColores[value] = "indigo darken-1";
+    newColores[value] = "red darken-1";
 
     setColorText(newColorText);
     setColores(newColores);
@@ -62,89 +66,85 @@ export function SidebarEmpresa() {
     <>
       <aside>
         <Router>
-          <ul id="sidenav" className="sidenav sidenav-fixed">
+          <ul id="sideEmpresa" className="sidenav sidenav-fixed">
             <li className="center-content">
               <img
                 src={logo}
-                alt="bandera"
-                className="circular responsive-img tooltipped"
+                alt="logo"
+                className="tooltipped"
                 data-position="right"
                 data-tooltip="Al Chilazo"
-                style={{ width: "80%" }}
+                style={{ width: "80%", paddingTop: "15px" }}
               />
             </li>
-            <br />
-            <div className="divider"></div>
-            <br />
             <li>
               <Link
                 to="/empresa"
-                className={"center-content tooltipped " + colores[0]}
+                className={"iconContainerSideEmpresa tooltipped " + colores[0]}
                 data-position="right"
                 data-tooltip="Pedidos"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(0)}
               >
-                <i className={"material-icons iconSize " + colorText[0]}>
-                    shopping_cart
+                <i className={"material-icons iconSideEmpresa " + colorText[0]}>
+                  shopping_cart
                 </i>
-                <span className={"new badge green " + prueba}>4</span>
               </Link>
             </li>
-            <br />
             <li>
               <Link
                 to="/empresa/Categoria"
-                className={"center-content tooltipped " + colores[1]}
+                className={"iconContainerSideEmpresa tooltipped " + colores[1]}
                 data-position="right"
                 data-tooltip="Categoria"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(1)}
               >
-                <i className={"material-icons iconSize " + colorText[1]}>
+                <i className={"material-icons iconSideEmpresa " + colorText[1]}>
                   apps
                 </i>
               </Link>
             </li>
-            <br />
             <li>
               <Link
                 to="/empresa/Producto"
-                className={"center-content tooltipped " + colores[2]}
+                className={"iconContainerSideEmpresa tooltipped " + colores[2]}
                 data-position="right"
                 data-tooltip="Productos"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(2)}
               >
-                <i className={"material-icons iconSize " + colorText[2]}>
+                <i className={"material-icons iconSideEmpresa " + colorText[2]}>
                   inventory_2
                 </i>
               </Link>
             </li>
-            <br />
-            
-            <br />
-            {/* <li>
+            <li>
               <Link
-                to="/admin/Reportes"
-                className={"center-content tooltipped " + colores[5]}
+                to="/"
+                className="iconContainerSideAdmin tooltipped"
                 data-position="right"
-                data-tooltip="Reportes"
-                onClick={() => changeColor(5)}
+                data-tooltip="Cerrar Sesion"
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={logout}
               >
-                <i className={"material-icons iconSize " + colorText[5]}>
-                  flag
+                <i className="material-icons iconSideAdmin red-text text-darken-4">
+                  logout
                 </i>
-                <span className={"new badge teal " + prueba}>2</span>
               </Link>
-            </li> */}
+            </li>
           </ul>
+          <a href="#" data-target="sideEmpresa" className="sidenav-trigger">
+            <i
+              className="material-icons iconSideAdmin indigo-text text-darken-4"
+              style={{ position: "absolute", top: "20%", left: "5%" }}
+            >
+              menu
+            </i>
+          </a>
           <Routes>
-            <Route
-              path="/empresa"
-              element={<Pedido />}
-            />
-            <Route
-              path="/empresa/Categoria"
-              element={<Categoria />}
-            />
+            <Route path="/empresa" element={<Pedido />} />
+            <Route path="/empresa/Categoria" element={<Categoria />} />
             <Route path="/empresa/Producto" element={<Producto />} />
           </Routes>
         </Router>

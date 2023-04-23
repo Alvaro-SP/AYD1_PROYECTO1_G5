@@ -34,10 +34,10 @@ export function RegistrarUsuario() {
     }
 
     const data = new FormData();
-    data.append('rol', "1")
-    data.append("name", nombre)
-    data.append("password", password)
-    data.append("correo", correo)
+    data.append("rol", "1");
+    data.append("name", nombre);
+    data.append("password", password);
+    data.append("correo", correo);
 
     try {
       console.log(data);
@@ -112,12 +112,13 @@ export function RegistrarUsuario() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col s8 offset-s3">
+                      <div className="col s8 offset-s2">
                         <a
                           href="#!"
                           className="waves-effect waves-light btn-large green darken-2"
                           onClick={register}
                         >
+                          &nbsp;
                           <i className="material-icons left">how_to_reg</i>
                           REGISTRAR USUARIO
                         </a>
