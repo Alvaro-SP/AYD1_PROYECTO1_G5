@@ -7,7 +7,7 @@ import "../../styles/Administrador/solicitud_rep.css";
 export function SolicitudEmpresa() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
   const [listaRegistrados, setRegistros] = useState([]);
-
+  const [pdfData, setPdfData] = useState(null);
   useEffect(() => {
     getData();
 
@@ -16,20 +16,24 @@ export function SolicitudEmpresa() {
       inDuration: 250,
       outDuration: 250,
     });
+    var elems = document.querySelectorAll('.modal');
+    M.Modal.init(elems, {});
   }, []);
-
+  const setPdf = (pdf) => {
+    setPdfData(pdf);
+  }
   const getData = async () => {
     try {
       const result = (await axios.get(url + "solicitudes-empresa", auth)).data;
       console.log(result);
-
+      
       if (result.res) {
         let lista1 = result.res.filter((negocio) => negocio.approved === 0);
         let lista2 = result.res.filter((negocio) => negocio.approved === 1);
+        // const pdfBlob = new Blob([atob(result.res[4].docregsan)], { type: 'application/pdf' });
 
         setSolicitudes(lista1);
         setRegistros(lista2);
-
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -202,7 +206,11 @@ export function SolicitudEmpresa() {
                             </div>
                             <div className="row">
                               <div className="col s4">
-                              <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                              <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                              href="#conf-delete-buisness"
+                                onClick={() => {
+                                  setPdfData(solicitud.docauth);
+                                }}>
                                   <i className="material-icons left">
                                     fingerprint
                                   </i>
@@ -210,13 +218,21 @@ export function SolicitudEmpresa() {
                                 </a>
                               </div>
                               <div className="col s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                href="#conf-delete-buisness"
+                                onClick={() => {
+                                  setPdf(solicitud.docreg);
+                                }}>
                                   <i className="material-icons left">gavel</i>
                                   REGISTRO MERCANTIL
                                 </a>
                               </div>
                               <div className="col s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                href="#conf-delete-buisness"
+                                onClick={() => {
+                                  setPdf(solicitud.docregsan);
+                                }}>
                                   <i className="material-icons left">
                                     sanitizer
                                   </i>
@@ -386,10 +402,19 @@ export function SolicitudEmpresa() {
                   );
                 })}
               </ul>
+              <div>
+              </div>
+              );
             </div>
           </div>
         </div>
       </section>
+      <div className="modal" id="conf-delete-buisness">
+        <div className="modal-content">
+          <div className="divider"></div>
+          <embed src={`data:application/pdf;base64,${pdfData}`}  width="100%" height="400"/>
+        </div>
+      </div>
       <br />
       <br />
       <br />

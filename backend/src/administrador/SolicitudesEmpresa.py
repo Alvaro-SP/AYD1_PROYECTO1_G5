@@ -1,5 +1,6 @@
 from flask import jsonify
-from io import BytesIO
+
+import base64
 
 def solicitudEmpresa(conn, request):
     try:
@@ -10,9 +11,10 @@ def solicitudEmpresa(conn, request):
             templist = []
             for empresa in result:
                 # Convertir el objeto BLOB en un archivo PDF
-                docauth = BytesIO(empresa[11])
-                docreg = BytesIO(empresa[12])
-                docregsan = BytesIO(empresa[13])
+                docauth = base64.b64encode(empresa[11]).decode('utf-8') if empresa[11] is not None else None
+                docreg = base64.b64encode(empresa[12]).decode('utf-8') if empresa[12] is not None else None
+                docregsan = base64.b64encode(empresa[13]).decode('utf-8') if empresa[13] is not None else None
+
                 emp = {
                     'id': empresa[0],
                     'name': empresa[1],
@@ -26,6 +28,14 @@ def solicitudEmpresa(conn, request):
                     'docreg': docreg,
                     'docregsan': docregsan
                 }
+                if docauth is not None:
+                    emp['docauth'] = docauth
+
+                if docreg is not None:
+                    emp['docreg'] = docreg
+
+                if docregsan is not None:
+                    emp['docregsan'] = docregsan
 
                 templist.append(emp)
             cursor.close()

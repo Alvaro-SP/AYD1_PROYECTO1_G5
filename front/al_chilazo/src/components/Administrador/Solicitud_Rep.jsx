@@ -9,6 +9,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 export function SolicitudRepartidor() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
   const [listaRegistrados, setRegistros] = useState([]);
+  const [pdfData, setPdfData] = useState(null);
   /* const [pdfFile, setPDFFile] = useState(null);
   const [viewPDF, setViewPDF] = useState(false); */
 
@@ -293,8 +294,11 @@ export function SolicitudRepartidor() {
                               <div className="col s4 offset-s4">
                                 <a
                                   className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
-                                  href="#viewPDF"
                                   /* // ! <!-- AL CLICKEAR SETEAR AL DOCUMENTO EN EL MODAL --> */
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdfData(solicitud.cv);
+                                  }}
                                 >
                                   <i className="material-icons left">
                                     plagiarism
@@ -504,7 +508,11 @@ export function SolicitudRepartidor() {
                             </div>
                             <div className="row">
                               <div className="col s4 offset-s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                href="#conf-delete-buisness"
+                                onClick={() => {
+                                  setPdfData(registro.cv);
+                                }}>
                                   <i className="material-icons left">
                                     plagiarism
                                   </i>
@@ -526,13 +534,12 @@ export function SolicitudRepartidor() {
       <br />
       <br />
       <br />
-      {/* <div className="modal" id="viewPDF">
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-          {viewPDF && <Viewer fileUrl={pdfFile} />}
-
-          {!viewPDF && <>NO PDF</>}
-        </Worker>
-      </div> */}
+      <div className="modal" id="conf-delete-buisness">
+        <div className="modal-content">
+          <div className="divider"></div>
+          <embed src={`data:application/pdf;base64,${pdfData}`}  width="100%" height="400"/>
+        </div>
+      </div>
     </div>
   );
 }

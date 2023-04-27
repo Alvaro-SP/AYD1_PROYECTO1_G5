@@ -16,7 +16,7 @@ def solicitudRepartidor(conn, request):
                 with open(repartidor[9], 'rb') as f:
                     blob = f.read()
                     blob_base64 = base64.b64encode(blob).decode('utf-8') """
-
+                cv = base64.b64encode(repartidor[9]).decode('utf-8') if repartidor[9] is not None else None
                 rep = {
                     'id': repartidor[0],
                     'name': repartidor[1],
@@ -27,8 +27,11 @@ def solicitudRepartidor(conn, request):
                     'city': repartidor[6],
                     'license': repartidor[7],
                     'own_transport': repartidor[8],
-                    'approved': repartidor[10]
+                    'approved': repartidor[10],
+                    'cv': cv
                 }
+                if cv is not None:
+                    rep['cv'] = cv
 
                 templist.append(rep)
             cursor.close()
