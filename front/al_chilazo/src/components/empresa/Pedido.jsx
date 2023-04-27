@@ -33,12 +33,12 @@ export default function Pedido() {
       },
     ];
     setPedidos(lis);
-    /*try {
-            const result = (await axios.get(url + "getProductos")).data;
-            console.log(result);
+    try {
+            const result = (await axios.get(url + "pedidos-de-use-empresa")).data;
+            
 
             if (result.res) {
-                setListado(result.listado);
+              setPedidos(result.res);
 
                 M.toast({
                     html: result.message,
@@ -55,7 +55,7 @@ export default function Pedido() {
                 html: error.message,
                 classes: "white-text rounded red darken-4",
             });
-        }*/
+        }
   };
 
   const seleccionar = async (elemento, color, icon) => {
@@ -72,13 +72,11 @@ export default function Pedido() {
     console.log("Confirmo pedido");
     console.log(data);
 
-    /*try {
-            const result = (await axios.post(url + "agregarProducto", data)).data;
+    try {
+            const result = (await axios.post(url + "confirmar-pedido-empresa", data)).data;
             console.log(result);
 
             if (result.res) {
-                let aux = listaUsers.filter((user) => user.nombre !== userModal);
-                setListadoUsers(aux);
 
                 M.toast({
                     html: result.message,
@@ -95,7 +93,7 @@ export default function Pedido() {
                 html: error.message,
                 classes: "white-text rounded red darken-4",
             });
-        }*/
+        }
   };
   const entregar = async () => {
     const data = {
@@ -104,14 +102,11 @@ export default function Pedido() {
     console.log("Entregar");
     console.log(data);
 
-    /*try {
-            const result = (await axios.post(url + "agregarProducto", data)).data;
+    try {
+            const result = (await axios.post(url + "preparar-pedido-empresa", data)).data;
             console.log(result);
 
             if (result.res) {
-                let aux = listaUsers.filter((user) => user.nombre !== userModal);
-                setListadoUsers(aux);
-
                 M.toast({
                     html: result.message,
                     classes: "white-text rounded green darken-4",
@@ -127,7 +122,7 @@ export default function Pedido() {
                 html: error.message,
                 classes: "white-text rounded red darken-4",
             });
-        }*/
+        }
   };
   return (
     <section>
@@ -324,7 +319,7 @@ export default function Pedido() {
                 </div>
                 <div className="col s1">
                   <a
-                    onClick={entregar}
+                    onClick={confirmar}
                     data-position="top"
                     data-tooltip="Accept"
                     className="btn-floating btn-large waves-effect black-text green modal-close tooltipped"
