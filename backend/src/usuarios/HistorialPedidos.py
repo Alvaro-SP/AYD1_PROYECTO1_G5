@@ -20,6 +20,7 @@ def historialpedidosUSUARIO(conn, request):
             cursor.execute(sql, (idUser,))
             result = cursor.fetchall()
             templist = []
+            print(result)
             for fila in result:
                 print("*****", str(fila[2]))
                 atributos = {

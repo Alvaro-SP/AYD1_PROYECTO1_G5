@@ -1,5 +1,5 @@
 from flask import jsonify
-
+from io import BytesIO
 
 def solicitudEmpresa(conn, request):
     try:
@@ -9,6 +9,10 @@ def solicitudEmpresa(conn, request):
             result = cursor.fetchall()
             templist = []
             for empresa in result:
+                # Convertir el objeto BLOB en un archivo PDF
+                docauth = BytesIO(empresa[11])
+                docreg = BytesIO(empresa[12])
+                docregsan = BytesIO(empresa[13])
                 emp = {
                     'id': empresa[0],
                     'name': empresa[1],
@@ -17,7 +21,10 @@ def solicitudEmpresa(conn, request):
                     'mail': empresa[4],
                     'depto': empresa[5],
                     'municipio': empresa[6],
-                    'approved': empresa[7]
+                    'approved': empresa[7],
+                    'docauth': docauth,
+                    'docreg': docreg,
+                    'docregsan': docregsan
                 }
 
                 templist.append(emp)

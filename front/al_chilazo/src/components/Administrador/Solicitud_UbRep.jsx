@@ -88,8 +88,8 @@ export function SolicitudCambiarUbicacion() {
         </div>
         <div className="row">
           {listaSolicitudes.map((solicitud, index) => {
-            <div class="col s12 m6" key={index}>
-              <div class="card hoverable">
+            return (<div class="col s12" key={index}>
+              <div class="card hoverable s6">
                 <div class="card-content">
                   <span class="card-title activator arrow_animation">
                     {solicitud.name + " " + solicitud.lastname}
@@ -154,7 +154,7 @@ export function SolicitudCambiarUbicacion() {
                   </div>
                 </div>
               </div>
-            </div>;
+            </div>);
           })}
         </div>
       </div>
