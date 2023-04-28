@@ -9,30 +9,13 @@ export default function Pedido() {
   const [nombre, setNombre] = useState({});
   const [colorTitle, setColor] = useState("");
   const [iconModal, setIcon] = useState("");
+  const [modalabrir, setModalAbrir] = useState("");
 
   useEffect(() => {
     getData();
     M.AutoInit();
   }, []);
   const getData = async () => {
-    var lis = [
-      {
-        id: 1,
-        state: 1,
-        date: "2/3/2023",
-        total_price: 200,
-        user_id: 2,
-        address: "27 calle 4-12 z10",
-        payment_method: "efectivo",
-        rate: "No se que sea esto pero aquie sta",
-        detalle: [
-          { id: 1, name: "leche", cantidad: 2, precio: 10.2 },
-          { id: 2, name: "leche", cantidad: 2, precio: 10.2 },
-          { id: 3, name: "leche", cantidad: 2, precio: 10.2 },
-        ],
-      },
-    ];
-    setPedidos(lis);
     try {
       const data = {
         id: JSON.parse(localStorage.getItem("user")).id
@@ -63,14 +46,19 @@ export default function Pedido() {
 
   const seleccionar = async (elemento, color, icon) => {
     setNombre(elemento);
-    setListado(elemento.detalle);
+    if(elemento.state===4){
+      setModalAbrir("#confirmacionModalP")
+    }else if (elemento.state===3){
+      setModalAbrir("#entregarPedidoE")
+    }
+    setListado(elemento.products);
     setColor(color);
     setIcon(icon);
   };
 
   const confirmar = async () => {
     const data = {
-      idPedido: nombre.id,
+      id: nombre.id,
     };
     console.log("Confirmo pedido");
     console.log(data);
@@ -81,6 +69,7 @@ export default function Pedido() {
       console.log(result);
 
       if (result.res) {
+        getData();
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -100,8 +89,9 @@ export default function Pedido() {
   };
   const entregar = async () => {
     const data = {
-      idPedido: nombre.id,
+      id: nombre.id,
     };
+    
     console.log("Entregar");
     console.log(data);
 
@@ -111,6 +101,7 @@ export default function Pedido() {
       console.log(result);
 
       if (result.res) {
+        getData();
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -147,24 +138,26 @@ export default function Pedido() {
 
               <tbody>
                 {pedidos.map((pedido) => {
-                  return (
-                    <tr key={pedido.id}>
-                      <td>{pedido.id}</td>
-                      <td>{pedido.user_id}</td>
-                      <td>{pedido.total_price}</td>
-                      <td>
-                        <a
-                          href="#verDetalle"
-                          onClick={() => seleccionar(pedido, "red", "start")}
-                          className="modal-trigger btn-floating btn-small waves-effect black-text purple darken-4 tooltipped"
-                          data-position="bottom"
-                          data-tooltip="Ver Mas"
-                        >
-                          <i className="material-icons">format_list_bulleted</i>
-                        </a>
-                      </td>
-                    </tr>
-                  );
+                  if (pedido.pedido.state === 4) {
+                    return (
+                      <tr key={pedido.pedido.id}>
+                        <td>{pedido.pedido.id}</td>
+                        <td>{pedido.pedido.name_user}</td>
+                        <td>{pedido.pedido.total_price}</td>
+                        <td>
+                          <a
+                            href="#verDetalle"
+                            onClick={() => seleccionar(pedido.pedido, "red", "start")}
+                            className="modal-trigger btn-floating btn-small waves-effect black-text purple darken-4 tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ver Mas"
+                          >
+                            <i className="material-icons">format_list_bulleted</i>
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  }
                 })}
               </tbody>
             </table>
@@ -183,26 +176,28 @@ export default function Pedido() {
 
               <tbody>
                 {pedidos.map((pedido) => {
-                  return (
-                    <tr key={pedido.id}>
-                      <td>{pedido.id}</td>
-                      <td>{pedido.user_id}</td>
-                      <td>{pedido.total_price}</td>
-                      <td>
-                        <a
-                          href="#verDetalle"
-                          onClick={() =>
-                            seleccionar(pedido, "orange", "delivery_dining")
-                          }
-                          className="modal-trigger btn-floating btn-small waves-effect black-text purple darken-4 tooltipped"
-                          data-position="bottom"
-                          data-tooltip="Ver Mas"
-                        >
-                          <i className="material-icons">format_list_bulleted</i>
-                        </a>
-                      </td>
-                    </tr>
-                  );
+                  if(pedido.pedido.state === 3){
+                    return (
+                      <tr key={pedido.pedido.id}>
+                        <td>{pedido.pedido.id}</td>
+                        <td>{pedido.pedido.name_user}</td>
+                        <td>{pedido.pedido.total_price}</td>
+                        <td>
+                          <a
+                            href="#verDetalle"
+                            onClick={() =>
+                              seleccionar(pedido.pedido, "orange", "delivery_dining")
+                            }
+                            className="modal-trigger btn-floating btn-small waves-effect black-text purple darken-4 tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ver Mas"
+                          >
+                            <i className="material-icons">format_list_bulleted</i>
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  }
                 })}
               </tbody>
             </table>
@@ -220,13 +215,15 @@ export default function Pedido() {
 
               <tbody>
                 {pedidos.map((pedido) => {
-                  return (
-                    <tr key={pedido.id}>
-                      <td>{pedido.id}</td>
-                      <td>{pedido.user_id}</td>
-                      <td>{pedido.total_price}</td>
-                    </tr>
-                  );
+                  if(pedido.pedido.state===2){
+                    return (
+                      <tr key={pedido.pedido.id}>
+                        <td>{pedido.pedido.id}</td>
+                        <td>{pedido.pedido.name_user}</td>
+                        <td>{pedido.pedido.total_price}</td>
+                      </tr>
+                    );
+                  }
                 })}
               </tbody>
             </table>
@@ -241,7 +238,10 @@ export default function Pedido() {
               <b>Pedido NO.</b> {nombre.id}
             </h5>
             <h6>
-              <b>Id Usuario:</b> {nombre.user_id}
+              <b>Correo Usuario:</b> {nombre.mail_user}
+            </h6>
+            <h6>
+              <b>Nombre Usuario:</b> {nombre.name_user}
             </h6>
             <h6>
               <b>Fecha:</b> {nombre.date}
@@ -254,9 +254,6 @@ export default function Pedido() {
             </h6>
             <h6>
               <b>Metodo de pago:</b> {nombre.payment_method}
-            </h6>
-            <h6>
-              <b>Rate:</b> {nombre.rate}
             </h6>
             <div className="row">
               <table className="centered highlight gray lighten-4">
@@ -276,9 +273,9 @@ export default function Pedido() {
                       <tr key={detail.id}>
                         <td>{detail.id}.</td>
                         <td>{detail.name}</td>
-                        <td>{detail.precio}</td>
-                        <td>{detail.cantidad}</td>
-                        <td>{detail.precio * detail.cantidad}</td>
+                        <td>{detail.price}</td>
+                        <td>{detail.disponibilidad}</td>
+                        <td>{detail.price * detail.disponibilidad}</td>
                       </tr>
                     );
                   })}
@@ -288,7 +285,7 @@ export default function Pedido() {
             <div className="row" style={{ paddingTop: "25px" }}>
               <div className="col s6 offset-s4">
                 <a
-                  href="#confirmacionModalP"
+                  href={modalabrir}
                   onClick={() => seleccionar(nombre, colorTitle, iconModal)}
                   className="btn-large waves-effect white-text green modal-trigger"
                 >

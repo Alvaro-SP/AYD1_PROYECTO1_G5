@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Start } from "./components/Start/Start";
 import { SidebarAdmin } from "./components/Administrador/Sidebar";
 import { SidebarRepartidor } from "./components/Repartidor/Sidebar";
@@ -15,7 +15,10 @@ function App() {
   const [flagEmpresa, setEmpresaFlag] = useState(false);
   const [flagUsuario, setUsuarioFlag] = useState(false);
   const [flagStart, setStartFlag] = useState(true);
-
+  useEffect(() => {
+    if (localStorage.getItem("rol")!==null || localStorage.getItem("rol")!==undefined)
+    localStorage.setItem('rol',"")
+  }, []);
   const logout = async () => {
     setAdminFlag(false);
     setRepartidorFlag(false);
