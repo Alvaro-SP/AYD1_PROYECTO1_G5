@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { url } from "../../shared/url";
 import { auth } from "../../shared/auth";
 import axios from "axios";
 import "../../styles/Administrador/solicitud_rep.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
+import { sendEmail } from "../../proc/email";
 
 export function SolicitudRepartidor() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
   const [listaRegistrados, setRegistros] = useState([]);
   const [pdfData, setPdfData] = useState(null);
-  /* const [pdfFile, setPDFFile] = useState(null);
-  const [viewPDF, setViewPDF] = useState(false); */
 
   useEffect(() => {
     getData();
@@ -57,11 +55,28 @@ export function SolicitudRepartidor() {
     }
   };
 
-  const confirmarSolicitud = async (id, state) => {
+  const confirmarSolicitud = async (id, state, email) => {
+    let asunto = ""
+    let mensaje = ""
+
     const data = {
       id: id,
       state: state,
     };
+
+    if (state === 1) {
+      asunto = "Solicitud Aceptacion"
+      mensaje = `Se Ha Aprobado Su Solicitud
+      Para Formar Parte Del Equipo De \"Al Chilazo\".
+      
+      Atentamente, Administracion`
+    } else {
+      asunto = "Solicitud Aceptacion"
+      mensaje = `Se Ha Rechazado Su Solicitud
+      Para Formar Parte Del Equipo De \"Al Chilazo\".
+      
+      Atentamente, Administracion`
+    }
 
     try {
       const result = (await axios.post(url + "confirmar-repartidor", data, auth))
@@ -82,7 +97,8 @@ export function SolicitudRepartidor() {
           const aux = listaSolicitudes.filter(solicitud => solicitud.id !== id);
           setSolicitudes(aux);
         }
-
+        
+        sendEmail(email, asunto, mensaje)
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -124,23 +140,6 @@ export function SolicitudRepartidor() {
       return "SI TIENE TRANSPORTE PROPIO";
     }
   };
-
-  /* const fileType = ["application/pdf"];
-  const handleChange = (e) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        let reader = FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = (e) => {
-          setPDFFile(e.target.result);
-          setViewPDF(true);
-        };
-      } else {
-        setPDFFile(null);
-      }
-    }
-  }; */
 
   return (
     <div>
@@ -312,7 +311,7 @@ export function SolicitudRepartidor() {
                                 <a
                                   className="btn green darken-3 white-text"
                                   onClick={() =>
-                                    confirmarSolicitud(solicitud.id, 1)
+                                    confirmarSolicitud(solicitud.id, 1, solicitud.mail)
                                   }
                                 >
                                   <i className="material-icons left">
@@ -325,7 +324,7 @@ export function SolicitudRepartidor() {
                                 <a
                                   className="btn red darken-3 white-text"
                                   onClick={() =>
-                                    confirmarSolicitud(solicitud.id, 2)
+                                    confirmarSolicitud(solicitud.id, 2, solicitud.mail)
                                   }
                                 >
                                   <i className="material-icons left">

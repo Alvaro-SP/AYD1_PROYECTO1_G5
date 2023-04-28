@@ -6,7 +6,8 @@ import axios from "axios";
 export function RemoverNegocio() {
   const [listaNegocios, setListadoNegocios] = useState([]);
   const [negocioModal, setNegocio] = useState("");
-  const [idNegocio, setNegocioID] = useState(0)
+  const [idNegocio, setNegocioID] = useState(0);
+  const [justNegocio, setJustificacion] = useState("")
 
   useEffect(() => {
     getData();
@@ -25,9 +26,9 @@ export function RemoverNegocio() {
       console.log(result);
 
       if (result.res) {
-        let listaAux = result.res.filter(negocio => negocio.approved === 1)
+        let listaAux = result.res.filter((negocio) => negocio.approved === 1);
         setListadoNegocios(listaAux);
-        
+
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -48,18 +49,18 @@ export function RemoverNegocio() {
 
   const eliminarNegocio = async () => {
     const data = {
-      negocio: JSON.parse(localStorage.getItem("user")).id,
-      state: 2
+      id: idNegocio,
+      state: 2,
+      justificaion: justNegocio
     };
 
     try {
-      const result = (await axios.post(url + "confirmar-empresa", data, auth)).data;
+      const result = (await axios.post(url + "confirmar-empresa", data, auth))
+        .data;
       console.log(result);
 
       if (result.res) {
-        let aux = listaNegocios.filter(
-          (negocio) => negocio.id !== idNegocio
-        );
+        let aux = listaNegocios.filter((negocio) => negocio.id !== idNegocio);
         setListadoNegocios(aux);
 
         M.toast({
@@ -109,10 +110,9 @@ export function RemoverNegocio() {
                         href="#conf-delete-buisness"
                         className="secondary-content modal-trigger hicon"
                         onClick={() => {
-                            setNegocio(negocio.name)
-                            setNegocioID(negocio.id)
-                          }
-                        }
+                          setNegocio(negocio.name);
+                          setNegocioID(negocio.id);
+                        }}
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -132,6 +132,21 @@ export function RemoverNegocio() {
           <div className="divider"></div>
           <h6>Seguro que desea eliminar al negocio {negocioModal}?</h6>
           <h6>Esta accion no se puede revertir...</h6>
+          <div className="container">
+            <div className="row">
+              <h5>Motivo Por El Cual Desea Dar De Baja El Negocio</h5>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <textarea
+                  id="justificacionNeg"
+                  className="materialize-textarea"
+                  onChange={(e) => setJustificacion(e.target.value)}
+                ></textarea>
+                <label for="justificacionNeg">Textarea</label>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="modal-footer">
           <a

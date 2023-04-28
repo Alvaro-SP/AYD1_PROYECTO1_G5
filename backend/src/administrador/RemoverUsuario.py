@@ -32,7 +32,7 @@ def removerUsuario(conn, request):
     try:
         with conn.cursor() as cursor:
             sql = "UPDATE user SET state=0 WHERE id=%s"
-            cursor.execute(sql, (id))
+            cursor.execute(sql, (id,))
             conn.commit()
             cursor.close()
 

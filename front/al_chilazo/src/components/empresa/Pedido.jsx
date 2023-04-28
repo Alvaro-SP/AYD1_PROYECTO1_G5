@@ -8,7 +8,7 @@ export default function Pedido() {
   const [pedidos, setPedidos] = useState([]);
   const [nombre, setNombre] = useState({});
   const [colorTitle, setColor] = useState("");
-  const [iconModal, setIcon] = useState("")
+  const [iconModal, setIcon] = useState("");
 
   useEffect(() => {
     getData();
@@ -34,35 +34,38 @@ export default function Pedido() {
     ];
     setPedidos(lis);
     try {
-            const result = (await axios.get(url + "pedidos-de-use-empresa")).data;
-            
+      const data = {
+        id: JSON.parse(localStorage.getItem("user")).id
+      }
+      const result = (await axios.post(url + "pedidos-de-user-empresa", data)).data;
 
-            if (result.res) {
-              setPedidos(result.res);
+      console.log(result.res);
+      if (result.res) {
+        setPedidos(result.res);
 
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
 
   const seleccionar = async (elemento, color, icon) => {
     setNombre(elemento);
     setListado(elemento.detalle);
     setColor(color);
-    setIcon(icon)
+    setIcon(icon);
   };
 
   const confirmar = async () => {
@@ -73,27 +76,27 @@ export default function Pedido() {
     console.log(data);
 
     try {
-            const result = (await axios.post(url + "confirmar-pedido-empresa", data)).data;
-            console.log(result);
+      const result = (await axios.post(url + "confirmar-pedido-empresa", data))
+        .data;
+      console.log(result);
 
-            if (result.res) {
-
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }
+      if (result.res) {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
   const entregar = async () => {
     const data = {
@@ -103,26 +106,27 @@ export default function Pedido() {
     console.log(data);
 
     try {
-            const result = (await axios.post(url + "preparar-pedido-empresa", data)).data;
-            console.log(result);
+      const result = (await axios.post(url + "preparar-pedido-empresa", data))
+        .data;
+      console.log(result);
 
-            if (result.res) {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded green darken-4",
-                });
-            } else {
-                M.toast({
-                    html: result.message,
-                    classes: "white-text rounded red darken-4",
-                });
-            }
-        } catch (error) {
-            M.toast({
-                html: error.message,
-                classes: "white-text rounded red darken-4",
-            });
-        }
+      if (result.res) {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4",
+        });
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4",
+        });
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text rounded red darken-4",
+      });
+    }
   };
   return (
     <section>
@@ -187,7 +191,9 @@ export default function Pedido() {
                       <td>
                         <a
                           href="#verDetalle"
-                          onClick={() => seleccionar(pedido, "orange", "delivery_dining")}
+                          onClick={() =>
+                            seleccionar(pedido, "orange", "delivery_dining")
+                          }
                           className="modal-trigger btn-floating btn-small waves-effect black-text purple darken-4 tooltipped"
                           data-position="bottom"
                           data-tooltip="Ver Mas"
@@ -279,14 +285,16 @@ export default function Pedido() {
                 </tbody>
               </table>
             </div>
-            <div className="row" style={{paddingTop: "25px"}}>
+            <div className="row" style={{ paddingTop: "25px" }}>
               <div className="col s6 offset-s4">
                 <a
                   href="#confirmacionModalP"
                   onClick={() => seleccionar(nombre, colorTitle, iconModal)}
                   className="btn-large waves-effect white-text green modal-trigger"
                 >
-                  <i className="material-icons left iconSizeModalPedido">{iconModal}</i>
+                  <i className="material-icons left iconSizeModalPedido">
+                    {iconModal}
+                  </i>
                   Siguiente Fase
                 </a>
               </div>

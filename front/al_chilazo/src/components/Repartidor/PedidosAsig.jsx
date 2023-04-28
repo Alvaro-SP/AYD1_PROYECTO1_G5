@@ -114,6 +114,15 @@ export function PedidosAsignados() {
     }
   };
 
+  const setStars = (value) => {
+    let rate = ''
+    for (let i = 1; i <= rate; i++) {
+      rate += '⭐'
+    }
+
+    return rate
+  }
+
   const paginarPedidos = (index) => {
     let seccionPedido = [];
     for (let i = (index - 1) * 5; i < index * 5; i++) {
@@ -212,7 +221,7 @@ export function PedidosAsignados() {
             )}
           </div>
           <br />
-          <div className="row">
+          <div className="row hide">
             <h4 className="green-text text-darken-3 center-align">
               PEDIDOS COMPLETADOS
             </h4>
@@ -263,7 +272,7 @@ export function PedidosAsignados() {
                               <br />
                               Forma De Pago: {pedidoC.payment_method} <br />
                               <br />
-                              Calificacion: {pedidoC.rate}
+                              Calificacion: {setStars(pedidoC.rate)}
                             </p>
                           </div>
                         </div>

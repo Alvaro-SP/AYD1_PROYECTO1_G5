@@ -25,6 +25,7 @@ from src.administrador.SolicitudesRepartidores import solicitudRepartidor, cambi
 from src.administrador.SolicitudesEmpresa import cambiarEstadoEmpresa, solicitudEmpresa
 from src.administrador.RemoverUsuario import removerUsuario, getUsuarios
 from src.administrador.CambiarUbicacion import solicitudUbicacionRep, confirmarUbicaionNueva
+from src.administrador.Reportes import aprobadosCONT
 import datetime
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                             unset_jwt_cookies, jwt_required, JWTManager
@@ -270,6 +271,7 @@ def deleteproductemrpess():
     response = deleteproduct(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
 # PEDIDOS DE MODULO EMPRESA
 @app.route('/pedidos-de-user-empresa', methods=['POST'])
 # @jwt_required()
@@ -295,6 +297,14 @@ def confirmarpedidosendpoin():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 #*  *********************** ADMINISTRADOR *********************
+@app.route('/get-notify', methods=['GET'])
+# jwt_required()
+def get_notifies():
+    global conn
+    response = aprobadosCONT(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 @app.route('/solicitudes-repartidor', methods=['GET'])
 # @jwt_required()
 def solicitudes_repartidor():

@@ -20,7 +20,7 @@ def aprobadosCONT(conn, request):
                 enviar = {
                     'repcont': usuario[0],
                     'empresacont': usuario[1],
-                    'repzonecont': usuario[3]
+                    'repzonecont': usuario[2]
                 }
 
                 templist.append(enviar)

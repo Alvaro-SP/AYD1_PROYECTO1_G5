@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import { auth } from "../../shared/auth";
+import { sendEmail } from "../../proc/email";
 import axios from "axios";
 import "../../styles/Administrador/solicitud_rep.css";
 
@@ -16,21 +17,20 @@ export function SolicitudEmpresa() {
       inDuration: 250,
       outDuration: 250,
     });
-    var elems = document.querySelectorAll('.modal');
+    var elems = document.querySelectorAll(".modal");
     M.Modal.init(elems, {});
   }, []);
   const setPdf = (pdf) => {
     setPdfData(pdf);
-  }
+  };
   const getData = async () => {
     try {
       const result = (await axios.get(url + "solicitudes-empresa", auth)).data;
       console.log(result);
-      
+
       if (result.res) {
         let lista1 = result.res.filter((negocio) => negocio.approved === 0);
         let lista2 = result.res.filter((negocio) => negocio.approved === 1);
-        // const pdfBlob = new Blob([atob(result.res[4].docregsan)], { type: 'application/pdf' });
 
         setSolicitudes(lista1);
         setRegistros(lista2);
@@ -52,14 +52,32 @@ export function SolicitudEmpresa() {
     }
   };
 
-  const confirmarSolicitud = async (id, state) => {
+  const confirmarSolicitud = async (id, state, email) => {
+    let asunto = "";
+    let mensaje = "";
+
     const data = {
       id: id,
       state: state,
     };
 
+    if (state === 1) {
+      asunto = "Solicitud Aceptacion";
+      mensaje = `Se Ha Aprobado Su Solicitud
+      Para Formar Parte Del Equipo De \"Al Chilazo\".
+      
+      Atentamente, Administracion`;
+    } else {
+      asunto = "Solicitud Aceptacion";
+      mensaje = `Se Ha Rechazado Su Solicitud
+      Para Formar Parte Del Equipo De \"Al Chilazo\".
+      
+      Atentamente, Administracion`;
+    }
+
     try {
-      const result = (await axios.post(url + "confirmar-empresa", data, auth)).data;
+      const result = (await axios.post(url + "confirmar-empresa", data, auth))
+        .data;
       console.log(result);
 
       if (result.res) {
@@ -83,6 +101,8 @@ export function SolicitudEmpresa() {
           setSolicitudes(aux);
         }
 
+        sendEmail(email, asunto, mensaje);
+
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -103,22 +123,21 @@ export function SolicitudEmpresa() {
 
   const getCategory = (cat) => {
     if (cat === 1) {
-      return "Restaurantes y Comida Rapida"
-    } else  if (cat === 2){
-      return "Cafeterias"
+      return "Restaurantes y Comida Rapida";
+    } else if (cat === 2) {
+      return "Cafeterias";
     } else if (cat === 3) {
-      return "Tiendas de Conveniencia"
+      return "Tiendas de Conveniencia";
     } else if (cat === 4) {
-      return "Supermercados"
+      return "Supermercados";
     }
-    
-  }
+  };
 
   return (
     <>
       <section>
         <div className="container">
-        <div className="row">
+          <div className="row">
             <div className="col s12">
               <h2 className="teal-text text-darken-3 center-align">
                 Solicitudes Negocios
@@ -131,7 +150,7 @@ export function SolicitudEmpresa() {
             <div className="col s12">
               <ul className="collapsible popout">
                 {listaSolicitudes.map((solicitud) => {
-                  let category = getCategory(solicitud.category)
+                  let category = getCategory(solicitud.category);
                   return (
                     <li>
                       <div className="collapsible-header">
@@ -169,7 +188,9 @@ export function SolicitudEmpresa() {
                                   disabled={true}
                                   value={solicitud.description}
                                 ></textarea>
-                                <label htmlFor="descripcion" className="active">Descripcion</label>
+                                <label htmlFor="descripcion" className="active">
+                                  Descripcion
+                                </label>
                               </div>
                             </div>
                             <div className="row">
@@ -206,11 +227,13 @@ export function SolicitudEmpresa() {
                             </div>
                             <div className="row">
                               <div className="col s4">
-                              <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
-                              href="#conf-delete-buisness"
-                                onClick={() => {
-                                  setPdfData(solicitud.docauth);
-                                }}>
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdfData(solicitud.docauth);
+                                  }}
+                                >
                                   <i className="material-icons left">
                                     fingerprint
                                   </i>
@@ -218,21 +241,25 @@ export function SolicitudEmpresa() {
                                 </a>
                               </div>
                               <div className="col s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
-                                href="#conf-delete-buisness"
-                                onClick={() => {
-                                  setPdf(solicitud.docreg);
-                                }}>
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdf(solicitud.docreg);
+                                  }}
+                                >
                                   <i className="material-icons left">gavel</i>
                                   REGISTRO MERCANTIL
                                 </a>
                               </div>
                               <div className="col s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
-                                href="#conf-delete-buisness"
-                                onClick={() => {
-                                  setPdf(solicitud.docregsan);
-                                }}>
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdf(solicitud.docregsan);
+                                  }}
+                                >
                                   <i className="material-icons left">
                                     sanitizer
                                   </i>
@@ -245,7 +272,11 @@ export function SolicitudEmpresa() {
                                 <a
                                   className="btn green darken-3 white-text"
                                   onClick={() => {
-                                    confirmarSolicitud(solicitud.id, 1);
+                                    confirmarSolicitud(
+                                      solicitud.id,
+                                      1,
+                                      solicitud.mail
+                                    );
                                   }}
                                 >
                                   <i className="material-icons left">
@@ -258,7 +289,11 @@ export function SolicitudEmpresa() {
                                 <a
                                   className="btn red darken-3 white-text"
                                   onClick={() =>
-                                    confirmarSolicitud(solicitud.id, 2)
+                                    confirmarSolicitud(
+                                      solicitud.id,
+                                      2,
+                                      solicitud.mail
+                                    )
                                   }
                                 >
                                   <i className="material-icons left">
@@ -296,7 +331,7 @@ export function SolicitudEmpresa() {
             <div className="col s12">
               <ul className="collapsible expandable">
                 {listaRegistrados.map((registro) => {
-                  let category = getCategory(registro.category)
+                  let category = getCategory(registro.category);
                   return (
                     <li>
                       <div className="collapsible-header">
@@ -373,7 +408,13 @@ export function SolicitudEmpresa() {
                             </div>
                             <div className="row">
                               <div className="col s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdfData(registro.docauth);
+                                  }}
+                                >
                                   <i className="material-icons left">
                                     fingerprint
                                   </i>
@@ -381,19 +422,31 @@ export function SolicitudEmpresa() {
                                 </a>
                               </div>
                               <div className="col s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdfData(registro.docreg);
+                                  }}
+                                >
                                   <i className="material-icons left">gavel</i>
                                   REGISTRO MERCANTIL
                                 </a>
                               </div>
-                              <a className="col s4">
-                                <div className="btn indigo darken-3 white-text waves-effect waves-light">
+                              <div className="col s4">
+                                <a
+                                  className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdfData(registro.docregsan);
+                                  }}
+                                >
                                   <i className="material-icons left">
                                     sanitizer
                                   </i>
                                   REGISTRO SANITARIO
-                                </div>
-                              </a>
+                                </a>
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -402,8 +455,7 @@ export function SolicitudEmpresa() {
                   );
                 })}
               </ul>
-              <div>
-              </div>
+              <div></div>
               );
             </div>
           </div>
@@ -412,7 +464,11 @@ export function SolicitudEmpresa() {
       <div className="modal" id="conf-delete-buisness">
         <div className="modal-content">
           <div className="divider"></div>
-          <embed src={`data:application/pdf;base64,${pdfData}`}  width="100%" height="400"/>
+          <embed
+            src={`data:application/pdf;base64,${pdfData}`}
+            width="100%"
+            height="400"
+          />
         </div>
       </div>
       <br />
