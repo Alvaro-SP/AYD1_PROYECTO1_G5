@@ -54,6 +54,7 @@ def cambiarEstadoRepartidor(conn, request):
     # ! state 1 -> Aceptar state 2 -> Funar
     try:
         with conn.cursor() as cursor:
+            formatted_date = None
             # ? VALIDACION DE QUE NO TENGA PENDIENTES
             if (state == 2):
                 sql = "SELECT * from pedido WHERE state=1 AND repartidor_id=%s"
