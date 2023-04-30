@@ -1,0 +1,239 @@
+/* Estilos generales */
+body {
+font-family: Arial, sans-serif;
+}
+
+/* Tarjetas de productos */
+.tarjetas-producto {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+justify-content: center;
+gap: 10px;
+}
+
+.cardhorizontal {
+grid-area: tarjeta;
+}
+
+.rowl {
+display: grid;
+justify-content: center;
+align-items: center;
+background: #ffffff;
+border: 1px solid #aaa;
+border-radius: 10px;
+width: 400px;
+min-height: 200px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.contenedor-productos {
+display: grid;
+max-width: 1000px;
+grid-area: tarjeta;
+}
+
+/* finalizarp */
+.finalizarp {
+justify-content: center;
+width: auto;
+padding-left: 10px;
+grid-area: finalizarp;
+border-radius: 10px;
+}
+
+.finalizarp .row ul {
+list-style: none;
+padding: 0;
+margin: 10px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.finalizarp .row ul li {
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+margin: 5px 0;
+}
+
+.boton-restar,
+.boton-sumar,
+.boton-eliminar {
+  font-size: 18px;
+  padding: 10px 15px;
+  border: none;
+  color: #fff;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.boton-restar {
+  background-color: #635d5d;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.boton-restar:hover {
+  background-color: #272626;
+}
+
+.boton-restar:active {
+  background-color: #a62020;
+}
+
+.boton-sumar {
+  background-color: #cf1c1c;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.boton-sumar:hover {
+  background-color: #f31010;
+}
+
+.boton-sumar:active {
+  background-color: #eb0909;
+}
+
+.boton-eliminar {
+  font-size: 14px;
+  background-color: #635d5d;
+}
+
+.boton-eliminar:hover {
+  background-color: #272626;
+}
+
+.boton-eliminar:active {
+  background-color: #b30000;
+}
+
+
+.finalizarp .row ul li button.mas {
+background-color: #008000;
+}
+
+.btn-continuar {
+    background: linear-gradient(to bottom, #cf1c1c, #f67316);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 30px;
+  }
+  
+  .btn-continuar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .btn-continuar:active {
+    transform: translateY(0px);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+
+/* Barra de búsqueda */
+.contenedor-busqueda {
+display: grid;
+grid-area: barra;
+max-width: 1200px;
+}
+
+/* Contenedor general de productos */
+.contenedor-general-productos {
+display: grid;
+grid-template-areas:
+'barra barra barra'
+'tarjeta tarjeta finalizarp';
+grid-template-columns: repeat(3, 1fr);
+max-width: 1200px;
+margin: 0 auto;
+padding-left: 100px;
+
+}
+
+/* Títulos */
+h4 {
+font-weight: bold;
+text-transform: uppercase;
+color: #d60b0b;
+margin-bottom: 10px;
+justify-content: center;
+text-shadow: 1px 1px 0 #fff;
+}
+.productos-containerp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 0.5rem;
+  margin: 1rem auto;
+}
+
+.productop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.productop:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.productop img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 1088px) {
+    /* Tarjetas de productos */
+    .tarjetas-producto {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 20px;
+    }
+    
+    /* Contenedor general de productos */
+    .contenedor-general-productos {
+    grid-template-areas:
+    'barra barra'
+    'tarjeta tarjeta'
+    'finalizarp finalizarp';
+    grid-template-columns: 1fr;
+    padding: 10px;
+    }
+    
+    /* finalizarp */
+    .finalizarp {
+    width: auto;
+    padding-left: 5px;
+    }
+    
+    .finalizarp .row ul li button {
+    font-size: 14px;
+    }
+    
+    .btn-continuar {
+    font-size: 14px;
+    padding: 5px 10px;
+    }
+    
+    /* Barra de búsqueda */
+    .contenedor-busqueda {
+    margin-bottom: 20px;
+    }
+    }

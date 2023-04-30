@@ -1,0 +1,24 @@
+@import "../../node_modules/materialize-css/dist/css/materialize.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+
+.sidenav {
+  width: 150px !important;
+  padding-top: 0px;
+  border: hidden !important;
+}
+
+@media only screen and (max-width: 992px) {
+  section {
+    padding-left: 0;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  section {
+    padding-left: 150px;
+  }
+}
+
+section {
+  overflow: auto !important;
+}

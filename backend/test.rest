@@ -1,0 +1,64 @@
+# ! SIGN IN  (FUNKO)
+POST http://localhost:5000/login HTTP/1.1
+content-type: application/json
+
+{
+    "rol":1,
+    "username":"Alvaro",
+    "password":"12345678"
+}
+###
+# ! SIGN UP  (FUNKO)
+POST http://localhost:5000/register HTTP/1.1
+content-type: application/json
+
+{
+    "rol":2,
+    "username":"Alvaro",
+    "password":"12345678",
+    "city":"Guatemala",
+    "depto":"Guatemala",
+    "phone":"57707472"
+}
+###
+#* GET CART
+POST http://localhost:5000/get-cart HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_usr": 1
+}
+###
+#* ADD TO CART
+POST http://localhost:5000/add-to-cart HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_usr": 1,
+    "id_product":1
+}
+###
+#* DELETE FROM CART
+POST http://localhost:5000/delete-from-cart HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_usr": 1,
+    "id_product":1
+}
+###
+#* EMPRESA
+POST http://localhost:5000/pedidos-de-user-empresa HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 5
+}
+###
+#* HACER PEDIDO
+POST http://localhost:5000/pedidos-de-user-empresa HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 5
+}

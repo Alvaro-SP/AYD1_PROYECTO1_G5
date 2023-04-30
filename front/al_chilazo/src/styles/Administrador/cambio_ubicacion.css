@@ -1,0 +1,64 @@
+* {
+  font-family: "Varela Round", sans-serif;
+}
+
+.card-reveal {
+  padding: 5px;
+  overflow-y: hidden !important;
+}
+
+.iconSize {
+  font-size: 3rem !important;
+}
+
+.arrow_animation {
+  animation: flechas infinite 4s backwards;
+}
+
+.line_animation {
+  animation: lineas infinite 4s backwards;
+}
+
+@keyframes flechas {
+  0% {
+    color: #f22e3e;
+  }
+
+  25% {
+    color: #9556a6;
+  }
+
+  50% {
+    color: #307cbf;
+  }
+
+  75% {
+    color: #f2a922;
+  }
+
+  100% {
+    color: #f22e3e;
+  }
+}
+
+@keyframes lineas {
+  0% {
+    background-color: #f22e3e;
+  }
+
+  25% {
+    background-color: #9556a6;
+  }
+
+  50% {
+    background-color: #307cbf;
+  }
+
+  75% {
+    background-color: #f2a922;
+  }
+
+  100% {
+    background-color: #f22e3e;
+  }
+}

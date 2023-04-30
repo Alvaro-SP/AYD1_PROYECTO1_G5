@@ -1,0 +1,39 @@
+.contenedor-general{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+}
+
+.container-input{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 12px;
+    width: 100%;
+}
+
+.input-field{
+    display: flex;
+    margin: 10px;
+    width: 60%;
+    height: 100%;
+}
+
+
+.usuario-categorias{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.tarjetas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    max-width: 65%;
+}
+
