@@ -4,7 +4,7 @@ from flask import jsonify
 def solicitudUbicacionRep(conn, request):
     try:
         with conn.cursor() as cursor:
-            sql = "SELECT * FROM repartidor WHERE solizone=1;"
+            sql = "SELECT * FROM repartidor WHERE solizone=1 AND approved=1;"
             cursor.execute(sql)
             result = cursor.fetchall()
             templist = []

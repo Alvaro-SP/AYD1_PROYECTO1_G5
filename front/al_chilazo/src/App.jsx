@@ -15,10 +15,7 @@ function App() {
   const [flagEmpresa, setEmpresaFlag] = useState(false);
   const [flagUsuario, setUsuarioFlag] = useState(false);
   const [flagStart, setStartFlag] = useState(true);
-  useEffect(() => {
-    if (localStorage.getItem("rol")!==null || localStorage.getItem("rol")!==undefined)
-    localStorage.setItem('rol',"")
-  }, []);
+
   const logout = async () => {
     setAdminFlag(false);
     setRepartidorFlag(false);

@@ -24,7 +24,6 @@ def perfilrepartidor(conn, request):
                     'city': fila[6],
                     'license': fila[7],
                     'own_transport': fila[8],
-                    'cv': fila[9],
                     "password": fila[11]}
                 templist=(atributos)
             cursor.close()

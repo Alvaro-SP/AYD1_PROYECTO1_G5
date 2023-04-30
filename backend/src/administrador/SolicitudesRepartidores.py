@@ -13,10 +13,6 @@ def solicitudRepartidor(conn, request):
             result = cursor.fetchall()
             templist = []
             for repartidor in result:
-                """ blob_base64 = None
-                with open(repartidor[9], 'rb') as f:
-                    blob = f.read()
-                    blob_base64 = base64.b64encode(blob).decode('utf-8') """
                 cv = base64.b64encode(repartidor[9]).decode('utf-8') if repartidor[9] is not None else None
                 rep = {
                     'id': repartidor[0],

@@ -58,7 +58,6 @@ def login(conn, request, jwt):
                             "city": user[6],
                             "license": user[7],
                             "own_transport": user[8],
-                            "cv": user[9],
                             "approved": user[10],
                             "password": user[11],
                             "type": 2

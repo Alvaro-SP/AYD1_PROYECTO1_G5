@@ -160,7 +160,7 @@ export function PerfilRepartidor() {
       }
 
       const data = {
-        id: 1,
+        id: JSON.parse(localStorage.getItem("user")).id,
         depto: dept,
         city: municipio,
       };
