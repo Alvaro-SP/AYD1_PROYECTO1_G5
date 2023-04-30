@@ -56,6 +56,7 @@ def cambiarEstadoEmpresa(conn, request):
 
     try:
         with conn.cursor() as cursor:
+            formatted_date = None
             # ? VALIDACION DE QUE NO TENGA PENDIENTES
             if (state == 2):
                 sql = "SELECT * from pedido WHERE state=1 AND empresa=%s"
