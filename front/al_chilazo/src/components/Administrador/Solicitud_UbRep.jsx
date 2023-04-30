@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
+import { sendEmail } from "../../proc/email";
 import axios from "axios";
-import "../../styles/cambio_ubicacion.css";
+import "../../styles/Administrador/cambio_ubicacion.css";
 
 export function SolicitudCambiarUbicacion() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
@@ -18,7 +20,8 @@ export function SolicitudCambiarUbicacion() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "solicitudes-ubicacion-rep")).data;
+      const result = (await axios.get(url + "solicitudes-ubicacion-rep", auth))
+        .data;
       console.log(result);
 
       if (result.res) {
@@ -42,20 +45,38 @@ export function SolicitudCambiarUbicacion() {
     }
   };
 
-  const confirmarSolicitud = async (id, state) => {
+  const confirmarSolicitud = async (id, state, email) => {
+    let asunto = "";
+    let mensaje = "";
+
     const data = {
       id: id,
       state: state,
     };
 
+    if (state === 0) {
+      asunto = "Solicitud De Cambio De Ubicacion";
+      mensaje = `Se Ha Aprobado El Cambio
+      De Ubicacion Que Ha Solicitado.
+      
+      Atentamente, Administracion`;
+    } else {
+      asunto = "Solicitud De Cambio De Ubicacion";
+      mensaje = `Se Ha Rechazado El Cambio
+      De Ubicacion Que Ha Solicitado.
+      
+      Atentamente, Administracion`;
+    }
+
     try {
-      const result = (await axios.post(url + "confirmar-ub-nueva-rep", data))
-        .data;
+      const result = (
+        await axios.post(url + "confirmar-ub-nueva-rep", data, auth)
+      ).data;
 
       if (result.res) {
         let aux = listaSolicitudes.filter((sol) => sol.id !== id);
         setSolicitudes(aux);
-
+        sendEmail(email, asunto, mensaje)
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -76,7 +97,7 @@ export function SolicitudCambiarUbicacion() {
 
   return (
     <section>
-      <div className="container">
+      <div className="container" style={{ overflowY: "hidden" }}>
         <div className="row">
           <div className="col s12">
             <h2 className="deep-orange-text text-darken-2 center-align">
@@ -87,31 +108,33 @@ export function SolicitudCambiarUbicacion() {
         </div>
         <div className="row">
           {listaSolicitudes.map((solicitud, index) => {
-            <div class="col s12 m6" key={index}>
-              <div class="card hoverable">
+            return (
+              <div class="card hoverable col s8 offset-s2">
                 <div class="card-content">
-                  <span class="card-title activator arrow_animation">
+                  <span class="card-title activator arrow_animation center">
                     {solicitud.name + " " + solicitud.lastname}
                     <i class="material-icons right arrow_animation">
                       more_vert
                     </i>
                   </span>
+                  <div className="divider"></div>
+                  <br />
                   <div className="row">
-                    <div className="col s5">
+                    <div className="col s5 center">
                       <p>
-                        Depto: {solicitud.deptoActual} <br />
-                        City: {solicitud.cityActual}
+                        <b>DEPTO: </b> {solicitud.deptoActual} <br />
+                        <b>CITY:</b> {solicitud.cityActual}
                       </p>
                     </div>
-                    <div className="col s2 center-content">
+                    <div className="col s1 center-content">
                       <i className="material-icons iconSize arrow_animation">
                         double_arrow
                       </i>
                     </div>
-                    <div className="col s5">
+                    <div className="col s5 center">
                       <p>
-                        Depto: {solicitud.deptoNew} <br />
-                        City: {solicitud.cityNew}
+                        <b>DEPTO: </b> {solicitud.deptoNew} <br />
+                        <b>CITY: </b> {solicitud.cityNew}
                       </p>
                     </div>
                   </div>
@@ -134,7 +157,9 @@ export function SolicitudCambiarUbicacion() {
                           class="btn-floating waves-effect waves-light green darken-4 tooltipped"
                           data-position="bottom"
                           data-tooltip="Accept"
-                          onClick={() => confirmarSolicitud(solicitud.id, 0)}
+                          onClick={() =>
+                            confirmarSolicitud(solicitud.id, 0, solicitud.mail)
+                          }
                         >
                           <i class="material-icons white-text">gpp_good</i>
                         </a>
@@ -144,7 +169,9 @@ export function SolicitudCambiarUbicacion() {
                           class="btn-floating waves-effect waves-light red darken-4 tooltipped"
                           data-position="bottom"
                           data-tooltip="Denied"
-                          onClick={() => confirmarSolicitud(solicitud.id, 1)}
+                          onClick={() =>
+                            confirmarSolicitud(solicitud.id, 1, solicitud.mail)
+                          }
                         >
                           <i class="material-icons white-text">highlight_off</i>
                         </a>
@@ -153,7 +180,7 @@ export function SolicitudCambiarUbicacion() {
                   </div>
                 </div>
               </div>
-            </div>;
+            );
           })}
         </div>
       </div>

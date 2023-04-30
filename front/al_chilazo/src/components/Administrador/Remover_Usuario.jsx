@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
-import "../../styles/remover_usuario.css";
+import "../../styles/Administrador/remover_usuario.css";
 
 export function RemoverUsuario() {
   const [listaUsers, setListadoUsers] = useState([]);
@@ -21,7 +22,7 @@ export function RemoverUsuario() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "get-usuarios-admin")).data;
+      const result = (await axios.get(url + "get-usuarios-admin", auth)).data;
       console.log(result);
 
       if (result.res) {
@@ -47,15 +48,15 @@ export function RemoverUsuario() {
 
   const eliminarUsuario = async () => {
     const data = {
-      user: userID
+      user: JSON.parse(localStorage.getItem("user")).id
     };
 
     try {
-      const result = (await axios.post(url + "remover-usuario", data)).data;
+      const result = (await axios.post(url + "remover-usuario", data, auth)).data;
       console.log(result);
 
       if (result.res) {
-        let aux = listaUsers.filter((user) => user.id !== userID);
+        let aux = listaUsers.filter((user) => user.id !== JSON.parse(localStorage.getItem("user")).id);
         setListadoUsers(aux);
 
         M.toast({

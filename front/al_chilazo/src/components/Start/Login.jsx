@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
 
-export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
-  //? AGREGAR VALIDACION DE CORREO CON EXPRESION REGULAR
-  //? CAMBIAR LOS ID, HACERLOS UNICOS
+export function Login({ adFlag, repFlag, empFlag, userFlag, startFlag }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [rol, setRol] = useState("");
@@ -51,10 +49,12 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
 
       console.log(data);
       const result = (await axios.post(url + "login", data)).data;
-      console.log(result)
+      console.log(result);
+      localStorage.setItem("rol", "")
 
       if (result.res) {
         sessionStorage.setItem("auth", result.access_token);
+        localStorage.setItem("user", JSON.stringify( result.user))
         localStorage.setItem("rol", rol)
 
         if(rol === "0"){
@@ -63,6 +63,9 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
         } else if(rol === "1") {
           startFlag(false)
           userFlag(true)
+          //reiniar carrito al iniciar sesion en local storage
+          localStorage.setItem("carrito", JSON.stringify([]))
+          localStorage.setItem("totalPedido", JSON.stringify(0))
         } else if(rol === "2") {
           startFlag(false)
           repFlag(true)
@@ -103,24 +106,24 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                       <div className="input-field col s12">
                         <i className="material-icons prefix">email</i>
                         <input
-                          id="email"
+                          id="emailLogin"
                           type="email"
                           className="validate"
                           onChange={(e) => setEmail(e.target.value)}
                         />
-                        <label htmlFor="email">EMAIL</label>
+                        <label htmlFor="emailLogin">EMAIL</label>
                       </div>
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">key</i>
                         <input
-                          id="pass"
+                          id="passLogin"
                           type="password"
                           className="validate"
                           onChange={(e) => setPass(e.target.value)}
                         />
-                        <label htmlFor="pass">PASSWORD</label>
+                        <label htmlFor="passLogin">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -150,7 +153,7 @@ export function Login({adFlag, repFlag, empFlag, userFlag, startFlag}) {
                           onClick={login}
                         >
                           <i className="material-icons left">login</i>
-                          Login
+                          LOGIN
                         </a>
                       </div>
                     </div>

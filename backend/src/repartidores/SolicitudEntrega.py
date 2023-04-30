@@ -10,7 +10,7 @@ def historialpedidos(conn, request):
             sql = '''
             SELECT pedido.* FROM pedido
             INNER JOIN repartidor ON pedido.id = repartidor.id
-            WHERE repartidor.id = %s AND pedido.state = 2 ;
+            WHERE repartidor.id = %s AND pedido.state = 1;
             '''#* 1 = entregado
             cursor.execute(sql, (idRepartidor))
             isbusy = cursor.fetchone()

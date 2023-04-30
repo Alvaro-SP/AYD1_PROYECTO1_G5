@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { PerfilRepartidor } from "./Perfil";
 import { PedidosPendientes } from "./PedidosPend";
 import { PedidosAsignados } from "./PedidosAsig";
-import "../../styles/sidebar_repartidor.css";
+import "../../styles/Repartidor/SidebarRepartidor.css";
+import logo from "../../shared/logo.gif";
 
 export function SidebarRepartidor({ logout }) {
   const [valPrev, setValPrev] = useState(-1);
-  
+
   const [colorText, setColorText] = useState([
     "green-text text-darken-2",
     "green-text text-darken-2",
@@ -21,6 +22,11 @@ export function SidebarRepartidor({ logout }) {
     M.Tooltip.init(elems, {
       inDuration: 200,
       outDuration: 200,
+    });
+
+    var elems = document.querySelectorAll(".sidenav");
+    M.Sidenav.init(elems, {
+      draggable: true,
     });
   }, []);
 
@@ -47,71 +53,94 @@ export function SidebarRepartidor({ logout }) {
     <>
       <aside>
         <Router>
-          <ul id="sidenav" className="sidenav sidenav-fixed">
+          <ul id="sideRep" className="sidenav sidenav-fixed">
             <li className="center-content">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/9561/9561845.png"
+                src={logo}
                 alt="logo"
-                className="circular responsive-img tooltipped"
+                className="tooltipped"
                 data-position="right"
                 data-tooltip="Al Chilazo"
-                style={{ width: "80%" }}
+                style={{ width: "80%", paddingTop: "15px" }}
               />
             </li>
-            <br />
-            <br />
             <li>
               <Link
                 to="/repartidor/MiPerfil"
-                className={"center-content tooltipped " + colores[0]}
+                className={"iconContinerSideRep tooltipped " + colores[0]}
                 data-position="right"
                 data-tooltip="Mi Perfil"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(0)}
               >
-                <i className={"material-icons iconSize " + colorText[0]}>
+                <i
+                  className={
+                    "material-icons iconSizeRepartidor " + colorText[0]
+                  }
+                >
                   contact_mail
                 </i>
               </Link>
             </li>
-            <br />
             <li>
               <Link
                 to="/repartidor/PedidosPendientes"
-                className={"center-content tooltipped " + colores[1]}
+                className={"iconContinerSideRep tooltipped " + colores[1]}
                 data-position="right"
                 data-tooltip="Pedidos Pendientes"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(1)}
               >
-                <i className={"material-icons iconSize " + colorText[1]}>
+                <i
+                  className={
+                    "material-icons iconSizeRepartidor " + colorText[1]
+                  }
+                >
                   receipt_long
                 </i>
               </Link>
             </li>
-            <br />
             <li>
               <Link
                 to="/repartidor/PedidosAsignados"
-                className={"center-content tooltipped " + colores[2]}
+                className={"iconContinerSideRep tooltipped " + colores[2]}
                 data-position="right"
                 data-tooltip="Pedidos Asignados"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={() => changeColor(2)}
               >
-                <i className={"material-icons iconSize " + colorText[2]}>pending_actions</i>
+                <i
+                  className={
+                    "material-icons iconSizeRepartidor " + colorText[2]
+                  }
+                >
+                  pending_actions
+                </i>
               </Link>
             </li>
-            <br />
             <li>
               <Link
                 to="/"
-                className="center-content tooltipped"
+                className="iconContinerSideRep tooltipped"
                 data-position="right"
                 data-tooltip="Cerrar Sesion"
+                style={{ display: "flex", justifyContent: "center" }}
                 onClick={logout}
               >
-                <i className="material-icons iconSize green-text text-darken-2">logout</i>
+                <i className="material-icons iconSizeRepartidor green-text text-darken-2">
+                  logout
+                </i>
               </Link>
             </li>
           </ul>
+          <a href="#" data-target="sideRep" className="sidenav-trigger">
+            <i
+              className="material-icons iconSideAdmin green-text text-darken-4"
+              style={{ position: "absolute", top: "20%", left: "5%" }}
+            >
+              menu
+            </i>
+          </a>
           <Routes>
             <Route path="/repartidor/MiPerfil" element={<PerfilRepartidor />} />
             <Route

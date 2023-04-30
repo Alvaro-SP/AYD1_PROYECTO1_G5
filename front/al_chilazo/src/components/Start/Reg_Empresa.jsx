@@ -160,7 +160,7 @@ export function RegistrarEmpresa() {
     <>
       <div className="container">
         <div className="row">
-          <div className="col s8 offset-s2">
+          <div className="col s10 offset-s1">
             <div className="card-panel hoverable">
               <div className="card-content">
                 <h3 className="orange-text text-darken-3 center-align">
@@ -172,35 +172,32 @@ export function RegistrarEmpresa() {
                       <div className="input-field col s12">
                         <i className="material-icons prefix">business</i>
                         <input
-                          id="nombre"
+                          id="nameRegEmpresa"
                           type="text"
                           className="validate"
                           onChange={(e) => setNombre(e.target.value)}
                         />
-                        <label htmlFor="nombre">NOMBRE DE LA EMPRESA</label>
+                        <label htmlFor="nameRegEmpresa">
+                          NOMBRE DE LA EMPRESA
+                        </label>
                       </div>
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">description</i>
                         <textarea
-                          id="descripcion"
+                          id="descRegEmpresa"
                           className="materialize-textarea"
                           onChange={(e) => setDescripcion(e.target.value)}
                         ></textarea>
-                        <label htmlFor="descripcion">DESCRIPCION</label>
+                        <label htmlFor="descRegEmpresa">DESCRIPCION</label>
                       </div>
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">category</i>
-                        {/* <input
-                          id="categoria"
-                          type="text"
-                          className="validate"
-                          onChange={(e) => setCategoria(e.target.value)}
-                        /> */}
                         <select
+                          id="selectCatEmpresa"
                           className="validate"
                           onChange={(e) => setCategoria(e.target.value)}
                         >
@@ -212,31 +209,30 @@ export function RegistrarEmpresa() {
                           <option value="3">Tienda de conveniencia</option>
                           <option value="4">Supermercado</option>
                         </select>
-                        <label htmlFor="categoria">CATEGORIA</label>
+                        <label htmlFor="selectCatEmpresa">CATEGORIA</label>
                       </div>
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">alternate_email</i>
                         <input
-                          id="email"
+                          id="emailRegEmpresa"
                           type="text"
-                          className="validate"
                           onChange={(e) => setCorreo(e.target.value)}
                         />
-                        <label htmlFor="email">CORREO</label>
+                        <label htmlFor="emailRegEmpresa">CORREO</label>
                       </div>
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
                         <i className="material-icons prefix">password</i>
                         <input
-                          id="password"
+                          id="passRegEmpresa"
                           type="password"
                           className="validate"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">PASSWORD</label>
+                        <label htmlFor="passRegEmpresa">PASSWORD</label>
                       </div>
                     </div>
                     <div className="row">
@@ -259,7 +255,7 @@ export function RegistrarEmpresa() {
                             );
                           })}
                         </select>
-                        <label>DEPARTAMENTO</label>
+                        <label htmlFor="selDepEmp">DEPARTAMENTO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -282,7 +278,7 @@ export function RegistrarEmpresa() {
                             );
                           })}
                         </select>
-                        <label>MUNICIPIO</label>
+                        <label htmlFor="selMunEmp">MUNICIPIO</label>
                       </div>
                     </div>
                     <div className="row">
@@ -291,7 +287,7 @@ export function RegistrarEmpresa() {
                       </h4>
                     </div>
                     <div className="row">
-                      <div className="file-field input-field">
+                      <div class="file-field input-field">
                         <div className="btn orange darken-3">
                           <span>Autenticidad</span>
                           <input
@@ -342,7 +338,7 @@ export function RegistrarEmpresa() {
                           <i className="material-icons left">
                             send_time_extension
                           </i>
-                          ENVIAR SOLICITUD
+                          REGISTRAR SOLICITUD
                         </a>
                       </div>
                     </div>

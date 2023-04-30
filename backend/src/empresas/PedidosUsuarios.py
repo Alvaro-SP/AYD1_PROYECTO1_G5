@@ -82,21 +82,21 @@ def confirmarpedido(conn, request):
         with conn.cursor() as cursor:
             sql = '''
             UPDATE pedido
-            SET state = 4
+            SET state = 3
             WHERE pedido.id = %s
             '''
             cursor.execute(sql, (idPedido,))
             conn.commit()
             cursor.close()
             # conn.close()
-            return jsonify({'res': True})
+            return jsonify({'res': True, 'message':'Pedido confirmado'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
         # if conn:
         #     conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'message':str(ex)})
 
 #! MARCA EL PEDIDO COMO PREPARADO O ENVIADO=================
 def prepararpedido(conn, request):
@@ -114,11 +114,11 @@ def prepararpedido(conn, request):
             conn.commit()
             cursor.close()
             # conn.close()
-            return jsonify({'res': True})
+            return jsonify({'res': True, 'message':'Pedido preparado'})
 
     except Exception as ex:
             # Siempre cerrar la conexión a la base de datos
         print(ex)
         # if conn:
         #     conn.close()
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'message':str(ex)})

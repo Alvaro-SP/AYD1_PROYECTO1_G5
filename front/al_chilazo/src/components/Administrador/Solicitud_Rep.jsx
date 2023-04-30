@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
-import "../../styles/solicitud_rep.css";
+import "../../styles/Administrador/solicitud_rep.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
+import { sendEmail } from "../../proc/email";
 
 export function SolicitudRepartidor() {
   const [listaSolicitudes, setSolicitudes] = useState([]);
   const [listaRegistrados, setRegistros] = useState([]);
-  const [pdfFile, setPDFFile] = useState(null);
-  const [viewPDF, setViewPDF] = useState(false);
+  const [pdfData, setPdfData] = useState(null);
 
   useEffect(() => {
     getData();
@@ -29,29 +29,14 @@ export function SolicitudRepartidor() {
   }, []);
 
   const getData = async () => {
-    // ! CONFIGURAR HEADERS
-    const config = {
-      headers: {
-        'Authorization': "Bearer " + sessionStorage.getItem("auth"),
-      },
-    };
-
     try {
-      const result = (await axios.get(url + "solicitudes-repartidor", config))
+      const result = (await axios.get(url + "solicitudes-repartidor", auth))
         .data;
-      console.log(result);
 
       if (result.res) {
-        let lista1 = result.res.filter(
-          (repartidor) => repartidor.approved === 0
-        );
-        let lista2 = result.res.filter(
-          (repartidor) => repartidor.approved === 1
-        );
-
-        setSolicitudes(lista1);
-        setRegistros(lista2);
-
+        setSolicitudes(result.res.filter(repartidor => repartidor.approved === 0));
+        setRegistros(result.res.filter(repartidor => repartidor.approved === 1));
+        
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -70,36 +55,50 @@ export function SolicitudRepartidor() {
     }
   };
 
-  const confirmarSolicitud = async (id, state) => {
+  const confirmarSolicitud = async (id, state, email) => {
+    let asunto = ""
+    let mensaje = ""
+
     const data = {
       id: id,
       state: state,
     };
 
+    if (state === 1) {
+      asunto = "Solicitud Aceptacion"
+      mensaje = `Se Ha Aprobado Su Solicitud
+      Para Formar Parte Del Equipo De \"Al Chilazo\".
+      
+      Atentamente, Administracion`
+    } else {
+      asunto = "Solicitud Aceptacion"
+      mensaje = `Se Ha Rechazado Su Solicitud
+      Para Formar Parte Del Equipo De \"Al Chilazo\".
+      
+      Atentamente, Administracion`
+    }
+
     try {
-      const result = (await axios.post(url + "confirmar-repartidor", data))
+      const result = (await axios.post(url + "confirmar-repartidor", data, auth))
         .data;
       console.log(result);
 
       if (result.res) {
         if (state === 1) {
-          const aux = listaSolicitudes.filter(
-            (solicitud) => solicitud.id !== id
-          );
-          setSolicitudes(aux);
-
           const aux2 = listaRegistrados;
-          aux2.push(
-            listaSolicitudes.filter((solicitud) => solicitud.id === id)
-          );
+          aux2.push(listaSolicitudes.find(solicitud => solicitud.id === id));
+
+          const aux = listaSolicitudes.filter(solicitud => solicitud.id !== id);
+
+          setSolicitudes(aux);
           setRegistros(aux2);
+
         } else {
-          const aux = listaSolicitudes.filter(
-            (solicitud) => solicitud.id !== id
-          );
+          const aux = listaSolicitudes.filter(solicitud => solicitud.id !== id);
           setSolicitudes(aux);
         }
-
+        
+        sendEmail(email, asunto, mensaje)
         M.toast({
           html: result.message,
           classes: "white-text rounded green darken-4",
@@ -142,23 +141,6 @@ export function SolicitudRepartidor() {
     }
   };
 
-  /* const fileType = ["application/pdf"];
-  const handleChange = (e) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        let reader = FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = (e) => {
-          setPDFFile(e.target.result);
-          setViewPDF(true);
-        };
-      } else {
-        setPDFFile(null);
-      }
-    }
-  }; */
-
   return (
     <div>
       <section>
@@ -176,7 +158,6 @@ export function SolicitudRepartidor() {
             <div className="col s12">
               <ul className="collapsible popout">
                 {listaSolicitudes.map((solicitud, index) => {
-                  // ! <!-- AGREGAR MANEJO DEL ARCHIVO EN BASE 64 -->
                   let own = getOwnTrans(solicitud.own_transport);
                   let license = getLicencia(solicitud.license);
                   return (
@@ -312,8 +293,11 @@ export function SolicitudRepartidor() {
                               <div className="col s4 offset-s4">
                                 <a
                                   className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
-                                  href="#viewPDF"
                                   /* // ! <!-- AL CLICKEAR SETEAR AL DOCUMENTO EN EL MODAL --> */
+                                  href="#conf-delete-buisness"
+                                  onClick={() => {
+                                    setPdfData(solicitud.cv);
+                                  }}
                                 >
                                   <i className="material-icons left">
                                     plagiarism
@@ -327,7 +311,7 @@ export function SolicitudRepartidor() {
                                 <a
                                   className="btn green darken-3 white-text"
                                   onClick={() =>
-                                    confirmarSolicitud(solicitud.id, 1)
+                                    confirmarSolicitud(solicitud.id, 1, solicitud.mail)
                                   }
                                 >
                                   <i className="material-icons left">
@@ -340,7 +324,7 @@ export function SolicitudRepartidor() {
                                 <a
                                   className="btn red darken-3 white-text"
                                   onClick={() =>
-                                    confirmarSolicitud(solicitud.id, 2)
+                                    confirmarSolicitud(solicitud.id, 2, solicitud.mail)
                                   }
                                 >
                                   <i className="material-icons left">
@@ -523,7 +507,11 @@ export function SolicitudRepartidor() {
                             </div>
                             <div className="row">
                               <div className="col s4 offset-s4">
-                                <a className="btn indigo darken-3 white-text waves-effect waves-light">
+                                <a className="btn indigo darken-3 white-text waves-effect waves-light modal-trigger"
+                                href="#conf-delete-buisness"
+                                onClick={() => {
+                                  setPdfData(registro.cv);
+                                }}>
                                   <i className="material-icons left">
                                     plagiarism
                                   </i>
@@ -545,12 +533,11 @@ export function SolicitudRepartidor() {
       <br />
       <br />
       <br />
-      <div className="modal" id="viewPDF">
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-          {viewPDF && <Viewer fileUrl={pdfFile} />}
-
-          {!viewPDF && <>NO PDF</>}
-        </Worker>
+      <div className="modal" id="conf-delete-buisness">
+        <div className="modal-content">
+          <div className="divider"></div>
+          <embed src={`data:application/pdf;base64,${pdfData}`}  width="100%" height="400"/>
+        </div>
       </div>
     </div>
   );

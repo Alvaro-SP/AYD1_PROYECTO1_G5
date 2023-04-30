@@ -1,31 +1,54 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Start } from "./components/Start/Start";
 import { SidebarAdmin } from "./components/Administrador/Sidebar";
 import { SidebarRepartidor } from "./components/Repartidor/Sidebar";
+import { SidebarEmpresa } from "./components/empresa/Sidebar";
+import { SidebarUsuario } from "./components/Usuario/Sidebar";
+import { url } from "./shared/url";
+import axios from "axios";
 
-import Categorias from "./components/Usuario/empresas/Categorias";
-import Empresas from "./components/Usuario/empresas/Empresas";
-import Productos from "./components/Usuario/productos/Productos";
-import FinalizarPedido from "./components/Usuario/confirmarpedido/FinalizarPedido";
-import HistorialPedidos from "./components/Usuario/historialpedidos/HistorialPedidos";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useState } from "react";
+
 function App() {
   const [flagAdmin, setAdminFlag] = useState(false);
-  const [flagRepartidor, setRepartidorFlag] = useState(true);
+  const [flagRepartidor, setRepartidorFlag] = useState(false);
   const [flagEmpresa, setEmpresaFlag] = useState(false);
   const [flagUsuario, setUsuarioFlag] = useState(false);
-  const [flagStart, setStartFlag] = useState(false);
+  const [flagStart, setStartFlag] = useState(true);
 
-  const logout = () => {
+  const logout = async () => {
     setAdminFlag(false);
     setRepartidorFlag(false);
     setEmpresaFlag(false);
     setUsuarioFlag(false);
     setStartFlag(true);
+    localStorage.setItem("rol", "")
+
+    try {
+      const result = (await axios.post(url + "logout")).data
+      if(result.res) {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded green darken-4"
+        })
+      } else {
+        M.toast({
+          html: result.message,
+          classes: "white-text rounded red darken-4"
+        })
+      }
+    } catch (error) {
+      M.toast({
+        html: error.message,
+        classes: "white-text red darken-4 rounded"
+      })
+    }
   };
 
-  if (flagStart) {
+  if (flagStart && localStorage.getItem("rol") === "") {
+    if(!flagStart) {
+      setStartFlag(true)
+    }
     return (
       <>
         <Start
@@ -39,7 +62,10 @@ function App() {
     );
   }
 
-  if (flagAdmin) {
+  if (flagAdmin || localStorage.getItem("rol") === "0") {
+    if(!flagAdmin) {
+      setAdminFlag(true)
+    }
     return (
       <>
         <SidebarAdmin logout={logout} />
@@ -48,7 +74,10 @@ function App() {
     
   }
 
-  if (flagRepartidor) {
+  if (flagRepartidor || localStorage.getItem("rol") === "2") {
+    if(!flagRepartidor) {
+      setRepartidorFlag(true)
+    }
     return (
       <>
         <SidebarRepartidor logout={logout} />
@@ -56,20 +85,27 @@ function App() {
     );
   }
 
-  return (
-    <>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
-      
-      <Router>
-        <Routes>
-          <Route path="/restaurantes" element={<Empresas functionapp={establecerRestaurante}/>}/>
-          <Route path="/productos" element={<Productos empresa={idrestaurante} functionconfirmar={agregarConfirmacion}/>}/>
-          <Route path="/finalizarpedido" element={<FinalizarPedido carrito={carrito} totalPedido={totalPedido} />}/>
-          <Route path="/historialpedidos" element={<HistorialPedidos orders={orders} />}/>
-        </Routes>
-      </Router>
-    </>
-  );
+  if (flagEmpresa || localStorage.getItem("rol") === "3") {
+    if(!flagEmpresa) {
+      setEmpresaFlag(true)
+    }
+    return (
+      <>
+        <SidebarEmpresa logout={logout} />
+      </>
+    );
+  }
+
+  if (flagUsuario || localStorage.getItem("rol") === "1") {
+    if (!flagUsuario) {
+      setUsuarioFlag(true)
+    }
+    return (
+      <>
+        <SidebarUsuario logout={logout} />
+      </>
+    );
+  }
 }
 
 export default App

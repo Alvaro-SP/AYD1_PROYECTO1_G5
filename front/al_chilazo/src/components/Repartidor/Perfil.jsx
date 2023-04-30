@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import { departamentos, municipios } from "../../shared/ubicacion";
 import axios from "axios";
-import "../../styles/perfil_rep.css";
+import "../../styles/Repartidor/perfil_rep.css";
 
 export function PerfilRepartidor() {
   const [dept, setDepartamento] = useState("");
@@ -43,12 +44,13 @@ export function PerfilRepartidor() {
 
   const getPerfil = async () => {
     const data = {
-      id: 1 // ID REPARTIDOR
+      id: JSON.parse(localStorage.getItem("user")).id
     }
 
     try {
-      const result = (await axios.post(url + "perfil-repartidor", data)).data
-      console.log(result.res) //como siempre el rico con 2 compus
+      console.log(data)
+      const result = (await axios.post(url + "perfil-repartidor", data, auth)).data
+      console.log("RESULT", result.res)
 
       if (result.res) { //de que me sirve tener 2 si una no funciona bien xddd
         setName(result.res.name)
@@ -158,13 +160,13 @@ export function PerfilRepartidor() {
       }
 
       const data = {
-        id: 1,
+        id: JSON.parse(localStorage.getItem("user")).id,
         depto: dept,
         city: municipio,
       };
 
       console.log(data);
-      const result = (await axios.post(url + "soli-change-zone", data)).data;
+      const result = (await axios.post(url + "soli-change-zone", data, auth)).data;
       console.log(result);
 
       if (result.res) {
@@ -324,13 +326,13 @@ export function PerfilRepartidor() {
                 </div>
               </div>
               <div className="row">
-                <div className="col s10 offset-s4">
+                <div className="col s8 offset-s4">
                   <a
                     className="btn green darken-3 white-text modal-trigger"
                     href="#changeUbication"
                   >
                     <i className="material-icons left">change_circle</i>
-                    SOLICITUD PARA CAMBIAR UBICACION
+                    SOLICITAR CAMBIO DE UBICACION
                   </a>
                 </div>
               </div>

@@ -1,0 +1,14 @@
+* {
+    font-family: "Varela Round", sans-serif;
+  }
+
+  .iconSideUser {
+    font-size: 2.5rem;
+    margin-right: 16px !important;
+  }
+  
+  .iconContainerSideUser {
+    padding: 0 !important;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }

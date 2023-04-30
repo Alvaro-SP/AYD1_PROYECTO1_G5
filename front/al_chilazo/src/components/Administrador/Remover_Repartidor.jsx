@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
 
 export function RemoverRepartidor() {
   const [listadoRepartidores, setListadoRepartidores] = useState([]);
   const [repartidorModal, setRepartidor] = useState("");
-  const [idRepartidor, setRepartidorID] = useState(0)
+  const [idRepartidor, setRepartidorID] = useState(0);
+  const [justificacionRep, setJustificacion] = useState("")
 
   useEffect(() => {
     getData();
@@ -20,11 +22,14 @@ export function RemoverRepartidor() {
 
   const getData = async () => {
     try {
-      const result = (await axios.get(url + "solicitudes-repartidor")).data;
+      const result = (await axios.get(url + "solicitudes-repartidor", auth))
+        .data;
       console.log(result);
 
       if (result.res) {
-        let listaAux = result.res.filter(repartidor => repartidor.approved === 1)
+        let listaAux = result.res.filter(
+          (repartidor) => repartidor.approved === 1
+        );
         setListadoRepartidores(listaAux);
 
         M.toast({
@@ -42,17 +47,21 @@ export function RemoverRepartidor() {
 
   const eliminarRepartidor = async () => {
     const data = {
-      repartidor: idRepartidor,
-      state: 2
+      id: idRepartidor,
+      state: 2,
+      justificacion: justificacionRep
     };
 
     try {
-      const result = (await axios.post(url + "confirmar-repartidor", data)).data;
+      const result = (
+        await axios.post(url + "confirmar-repartidor", data, auth)
+      ).data;
       console.log(result);
 
       if (result.res) {
         let aux = listadoRepartidores.filter(
-          (repartidor) => repartidor.id !== idRepartidor
+          (repartidor) =>
+            repartidor.id !== idRepartidor
         );
         setListadoRepartidores(aux);
 
@@ -104,10 +113,9 @@ export function RemoverRepartidor() {
                         href="#conf-delete-rep"
                         className="secondary-content modal-trigger hicon"
                         onClick={() => {
-                            setRepartidor(repartidor.name)
-                            setRepartidorID(repartidor.id)
-                          }
-                        }
+                          setRepartidor(repartidor.name);
+                          setRepartidorID(repartidor.id);
+                        }}
                       >
                         <i className="material-icons red-text iconSize">
                           cancel
@@ -127,6 +135,21 @@ export function RemoverRepartidor() {
           <div className="divider"></div>
           <h6>Seguro que desea eliminar al Repartidor {repartidorModal}?</h6>
           <h6>Esta opcion no se puede revertir...</h6>
+          <div className="container">
+            <div className="row">
+              <h5>Motivo Por El Cual Desea Dar De Baja Al Repartidor</h5>
+            </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <textarea
+                  id="justificacionRep"
+                  className="materialize-textarea"
+                  onChange={(e) => setJustificacion(e.target.value)}
+                ></textarea>
+                <label for="justificacionRep">Textarea</label>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="modal-footer">
           <a

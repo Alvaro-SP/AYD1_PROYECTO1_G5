@@ -55,7 +55,7 @@ def registro(conn, request):
                 cursor.execute(sql, (name, lastname, mail, phone, depto, city, license, own_transport, cv, "0", password))
                 conn.commit()
                 print('registro: ',str(rol)," -- ",str(mail)," -- ",str(password))
-                return jsonify({'res': True, 'message': 'El repartidor se ha registrado exitosamente'})
+                return jsonify({'res': True, 'message': 'Solicitud del repartidor se ha registrado exitosamente'})
             elif rol == 3: #todo empresa
                 name = request.form.get('name')
                 description = request.form.get('description')
@@ -86,7 +86,7 @@ def registro(conn, request):
                 # Insertar los documentos en la tabla documents
 
                 print('registro: ',str(rol)," -- ",str(mail)," -- ",str(password))
-                return jsonify({'res': True, 'type': 3, 'message': 'La empresa se ha registrado exitosamente'})
+                return jsonify({'res': True, 'type': 3, 'message': 'Solicitud de la empresa se ha registrado exitosamente'})
             cursor.close()
             # conn.close()
             return jsonify({'res': False, 'message': 'Error en el registro revisar si los datos estan correctos'})

@@ -11,6 +11,8 @@ from src.usuarios.Products_empresa import productsEmpresa
 from src.usuarios.GetCart import get_cart
 from src.usuarios.AddToCart import add_to_cart
 from src.usuarios.DeleteFromCart import delete_from_cart
+from src.usuarios.HistorialPedidos import historialpedidosUSUARIO
+from src.usuarios.RealizarPedido import realizarpedidousuario
 from src.repartidores.CambioZona import cambiozona, solicambiozona
 from src.repartidores.ComisionesGeneradas import comisionesgeneradas
 from src.repartidores.HistorialPedidosComp import historialpedidosNAMEUSER
@@ -23,6 +25,7 @@ from src.administrador.SolicitudesRepartidores import solicitudRepartidor, cambi
 from src.administrador.SolicitudesEmpresa import cambiarEstadoEmpresa, solicitudEmpresa
 from src.administrador.RemoverUsuario import removerUsuario, getUsuarios
 from src.administrador.CambiarUbicacion import solicitudUbicacionRep, confirmarUbicaionNueva
+from src.administrador.Reportes import aprobadosCONT
 import datetime
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                             unset_jwt_cookies, jwt_required, JWTManager
@@ -59,7 +62,7 @@ def loginzzzz():
 
 @app.route("/logout", methods=["POST"])
 def logout():
-    response = jsonify({"res": "logout successful"})
+    response = jsonify({"res": True, "message": "Session Finalizada"})
     unset_jwt_cookies(response)
     return response
 
@@ -125,6 +128,24 @@ def eliminar_del_carrito():
     res = jsonify(res_prev)
     res.headers.add('Access-Control-Allow-Origin', '*')
     return res
+
+@app.route('/historial-pedidos-user', methods=['POST'])
+# @jwt_required()
+def historialpedidosuserrrrr():
+    global conn
+    res_prev = historialpedidosUSUARIO(conn, request)
+    # res = jsonify(res_prev)
+    res_prev.headers.add('Access-Control-Allow-Origin', '*')
+    return res_prev
+
+@app.route('/realizar-pedido-user', methods=['POST'])
+# @jwt_required()
+def hacerunpedido():
+    global conn
+    res_prev = realizarpedidousuario(conn, request)
+    #res = jsonify(res_prev)
+    res_prev.headers.add('Access-Control-Allow-Origin', '*')
+    return res_prev
 
 #*  ***********************  REPARTIDORES *********************
 @app.route('/soli-change-zone', methods=['POST'])
@@ -250,6 +271,7 @@ def deleteproductemrpess():
     response = deleteproduct(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
 # PEDIDOS DE MODULO EMPRESA
 @app.route('/pedidos-de-user-empresa', methods=['POST'])
 # @jwt_required()
@@ -275,8 +297,16 @@ def confirmarpedidosendpoin():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 #*  *********************** ADMINISTRADOR *********************
+@app.route('/get-notify', methods=['GET'])
+# jwt_required()
+def get_notifies():
+    global conn
+    response = aprobadosCONT(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 @app.route('/solicitudes-repartidor', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def solicitudes_repartidor():
     global conn
     response = solicitudRepartidor(conn, request)

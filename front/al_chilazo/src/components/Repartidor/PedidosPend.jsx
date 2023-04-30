@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
+import { auth } from "../../shared/auth";
 import axios from "axios";
-import "../../styles/pedidos_pend.css";
+import "../../styles/Repartidor/pedidos_pend.css";
 
 export function PedidosPendientes() {
   const [listaPedidos, setListaPedidos] = useState([])
@@ -23,10 +24,12 @@ export function PedidosPendientes() {
   }, []);
 
   const getPedidosPendientes = async () => {
-    const data = {}
+    const data = {
+      id: JSON.parse(localStorage.getItem("user")).id
+    }
 
     try {
-      const result = (await axios.post(url + "pedidosaentregar-repartidor", data)).data
+      const result = (await axios.post(url + "pedidosaentregar-repartidor", data, auth)).data
       console.log(result.res)
       if(result.res) {
         setListaPedidos(result.res)
@@ -46,11 +49,11 @@ export function PedidosPendientes() {
   const confirmarPedido = async () => {
     const data = {
       idPedido: parseInt(id),
-      idRepartidor: 1
+      idRepartidor: JSON.parse(localStorage.getItem("user")).id
     }
     
     try {
-      const result = (await axios.post(url + "selectpedido-repartidor", data)).data
+      const result = (await axios.post(url + "selectpedido-repartidor", data, auth)).data
 
       if(result.res) {
         let newListaPedidos = listaPedidos.filter(pedido => pedido.id !== id)
