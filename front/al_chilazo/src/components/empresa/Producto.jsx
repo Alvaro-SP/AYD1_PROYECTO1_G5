@@ -65,7 +65,7 @@ export default function Producto() {
       },
     ];
     setListado(lis);*/
-    var data = { id: 1 };
+    var data = { id: JSON.parse(localStorage.getItem("user")).id }
     try {
       const result = (await axios.post(url + "products-empresa", data)).data;
       console.log(result);
@@ -86,9 +86,7 @@ export default function Producto() {
     }
   };
   const getData2 = async () => {
-    var data = {
-      id: 1 /*Se debe cambiar por el de sesion empresa */,
-    };
+    var data = { id: JSON.parse(localStorage.getItem("user")).id }
     try {
       const result = (
         await axios.post(url + "categoriasproducto-empresa", data)
@@ -160,10 +158,11 @@ export default function Producto() {
         return;
       }
     });
+
     const data = {
       name: nombre,
       price: precio,
-      id: 1,
+      id: JSON.parse(localStorage.getItem("user")).id,
       imagen: imagen,
       category: noc,
       categoryProduct_id: categoria,
@@ -208,7 +207,7 @@ export default function Producto() {
     const data = {
       name: nombre,
       price: precio,
-      id: idProducto,
+      id: JSON.parse(localStorage.getItem("user")).id,
       imagen: imagen,
       category: noc,
       categoryProduct_id: categoria,

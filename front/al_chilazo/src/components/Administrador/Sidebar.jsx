@@ -41,7 +41,7 @@ export function SidebarAdmin({ logout }) {
   ]);
 
   useEffect(() => {
-    getData();
+    //getData();
 
     var elems = document.querySelectorAll(".tooltipped");
     M.Tooltip.init(elems, {

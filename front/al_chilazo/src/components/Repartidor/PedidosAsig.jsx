@@ -37,6 +37,7 @@ export function PedidosAsignados() {
       const result = (
         await axios.post(url + "historialpedidos-repartidor", data, auth)
       ).data;
+      console.log(result)
       if (result.res) {
         setComisionTotal(result.comisiontotal);
         setListadoGeneral(result.res.filter((pedido) => pedido.state === 0));

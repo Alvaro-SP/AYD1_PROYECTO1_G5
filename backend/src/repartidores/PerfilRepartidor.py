@@ -6,11 +6,18 @@ def perfilrepartidor(conn, request):
     print(idRepartidor)
     try:
         with conn.cursor() as cursor:
+            # sql = '''
+            # SELECT repartidor.* FROM repartidor
+            # WHERE repartidor.id = %s AND repartidor.approved = 1;
+            # ''' #* 1 = repartidor esta aprobado
             sql = '''
-            SELECT repartidor.* FROM repartidor
-            WHERE repartidor.id = %s AND repartidor.approved = 1;
-            ''' #* 1 = repartidor esta aprobado
-            cursor.execute(sql, (idRepartidor,))
+            SELECT repartidor.*,
+            COALESCE((SELECT SUM(pedido.rate)/COUNT(pedido.rate) 
+                FROM pedido 
+                WHERE repartidor_id = %s AND state = 0), 0) AS ratinggg
+            FROM repartidor
+            WHERE repartidor.id = %s AND repartidor.approved = 1;'''
+            cursor.execute(sql, (idRepartidor,idRepartidor))
             result = cursor.fetchall()
             templist = {}
             for fila in result:
@@ -24,7 +31,8 @@ def perfilrepartidor(conn, request):
                     'city': fila[6],
                     'license': fila[7],
                     'own_transport': fila[8],
-                    "password": fila[11]}
+                    "password": fila[11],
+                    "rating": fila[17]}
                 templist=(atributos)
             cursor.close()
             # conn.close()
