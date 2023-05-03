@@ -3,7 +3,7 @@ from flask import jsonify
 def historialpedidosNAMEUSER(conn, request):
     data = request.get_json()
     idRepartidor = data['id']
-
+    print(idRepartidor)
     try:
         with conn.cursor() as cursor:
             sql = '''

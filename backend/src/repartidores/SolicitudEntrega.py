@@ -116,7 +116,7 @@ def pedidosporentregarepartidor(conn, request):
     try:
         with conn.cursor() as cursor:
             sql = '''
-            SELECT pedido.* FROM pedido WHERE pedido.state = 2;
+            SELECT pedido.* FROM pedido WHERE pedido.state = 1;
             '''
             cursor.execute(sql, ())
             result = cursor.fetchall()

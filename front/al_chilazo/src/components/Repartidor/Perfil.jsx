@@ -82,7 +82,7 @@ export function PerfilRepartidor() {
         }
 
         // ? PENDIENTE RECIBIR RATING
-        /* 
+        
           setRatingValue(result.res.rating)
           if(result.res.rating) {
           let valueStars = parseInt(result.res.rating) / 1
@@ -101,7 +101,7 @@ export function PerfilRepartidor() {
           }
 
           setStarFill(newStarsValues)
-        } */
+        }
 
         M.toast({
           html: result.message,

@@ -44,7 +44,7 @@ def cambiarEstadoRepartidor(conn, request):
     print(data)
     id = data['id']
     state = data['state']
-    justificacion = ""
+    justificacion = "a"
     now = ""
     
     # ! state 1 -> Aceptar state 2 -> Funar
@@ -59,7 +59,7 @@ def cambiarEstadoRepartidor(conn, request):
                 if result:
                     return jsonify({'res': False, 'message': 'El Repartidor Se Encuentra Ocupado Aun'})
                 
-                justificacion = data['justificacion']
+                # justificacion = data['justificacion']
                 now = datetime.now()
                 formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
                 print(formatted_date, "FECHA")

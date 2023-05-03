@@ -59,19 +59,19 @@ def cambiarEstadoEmpresa(conn, request):
             formatted_date = None
             # ? VALIDACION DE QUE NO TENGA PENDIENTES
             if (state == 2):
-                sql = "SELECT * from pedido WHERE state=1 AND empresa=%s"
+                sql = "SELECT * from pedido WHERE state=1 AND idEmpresa=%s"
                 cursor.execute(sql, (id, ))
                 result = cursor.fetchone()
                 if result:
                     return jsonify({'res': False, 'message': 'La Empresa Se Encuentra Ocupada Aun'})
 
-                justificacion = data['justificacion']
+                # justificacion = data['justificacion']
                 now = datetime.now()
                 formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
                 print(formatted_date, "FECHA")
 
             # ? ACTUALIZACION DE ESTADO
-            sql = "UPDATE repartidor SET approved=%s, datefuna=%s, justificacion=%s WHERE id=%s;"
+            sql = "UPDATE empresa SET approved=%s, datefuna=%s, justificacion=%s WHERE id=%s;"
             cursor.execute(sql, (state, formatted_date, justificacion, id))
             conn.commit()
             cursor.close()

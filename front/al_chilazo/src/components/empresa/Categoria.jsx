@@ -12,7 +12,7 @@ export default function Categoria() {
 
   const getData = async () => {
     var data = {
-      id: 1 /*Se debe cambiar por el de sesion empresa */,
+      id: JSON.parse(localStorage.getItem("user")).id 
     };
     try {
       const result = (
@@ -38,7 +38,7 @@ export default function Categoria() {
 
   const agregar = async () => {
     const data = {
-      id: 1,
+      id: JSON.parse(localStorage.getItem("user")).id,
       name: nombre,
     };
     console.log(data);

@@ -82,18 +82,19 @@ export function SolicitudEmpresa() {
 
       if (result.res) {
         if (state === 1) {
-          const aux = listaSolicitudes.filter(
-            (solicitud) => solicitud.id !== id
-          );
-          setSolicitudes(aux);
-
-          const aux2 = listaRegistrados;
+          /* const aux2 = listaRegistrados;
 
           aux2.push(
             listaSolicitudes.filter((solicitud) => solicitud.id === id)
           );
 
-          setRegistros(aux2);
+          const aux = listaSolicitudes.filter(
+            (solicitud) => solicitud.id !== id
+          );
+
+          setSolicitudes(aux);
+          setRegistros(aux2); */
+          getData()
         } else {
           const aux = listaSolicitudes.filter(
             (solicitud) => solicitud.id !== id
