@@ -1,31 +1,6 @@
 import json
 from app import app
 
-#def solicitudUbicacionRep(conn, request):
-#    try:
-#        with conn.cursor() as cursor:
-#            sql = "SELECT * FROM repartidor WHERE solizone=1 AND approved=1;"
-#            cursor.execute(sql)
-#            result = cursor.fetchall()
-#            templist = []
-#            for solicitud in result:
-#                sol = {
-#                    'id': solicitud[0],
-#                    'name': solicitud[1],
-#                    'lastname': solicitud[2],
-#                    'mail': solicitud[3],
-#                    'deptoActual': solicitud[5],
-#                    'cityActual': solicitud[6],
-#                    'deptoNew': solicitud[13],
-#                    'cityNew': solicitud[14]
-#                }
-#
-#                templist.append(sol)
-#            cursor.close()
-#            return jsonify({'res': templist, 'message': 'Solicitudes Cargadas'})
-#    except Exception as ex:
-#        print(ex)
-#        return jsonify({'res': False, 'message': str(ex)})
 
 def test_solicitud_ubicacion_rep():
     with app.test_client() as client:
