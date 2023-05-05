@@ -36,3 +36,4 @@ jobs:
         run: |
           cd backend
           pytest --cov=tests/
+          
