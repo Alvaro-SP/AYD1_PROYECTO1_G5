@@ -2,11 +2,11 @@ name: Fase2
 #* cuando hagamos push se ejecutara el pipeline
 on:
   push:
-    branches: [ "Develop" ]
+    branches: [ "develop" ]
 
 # * variables de entorno
 env:
-  BRANCH: Develop
+  BRANCH: develop
 permissions:
   contents: read
 jobs:
