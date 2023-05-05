@@ -15,7 +15,7 @@ def test_addproduct():
     with app.test_client() as client:
         response = client.post('/addproduct', json=request_data)
         assert response.status_code == 200
-        expected = {"res": True, "type": 1}
+        expected = {"res": False, "reason": "Ya existe un producto con ese nombre"}
         assert json.loads(response.data) == expected
 
 #validar que no exista el producto
