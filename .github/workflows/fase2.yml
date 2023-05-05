@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
         matrix:
-          python-version: [3.8.8]
+          python-version: [3.11.3]
     #* se ejecutara en ubuntu
     runs-on: ubuntu-latest
     #* se ejecutara en el directorio de la app
