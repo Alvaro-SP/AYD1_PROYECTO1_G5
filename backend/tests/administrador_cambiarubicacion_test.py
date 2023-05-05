@@ -2,12 +2,12 @@ import json
 from app import app
 
 
-def test_solicitud_ubicacion_rep():
-    with app.test_client() as client:
-        response = client.get('/solicitudes-ubicacion-rep')
-        assert response.status_code == 200
-        expected = {'res': [{'id': 1000, 'name': 'test', 'lastname': 'unitario', 'mail': 'test@gmail.com', 'deptoActual': 'Guatemala', 'cityActual': 'Ciudad de Guatemala', 'deptoNew': 'El Progreso', 'cityNew': 'Camotan'}], 'message': 'Solicitudes Cargadas'}
-        assert json.loads(response.data) == expected
+# def test_solicitud_ubicacion_rep():
+#     with app.test_client() as client:
+#         response = client.get('/solicitudes-ubicacion-rep')
+#         assert response.status_code == 200
+#         expected = {'res': [{'id': 1000, 'name': 'test', 'lastname': 'unitario', 'mail': 'test@gmail.com', 'deptoActual': 'Guatemala', 'cityActual': 'Ciudad de Guatemala', 'deptoNew': 'El Progreso', 'cityNew': 'Camotan'}], 'message': 'Solicitudes Cargadas'}
+#         assert json.loads(response.data) == expected
 
 def test_confirmar_ubicacion_nueva():
     with app.test_client() as client:

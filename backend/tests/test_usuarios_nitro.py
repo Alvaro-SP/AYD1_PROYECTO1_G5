@@ -1,37 +1,60 @@
-# from app import app
-# import json
+from app import app
+import json
 
-# def test_get_categories():
-#     with app.test_client() as client:
-#         response = client.get('/getcategories')
-#         data = json.loads(response.data)
-#         assert response.status_code == 200
-#         assert data['res'] != False
+def test_get_categories():
+    with app.test_client() as client:
+        response = client.get('/getcategories')
+        data = json.loads(response.data)
+        assert response.status_code == 200
+        assert data['res'] != False
 
+def test_empresacategory():
+    with app.test_client() as client:
+        response = client.get('/empresas-category')
+        assert response.status_code == 200
+        assert response.content_type == 'application/json'
+        assert len(response.json['res']) > 0
+        assert all(key in response.json['res'][0] for key in ['id', 'name', 'description', 'category', 'mail', 'depto', 'municipio', 'imagen'])
 
+def test_products_empresa():
+    with app.test_client() as client:
+        response = client.post('/products-empresa', json={'id': 1})
+        data = response.get_json()
 
-# def test_historial_pedidos_usuario():
-#     with app.test_client() as client:
-#         # Enviar una solicitud de prueba al endpoint con un id de usuario existente
-#         response = client.post('/historial-pedidos-user', json={
-#             'id': 1
-#         })
-#         # Asegurarse de que la respuesta sea exitosa
-#         assert response.status_code == 200
-#         # Asegurarse de que la respuesta contenga la información esperada
-#         data = json.loads(response.data)
-#         assert isinstance(data, dict)
-#         assert 'res' in data
-#         assert 'message' in data
-#         assert isinstance(data['res'], list)
-#         for pedido in data['res']:
-#             assert isinstance(pedido, dict)
-#             assert 'id' in pedido
-#             assert 'state' in pedido
-#             assert 'date' in pedido
-#             assert 'total_price' in pedido
-#             assert 'address' in pedido
-#             assert 'payment_method' in pedido
-#             assert 'rate' in pedido
-#             assert 'name_repartidor' in pedido
-#             assert 'name_empresa' in pedido
+        assert response.status_code == 200
+        assert isinstance(data['res'], list)
+        assert all(key in data['res'][0] for key in ['id', 'name', 'precio', 'imagen', 'categoria', 'categoryProduct_id', 'disponibilidad', 'description'])
+
+def test_products_empresa():
+    with app.test_client() as client:
+        response = client.post('/get-cart', json={'id_usr': 1})
+        data = response.get_json()
+
+def test_realizar_pedido_usuario():
+    with app.test_client() as client:
+        # Data de prueba
+        data = {
+            "user_id": 1,
+            "total_price": 100,
+            "address": "Calle falsa 123",
+            "payment_method": "Efectivo",
+            "id_empresa": 1,
+            "products": [
+                {
+                    "product_id": 1,
+                    "quantity": 2
+                },
+                {
+                    "product_id": 2,
+                    "quantity": 1
+                }
+            ]
+        }
+
+        response = client.post('/realizar-pedido-user', json=data)
+
+        assert response.status_code == 200
+
+        response_data = json.loads(response.data)
+
+        assert response_data.get("res") == True

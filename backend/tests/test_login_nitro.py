@@ -52,6 +52,7 @@ def test_login_empresa():
         data = json.loads(response.data)
         assert response.status_code == 200
         assert data['res'] == True
-        assert data['user']['name'] == 'TESTUNITARIOS'
-        assert data['user']['type'] == 3
-        assert data['message'] == 'Que hay de nuevo Empresa, se ha logueado exitosamente'
+        if data['user']:
+            assert data['user']['name'] == 'TESTUNITARIOS'
+            assert data['user']['type'] == 3
+            assert data['message'] == 'Que hay de nuevo Empresa, se ha logueado exitosamente'

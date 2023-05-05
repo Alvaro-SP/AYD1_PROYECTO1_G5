@@ -18,13 +18,13 @@ def test_getcategoriaproducto():
         assert json.loads(response.data) == expected
 
 
-#def test_addcategoriaproducto_categoria_existente():
-#    with app.test_client() as client:
-#        # Datos para agregar una nueva categoría de producto
-#        data = {"id": 1000, "name": "Categoria Prueba"}
-#
-#        # Agregar la categoría
-#        response = client.post('/addcategoriaproducto', json=data)
-#        assert response.status_code == 200
-#        expected = {"res": True, "message": "Se agrego la categoria correctamente"}
-#        assert json.loads(response.data) == expected
+def test_addcategoriaproducto_categoria_existente():
+    with app.test_client() as client:
+        # Datos para agregar una nueva categoría de producto
+        data = {"id": 1000, "name": "Categoria Prueba"}
+
+        # Agregar la categoría
+        response = client.post('/addcategoriaproducto', json=data)
+        assert response.status_code == 200
+        expected = {"res": False, "message": "Ya existe una categoria con ese nombre"}
+        assert json.loads(response.data) == expected

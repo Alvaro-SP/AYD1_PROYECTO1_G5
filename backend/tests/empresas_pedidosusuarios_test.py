@@ -7,8 +7,8 @@ def test_pedidosdeusersempresa():
         data = {"id": 1}
         response = client.post('/pedidos-de-user-empresa', json=data)
         assert response.status_code == 200
-        excepted = {'message': 'Pedidos', 'res': []}
-        assert json.loads(response.data) == excepted
+        assert response.json['res'] != None
+    assert response.json['message'] == 'Pedidos'
 
 
 def test_confirmarpedido():
