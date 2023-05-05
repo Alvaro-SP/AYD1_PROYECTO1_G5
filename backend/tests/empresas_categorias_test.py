@@ -21,7 +21,7 @@ def test_getcategoriaproducto():
 #def test_addcategoriaproducto_categoria_existente():
 #    with app.test_client() as client:
 #        # Datos para agregar una nueva categoría de producto
-#        data = {"id": 10, "name": "Categoria existente"}
+#        data = {"id": 1000, "name": "Categoria Prueba"}
 #
 #        # Agregar la categoría
 #        response = client.post('/addcategoriaproducto', json=data)
