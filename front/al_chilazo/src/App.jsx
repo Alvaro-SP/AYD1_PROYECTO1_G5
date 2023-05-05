@@ -10,7 +10,7 @@ import axios from "axios";
 
 
 function App() {
-  const [flagAdmin, setAdminFlag] = useState(false);
+  const [flagAdmin, setAdminFlag] = useState(true);
   const [flagRepartidor, setRepartidorFlag] = useState(false);
   const [flagEmpresa, setEmpresaFlag] = useState(false);
   const [flagUsuario, setUsuarioFlag] = useState(false);

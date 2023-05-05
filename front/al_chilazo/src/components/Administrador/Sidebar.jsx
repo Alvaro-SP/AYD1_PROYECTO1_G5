@@ -8,8 +8,7 @@ import { RemoverNegocio } from "./Remover_Negocio";
 import "../../styles/Administrador/SidebarAdmin.css";
 import { SolicitudCambiarUbicacion } from "./Solicitud_UbRep";
 import logo from "../../shared/logo.gif";
-import { url } from "../../shared/url";
-import axios from "axios";
+import { Reportes } from "./Reportes";
 
 export function SidebarAdmin({ logout }) {
   const [badge1, setBadge1] = useState("hide");
@@ -219,6 +218,20 @@ export function SidebarAdmin({ logout }) {
             </li>
             <li>
               <Link
+                to="/admin/ReportesAdmin"
+                className={"iconsContainerSideAdmin tooltipped " + colores[6]}
+                data-position="right"
+                data-tooltip="Reportes"
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={() => changeColor(6)}
+              >
+                <i className={"material-icons iconSideAdmin " + colorText[6]}>
+                analytics
+                </i>
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/"
                 className="iconContainerSideAdmin tooltipped"
                 data-position="right"
@@ -232,7 +245,7 @@ export function SidebarAdmin({ logout }) {
               </Link>
             </li>
           </ul>
-          <a href="#" data-target="sideAdmin" className="sidenav-trigger">
+          <a href="#!" data-target="sideAdmin" className="sidenav-trigger">
             <i
               className="material-icons iconSideAdmin indigo-text text-darken-4"
               style={{ position: "absolute", top: "20%", left: "5%" }}
@@ -259,6 +272,7 @@ export function SidebarAdmin({ logout }) {
               path="/admin/UbicacionRepartidor"
               element={<SolicitudCambiarUbicacion />}
             />
+            <Route path="/admin/ReportesAdmin" element={<Reportes />} />
             <Route path="/" />
           </Routes>
         </Router>
