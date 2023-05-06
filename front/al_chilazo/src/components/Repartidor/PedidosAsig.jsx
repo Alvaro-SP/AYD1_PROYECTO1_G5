@@ -161,8 +161,6 @@ export function PedidosAsignados() {
                     src="https://fulfillment.shiprocket.in/wp-content/uploads/2023/03/nextDayDeliveryBanner-min.png"
                     alt=""
                     className="responsive-img"
-                    /* width={"225px"}
-                    height={"250px"} */
                   />
                 </div>
                 <div className="card-stacked">
@@ -222,7 +220,7 @@ export function PedidosAsignados() {
             )}
           </div>
           <br />
-          <div className="row hide">
+          <div className="row">
             <h4 className="green-text text-darken-3 center-align">
               PEDIDOS COMPLETADOS
             </h4>

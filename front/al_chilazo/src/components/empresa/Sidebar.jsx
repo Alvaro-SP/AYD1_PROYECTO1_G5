@@ -5,6 +5,9 @@ import Pedido from "./Pedido";
 import Categoria from "./Categoria";
 import Producto from "./Producto";
 import logo from "../../shared/logo.gif";
+import Combo from "./Combo";
+import Ofertas from "./Oferta";
+import Reporte from "./Reporte";
 
 export function SidebarEmpresa({ logout }) {
   const [valPrev, setValPrev] = useState(-1);
@@ -39,9 +42,6 @@ export function SidebarEmpresa({ logout }) {
     });
   });
 
-  setTimeout(() => {
-    setPrueba("");
-  }, 5000);
 
   const changeColor = (value) => {
     var newColores = colores;
@@ -121,6 +121,48 @@ export function SidebarEmpresa({ logout }) {
             </li>
             <li>
               <Link
+                to="/empresa/Combo"
+                className={"iconContainerSideEmpresa tooltipped " + colores[3]}
+                data-position="right"
+                data-tooltip="Combos"
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={() => changeColor(3)}
+              >
+                <i className={"material-icons iconSideEmpresa " + colorText[3]}>
+                ballot
+                </i>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/empresa/Ofertas"
+                className={"iconContainerSideEmpresa tooltipped " + colores[4]}
+                data-position="right"
+                data-tooltip="Ofertas"
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={() => changeColor(4)}
+              >
+                <i className={"material-icons iconSideEmpresa " + colorText[4]}>
+                local_offer
+                </i>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/empresa/Reporte"
+                className={"iconContainerSideEmpresa tooltipped " + colores[5]}
+                data-position="right"
+                data-tooltip="Reporte"
+                style={{ display: "flex", justifyContent: "center" }}
+                onClick={() => changeColor(5)}
+              >
+                <i className={"material-icons iconSideEmpresa " + colorText[5]}>
+                summarize
+                </i>
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/"
                 className="iconContainerSideAdmin tooltipped"
                 data-position="right"
@@ -146,6 +188,9 @@ export function SidebarEmpresa({ logout }) {
             <Route path="/empresa" element={<Pedido />} />
             <Route path="/empresa/Categoria" element={<Categoria />} />
             <Route path="/empresa/Producto" element={<Producto />} />
+            <Route path="/empresa/Combo" element={<Combo/>} />
+            <Route path="/empresa/Ofertas" element={<Ofertas />} />
+            <Route path="/empresa/Reporte" element={<Reporte />} />
           </Routes>
         </Router>
       </aside>

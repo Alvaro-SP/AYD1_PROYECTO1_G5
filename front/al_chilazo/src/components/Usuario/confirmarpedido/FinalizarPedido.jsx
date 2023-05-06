@@ -108,7 +108,7 @@ function FinalizarPedido(props) {
                 M.toast({ html: 'Pedido realizado con éxito', classes: 'rounded', displayLength: 1000, inDuration: 1000, outDuration: 1000 });
 
                 //me redirige a la pagina restaurantes
-                window.location.href = "/";
+                
 
                 //console.log("json: ", jsonPedido);
             }

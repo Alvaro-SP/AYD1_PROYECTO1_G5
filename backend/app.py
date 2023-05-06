@@ -20,12 +20,13 @@ from src.repartidores.PerfilRepartidor import perfilrepartidor
 from src.repartidores.SolicitudEntrega import historialpedidos,selectpedido,entregarpedido, pedidosporentregarepartidor
 from src.empresas.CategoriasProductoEmpresa import getcategoriaproducto,addcategoriaproducto
 from src.empresas.ProductosEmpresa import addproduct,updateproduct,deleteproduct
+from src.empresas.OfertasyCombos import addCombo,getCombobyEmpresa,updatecombo,deletecombo,getOfertasbyEmpresa,addOferta,historialusuario,updateOferta,deleteOferta,reporte,reportefecha
 from src.empresas.PedidosUsuarios import pedidosdeusersempresa,prepararpedido,confirmarpedido
 from src.administrador.SolicitudesRepartidores import solicitudRepartidor, cambiarEstadoRepartidor
 from src.administrador.SolicitudesEmpresa import cambiarEstadoEmpresa, solicitudEmpresa
 from src.administrador.RemoverUsuario import removerUsuario, getUsuarios
 from src.administrador.CambiarUbicacion import solicitudUbicacionRep, confirmarUbicaionNueva
-from src.administrador.Reportes import aprobadosCONT
+from src.administrador.Reportes import aprobadosCONT, getEmpresas, getRepartidores, getUsers
 import datetime
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                             unset_jwt_cookies, jwt_required, JWTManager
@@ -296,6 +297,88 @@ def confirmarpedidosendpoin():
     response = confirmarpedido(conn, request)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+# Combos empresa
+@app.route('/addcombo', methods=['POST'])
+# @jwt_required()
+def agregarCombo():
+    global conn
+    response = addCombo(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/getCombosEmpresa', methods=['POST'])
+# @jwt_required()
+def getComboEmpresa():
+    global conn
+    response = getCombobyEmpresa(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/updatecombo', methods=['POST'])
+# @jwt_required()
+def updateCombos():
+    global conn
+    response = updatecombo(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/deletecombo', methods=['POST'])
+# @jwt_required()
+def deletecombos():
+    global conn
+    response = deletecombo(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# Ofertas empresa
+@app.route('/getOfertasByEmpresa', methods=['POST'])
+# @jwt_required()
+def getOfertaEmpresa():
+    global conn
+    response = getOfertasbyEmpresa(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/addOferta', methods=['POST'])
+# @jwt_required()
+def addOfertas():
+    global conn
+    response = addOferta(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/updateOferta', methods=['POST'])
+# @jwt_required()
+def updateOfertas():
+    global conn
+    response = updateOferta(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/deleteOferta', methods=['POST'])
+# @jwt_required()
+def deleteOfertas():
+    global conn
+    response = deleteOferta(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/reportef', methods=['POST'])
+# @jwt_required()
+def rporteEm():
+    global conn
+    response = reporte(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/reportef2', methods=['POST'])
+# @jwt_required()
+def rporteEm2():
+    global conn
+    response = reportefecha(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/reportef3', methods=['POST'])
+# @jwt_required()
+def rporteEm3():
+    global conn
+    response = historialusuario(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 #*  *********************** ADMINISTRADOR *********************
 @app.route('/get-notify', methods=['GET'])
 # jwt_required()
@@ -366,6 +449,31 @@ def solicitudes_ubicacion():
 def confirmar_nueva_ubicacion():
     global conn
     response = confirmarUbicaionNueva(conn, request)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# ! AQUI ESTAN LOS CAMBIOS
+@app.route("/getReportsUsers", methods=['GET'])
+# @jwt_required()
+def get_reports_user():
+    global conn
+    response = getUsers(conn)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route("/getReportsRepartidores", methods=['GET'])
+# @jwt_required()
+def get_reports_rep():
+    global conn
+    response = getRepartidores(conn)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route("/getReportsEmpresas", methods=['GET'])
+# @jwt_required()
+def get_reports_emp():
+    global conn
+    response = getEmpresas(conn)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { url } from "../../shared/url";
 import axios from "axios";
 
-export default function Producto() {
-  const [listaCategoria, setListaCategoria] = useState([]);
+export default function Ofertas() {
+  const [listadoProductos, setListadoProductos] = useState([]);
   const [listado, setListado] = useState([]);
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState(0.0);
@@ -28,7 +28,7 @@ export default function Producto() {
   useEffect(() => {
     var elems = document.querySelectorAll("select");
     M.FormSelect.init(elems, {});
-  }, [listaCategoria, categoria]);
+  }, [listadoProductos, categoria]);
   const getDatos = async () => {
     await getData();
     await getData2();
@@ -67,7 +67,7 @@ export default function Producto() {
     setListado(lis);*/
     var data = { id: JSON.parse(localStorage.getItem("user")).id }
     try {
-      const result = (await axios.post(url + "products-empresa", data)).data;
+      const result = (await axios.post(url + "getOfertasByEmpresa", data)).data;
       console.log(result);
 
       if (result.res) {
@@ -89,12 +89,12 @@ export default function Producto() {
     var data = { id: JSON.parse(localStorage.getItem("user")).id }
     try {
       const result = (
-        await axios.post(url + "categoriasproducto-empresa", data)
+        await axios.post(url + "products-empresa", data)
       ).data;
       console.log(result);
 
       if (result.res) {
-        setListaCategoria(result.res);
+        setListadoProductos(result.res);
       } else {
         M.toast({
           html: result.message,
@@ -109,31 +109,28 @@ export default function Producto() {
     }
   };
   const seleccionar = async (elemento) => {
-    setIdProducto(elemento.id);
-    setNombre(elemento.name);
-    setPrecio(elemento.precio);
-    setImagen(elemento.imagen);
-    setCategoria(elemento.categoryProduct_id);
-    setDisponibilidad(elemento.disponibilidad);
-    setDescripcion(elemento.description);
+    setIdProducto(elemento.idOferta);
+    setNombre(elemento);
+    setPrecio(elemento.nuevoPrice);
     console.log("Datos selecionados");
   };
 
   const eliminar = async (idE) => {
+
     const data = {
       id: idE,
     };
     console.log("para eliminar");
-
+    console.log(data)
     try {
-      const result = (await axios.post(url + "deleteproduct", data)).data;
+      const result = (await axios.post(url + "deleteOferta", data)).data;
       console.log(result);
 
       if (result.res) {
         getDatos();
 
         M.toast({
-          html: "Se elimino con exito",
+          html: result.message,
           classes: "white-text rounded green darken-4",
         });
       } else {
@@ -151,35 +148,21 @@ export default function Producto() {
   };
 
   const agregarProducto = async () => {
-    let noc = "";
-    listaCategoria.forEach((element) => {
-      if (element.id == categoria) {
-        noc = element.name;
-        return;
-      }
-    });
-
     const data = {
-      name: nombre,
       price: precio,
-      id: JSON.parse(localStorage.getItem("user")).id,
-      imagen: imagen,
-      category: noc,
-      categoryProduct_id: categoria,
-      disponibilidad: disponibilidad,
-      description: descripcion,
+      id: categoria
     };
     console.log(data);
 
     try {
-      const result = (await axios.post(url + "addproduct", data)).data;
+      const result = (await axios.post(url + "addOferta", data)).data;
       console.log(result);
 
       if (result.res) {
         getDatos();
 
         M.toast({
-          html: "Se agrego con exito",
+          html: result.message,
           classes: "white-text rounded green darken-4",
         });
       } else {
@@ -197,34 +180,22 @@ export default function Producto() {
   };
 
   const modificarProducto = async () => {
-    let noc = "";
-    listaCategoria.forEach((element) => {
-      if (element.id == categoria) {
-        noc = element.name;
-        return;
-      }
-    });
+    
     const data = {
-      name: nombre,
       price: precio,
-      id: idProducto,
-      imagen: imagen,
-      category: noc,
-      categoryProduct_id: categoria,
-      disponibilidad: disponibilidad,
-      description: descripcion,
+      id: idProducto
     };
     console.log(data);
 
     try {
-      const result = (await axios.post(url + "updateproduct", data)).data;
+      const result = (await axios.post(url + "updateOferta", data)).data;
       console.log(result);
 
       if (result.res) {
         getDatos();
 
         M.toast({
-          html: "Se actualizo con exito",
+          html: result.message,
           classes: "white-text rounded green darken-4",
         });
       } else {
@@ -241,20 +212,12 @@ export default function Producto() {
     }
   };
 
-  const filtrar = () => {
-    if (parseInt(filtro) === 0) {
-      return listado;
-    }
-    return listado.filter((dato) => {
-      return dato.categoryProduct_id === parseInt(filtro);
-    });
-  };
   return (
     <section>
       <div className="container">
         <div className="row">
           <div className="col s6 offset-s3">
-            <h1 className="center-align">PRODUCTOS</h1>
+            <h1 className="center-align">OFERTAS</h1>
           </div>
           <div className="col s1" style={{ paddingTop: 45 }}>
             <a
@@ -268,25 +231,6 @@ export default function Producto() {
           </div>
         </div>
         <div className="row">
-          <div className="input-field col s8 offset-s2">
-            <i className="material-icons prefix">filter_alt</i>
-            <select
-              onChange={(e) => setFiltro(e.target.value)}
-              defaultValue={""}
-            >
-              <option value="">Ninguno</option>
-              {listaCategoria.map((categoria) => {
-                return (
-                  <option key={categoria.id} value={categoria.id}>
-                    {categoria.name}
-                  </option>
-                );
-              })}
-            </select>
-            <label>Buscar por categoria</label>
-          </div>
-        </div>
-        <div className="row">
           <table className="centered highlight grey lighten-4">
             <thead className="red darken-1 white-text">
               <tr>
@@ -294,6 +238,7 @@ export default function Producto() {
                 <th>Nombre</th>
                 <th>Imagen</th>
                 <th>Precio</th>
+                <th>Oferta</th>
                 <th>Disponibilidad</th>
                 <th>Descripcion</th>
                 <th>Categoria</th>
@@ -302,10 +247,10 @@ export default function Producto() {
             </thead>
 
             <tbody>
-              {filtrar().map((producto) => {
+              {listado.map((producto) => {
                 return (
-                  <tr key={producto.id}>
-                    <td>{producto.id}</td>
+                  <tr key={producto.idOferta}>
+                    <td>{producto.idOferta}</td>
                     <td>{producto.name}</td>
                     <td>
                       <img
@@ -314,10 +259,11 @@ export default function Producto() {
                         src={producto.imagen}
                       />
                     </td>
-                    <td>{producto.precio}</td>
+                    <td>{producto.price}</td>
+                    <td>{producto.nuevoPrice}</td>
                     <td>{producto.disponibilidad}</td>
                     <td>{producto.description}</td>
-                    <td>{producto.categoria}</td>
+                    <td>{producto.category}</td>
                     <td>
                       <a
                         href="#modalModificarProducto"
@@ -334,7 +280,7 @@ export default function Producto() {
                         className="waves-effect waves-light red btn-small tooltipped"
                         data-position="bottom"
                         data-tooltip="Eliminar"
-                        onClick={() => eliminar(producto.id)}
+                        onClick={() => eliminar(producto.idOferta)}
                       >
                         <i className="material-icons">delete_forever</i>
                       </a>
@@ -355,18 +301,6 @@ export default function Producto() {
               <form className="col s12">
                 <div className="row">
                   <div className="input-field col s10 offset-s1">
-                    <i className="material-icons prefix">business_center</i>
-                    <input
-                      onChange={(e) => setNombre(e.target.value)}
-                      id="nombreNewProducto"
-                      type="text"
-                      className="validate"
-                    />
-                    <label htmlFor="nombreNewProducto">Nombre Producto</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
                     <i className="material-icons prefix">price_check</i>
                     <input
                       onChange={(e) => setPrecio(e.target.value)}
@@ -374,44 +308,7 @@ export default function Producto() {
                       type="number"
                       className="validate"
                     />
-                    <label htmlFor="precioNewProducto">Precio</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
-                    <i className="material-icons prefix">format_quote</i>
-                    <textarea
-                      onChange={(e) => setDescripcion(e.target.value)}
-                      id="descripcionNewProducto"
-                      className="materialize-textarea"
-                    ></textarea>
-                    <label htmlFor="descripcionNewProducto">Descripcion</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
-                    <i className="material-icons prefix">image</i>
-                    <input
-                      onChange={(e) => setImagen(e.target.value)}
-                      id="imagenNewProducto"
-                      type="text"
-                      className="validate"
-                    />
-                    <label htmlFor="imagenNewProducto">Url imagen</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
-                    <i className="material-icons prefix">
-                      production_quantity_limits
-                    </i>
-                    <input
-                      onChange={(e) => setDisponibilidad(e.target.value)}
-                      id="dispNewProducto"
-                      type="number"
-                      className="validate"
-                    />
-                    <label htmlFor="dispNewProducto">Disponibilidad</label>
+                    <label htmlFor="precioNewProducto">Nuevo precio</label>
                   </div>
                 </div>
                 <div className="row">
@@ -423,15 +320,15 @@ export default function Producto() {
                       id="catNewProducto"
                     >
                       <option value="">Ninguno</option>
-                      {listaCategoria.map((categoria) => {
+                      {listadoProductos.map((categoria) => {
                         return (
-                          <option key={categoria.id} value={categoria.id}>
-                            {categoria.name}
+                          <option key={categoria.id} data-icon={categoria.imagen} value={categoria.id}>
+                            {categoria.id+"--"+categoria.name+"--Precio:"+categoria.precio}
                           </option>
                         );
                       })}
                     </select>
-                    <label htmlFor="catNewProducto">Selecionar Categoria</label>
+                    <label htmlFor="catNewProducto">Selecionar Producto</label>
                   </div>
                 </div>
                 <div className="row">
@@ -441,7 +338,7 @@ export default function Producto() {
                       className="modal-close waves-effect waves-light btn-large green darken-3"
                     >
                       <i className="material-icons left">control_point</i>
-                      Agregar Nuevo Producto
+                      Agregar Nueva Oferta
                     </a>
                   </div>
                 </div>
@@ -459,21 +356,6 @@ export default function Producto() {
               <form className="col s12">
                 <div className="row">
                   <div className="input-field col s10 offset-s1">
-                  <i className="material-icons prefix">business_center</i>
-                    <input
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                      id="nombreModProducto"
-                      type="text"
-                      className="validate"
-                    />
-                    <label className="active" htmlFor="nombreModProducto">
-                      Nombre Producto
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
                   <i className="material-icons prefix">price_check</i>
                     <input
                       value={precio}
@@ -489,74 +371,28 @@ export default function Producto() {
                 </div>
                 <div className="row">
                   <div className="input-field col s10 offset-s1">
-                  <i className="material-icons prefix">
-                      production_quantity_limits
-                    </i>
-                    <input
-                      value={disponibilidad}
-                      onChange={(e) => setDisponibilidad(e.target.value)}
-                      id="dispModProducto"
-                      type="number"
-                      className="validate"
-                    />
-                    <label className="active" htmlFor="dispModProducto">
-                      Disponibilidad
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
-                  <i className="material-icons prefix">format_quote</i>
-                    <textarea
-                      onChange={(e) => setDescripcion(e.target.value)}
-                      id="descModProducto"
-                      value={descripcion}
-                      className="materialize-textarea"
-                    ></textarea>
-                    <label className="active" htmlFor="descModProducto">
-                      Descripcion
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
-                  <i className="material-icons prefix">image</i>
-                    <input
-                      value={imagen}
-                      onChange={(e) => setImagen(e.target.value)}
-                      id="imagenModProducto"
-                      type="text"
-                      className="validate"
-                    />
-                    <label className="active" htmlFor="imagenModProducto">
-                      Url imagen
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s10 offset-s1">
                   <i className="material-icons prefix">category</i>
                     <select
                       onChange={(e) => setCategoria(e.target.value)}
                       defaultValue={categoria}
                     >
-                      {listaCategoria.map((cate) => {
-                        if (cate.name == categoria) {
+                      {listadoProductos.map((categoria) => {
+                        if (categoria.id == categoria) {
                           return (
-                            <option selected key={cate.id} value={cate.id}>
-                              {cate.name}
+                            <option selected key={categoria.id} data-icon={categoria.imagen} value={categoria.id}>
+                              {categoria.id+"--"+categoria.name+"--Precio:"+categoria.precio}
                             </option>
                           );
                         } else {
                           return (
-                            <option key={cate.id} value={cate.id}>
-                              {cate.name}
+                            <option key={categoria.id} data-icon={categoria.imagen} value={categoria.id}>
+                              {categoria.id+"--"+categoria.name+"--Precio:"+categoria.precio}
                             </option>
                           );
                         }
                       })}
                     </select>
-                    <label>Selecionar Categoria</label>
+                    <label>Selecionar Producto</label>
                   </div>
                 </div>
                 <div className="row">

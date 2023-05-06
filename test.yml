@@ -3,11 +3,11 @@ name: Fase2
 #* cuando hagamos push se ejecutara el pipeline
 on:
   push:
-    branches: [ "Develop" ]
+    branches: [ "develop" ]
 
 # * variables de entorno
 env:
-  BRANCH: Develop
+  BRANCH: develop
   AWS_REGION: MY_AWS_REGION # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: MY_ECR_REPOSITORY # set this to your Amazon ECR repository name
   ECS_SERVICE: MY_ECS_SERVICE # set this to your Amazon ECS service name
@@ -25,7 +25,7 @@ jobs:
   build:
     strategy:
         matrix:
-          python-version: [3.8.8]
+          python-version: [3.11.13]
     #* se ejecutara en ubuntu
     runs-on: ubuntu-latest
     #* se ejecutara en el directorio de la app
@@ -42,6 +42,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
+          cd backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run tests

@@ -12,7 +12,7 @@ function HistorialPedidos() {
       const data = {
         id: user.id
       };
-      const response = await axios.post(url + "historial-pedidos-user",data);
+      const response = await axios.post(url + "reportef3",data);
       console.log(response.data.res)
       setOrders(response.data.res);
       console.log("se reciben ordenes: ",response.data.res)
@@ -60,12 +60,12 @@ function HistorialPedidos() {
                 <h5><b>rate:</b> {order.rate}</h5>
                   </div>
                   <div className="col s6">
-                  <h5><b>nombre repartidor:</b> {order.name_repartidor}</h5>
+                  <h5><b>nombre repartidor:</b> {order.name_user}</h5>
                   </div>
                 </div>
                 <div className="row">
                 <div className="col s6">
-                <h5><b>nombre empresa:</b> {order.name_empresa}</h5>
+                <h5><b>nombre empresa:</b> {order.mail_user}</h5>
                 </div>
                 <div className="col s6">
                 <h5 className='red-text'><b>Total:</b>{order.total_price}</h5> 
